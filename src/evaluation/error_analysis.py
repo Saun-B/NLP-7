@@ -1,26 +1,7 @@
-"""Turn a confusion matrix into something you can actually talk about.
-
-A 4×4 matrix says *how many* mistakes; it does not say *what* they look like.
-This module pairs every ``(gold, predicted)`` combination with its count, its
-share of all errors, and real sentences from the evaluated split showing the
-mistake in context — so the report can quote actual Vietnamese text instead of
-numbers alone.
-
-The pairs called out explicitly (spec §10):
-
-    COMMA→O, O→COMMA, COMMA→PERIOD, PERIOD→COMMA,
-    PERIOD→O, O→PERIOD, QUESTION→O, O→QUESTION
-
-Each has a different practical meaning: ``PERIOD→O`` merges two sentences,
-``O→PERIOD`` chops one in half, ``COMMA↔PERIOD`` gets the boundary strength
-wrong, and ``QUESTION→O`` loses the question entirely.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Sequence, Tuple
-
 from src.data.constants import LABELS, LABEL_TO_SYMBOL, PUNCTUATION_LABELS
 
 __all__ = [
@@ -32,7 +13,6 @@ __all__ = [
     "ERROR_CSV_HEADER",
     "describe_pair",
 ]
-
 
 KEY_CONFUSION_PAIRS: List[Tuple[str, str]] = [
     ("COMMA", "O"),
@@ -56,17 +36,13 @@ PAIR_MEANING: Dict[Tuple[str, str], str] = {
     ("O", "QUESTION"): "thêm dấu hỏi thừa — biến câu trần thuật thành câu hỏi",
 }
 
-
 def describe_pair(gold: str, predicted: str) -> str:
     if gold == predicted:
         return "dự đoán đúng"
     return PAIR_MEANING.get((gold, predicted), f"{gold} bị dự đoán thành {predicted}")
 
-
 @dataclass
 class ErrorCase:
-    """One concrete mistake, shown in context."""
-
     example_id: str
     word_index: int
     word: str
@@ -84,7 +60,6 @@ class ErrorCase:
             "context": self.context,
         }
 
-
 @dataclass
 class ConfusionPair:
     gold_label: str
@@ -96,7 +71,6 @@ class ConfusionPair:
     def is_error(self) -> bool:
         return self.gold_label != self.predicted_label
 
-
 def _context_snippet(
     tokens: Sequence[str],
     gold: Sequence[str],
@@ -105,12 +79,6 @@ def _context_snippet(
     *,
     window: int = 6,
 ) -> str:
-    """Render the neighbourhood of a mistake, marking gold vs predicted.
-
-    Example output::
-
-        … em bị đau bụng [gold: PERIOD | pred: O →"bụng"] mấy hôm nay rồi …
-    """
     start = max(0, index - window)
     end = min(len(tokens), index + window + 1)
 
@@ -132,7 +100,6 @@ def _context_snippet(
         pieces.append("…")
     return " ".join(pieces)
 
-
 def analyze_errors(
     examples: Sequence[Any],
     predictions: Dict[str, Sequence[str]],
@@ -141,19 +108,6 @@ def analyze_errors(
     context_window: int = 6,
     include_correct: bool = False,
 ) -> Dict[str, Any]:
-    """Count every ``(gold, predicted)`` pair and collect representative cases.
-
-    Parameters
-    ----------
-    examples
-        Processed examples (need ``.id``, ``.tokens``, ``.labels``).
-    predictions
-        ``example_id -> predicted label sequence``.
-    max_examples_per_pair
-        How many real sentences to keep per confusion pair.
-    include_correct
-        Also report the diagonal (correct predictions).
-    """
     pairs: Dict[Tuple[str, str], ConfusionPair] = {}
     total_positions = 0
     total_errors = 0
@@ -242,7 +196,6 @@ def analyze_errors(
         "punctuation_labels": list(PUNCTUATION_LABELS),
     }
 
-
 ERROR_CSV_HEADER = [
     "gold_label",
     "predicted_label",
@@ -251,7 +204,6 @@ ERROR_CSV_HEADER = [
     "meaning",
     "representative_examples",
 ]
-
 
 def error_rows_for_csv(
     analysis: Dict[str, Any], *, max_examples: int = 3, separator: str = " ||| "

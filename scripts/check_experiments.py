@@ -1,23 +1,3 @@
-"""Report which experiments have been trained — and initialise placeholders.
-
-    python scripts/check_experiments.py
-
-For each of E1–E4 it checks exactly the things the README asks you to verify
-after running a notebook:
-
-* a checkpoint exists in ``outputs/checkpoints/<E>/``;
-* ``experiment_summary.json`` says ``COMPLETED``;
-* ``best_validation_metrics.json`` exists;
-* ``training_history.csv`` exists.
-
-Any experiment with no summary yet gets an honest
-``{"status": "NOT_YET_RUN"}`` placeholder written for it.
-
-**This script deliberately does NOT compare experiments, rank them, pick a
-winner, or touch the test split.** Model selection happens in Phase 2, after
-all four notebooks have been run.
-"""
-
 from __future__ import annotations
 
 import sys
@@ -43,7 +23,6 @@ REQUIRED_FILES = [
     "data_hashes.json",
     "experiment_summary.json",
 ]
-
 
 def inspect(experiment_id: str) -> Dict[str, Any]:
     exp_dir = EXPERIMENT_DIR / experiment_id
@@ -71,7 +50,6 @@ def inspect(experiment_id: str) -> Dict[str, Any]:
         ),
         "ready": summary.get("status") == STATUS_COMPLETED and has_ckpt and not missing,
     }
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     section("EXPERIMENT STATUS — E1 / E2 / E3 / E4")
@@ -117,7 +95,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         "\n  compare experiments and never reads data/processed/test.jsonl."
     )
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

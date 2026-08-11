@@ -1,32 +1,7 @@
-"""Rebuild readable text from words + predicted labels.
-
-Label → surface form::
-
-    O        → ""
-    COMMA    → ","
-    PERIOD   → "."
-    QUESTION → "?"
-
-Capitalization
---------------
-Capitalization here is **rule-based**, not predicted:
-
-* the first word of the text is capitalised;
-* the first word after ``PERIOD`` or ``QUESTION`` is capitalised;
-* nothing else is touched.
-
-This project does **not** contain a capitalization model. JointCapPunc does
-ship capitalization labels and the parser reads them, but the task defined for
-this project is punctuation only, so those labels are dropped during data
-preparation. Proper nouns are therefore left lowercase — a visible and
-deliberately un-hidden limitation.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import List, Sequence
-
 from src.data.constants import LABELS, LABEL_TO_SYMBOL, SENTENCE_END_LABELS
 
 __all__ = [
@@ -35,7 +10,6 @@ __all__ = [
     "reconstruct_with_details",
     "split_into_sentences",
 ]
-
 
 @dataclass
 class ReconstructionResult:
@@ -56,17 +30,10 @@ class ReconstructionResult:
             "num_sentences": self.num_sentences,
         }
 
-
 def _capitalize(word: str) -> str:
-    """Uppercase the first character, leaving the rest alone.
-
-    ``str.capitalize()`` would lowercase the remainder and destroy tokens like
-    ``COVID`` or ``mRNA``.
-    """
     if not word:
         return word
     return word[0].upper() + word[1:]
-
 
 def reconstruct_text(
     words: Sequence[str],
@@ -75,15 +42,6 @@ def reconstruct_text(
     capitalize: bool = True,
     ensure_final_punctuation: bool = False,
 ) -> str:
-    """Join ``words`` inserting the punctuation described by ``labels``.
-
-    Raises
-    ------
-    ValueError
-        If the two sequences differ in length. That mismatch is the single most
-        damaging bug possible in this pipeline — it silently shifts every
-        punctuation mark — so it is checked rather than tolerated.
-    """
     if len(words) != len(labels):
         raise ValueError(
             f"len(words)={len(words)} != len(labels)={len(labels)}; "
@@ -110,7 +68,6 @@ def reconstruct_text(
 
     return text
 
-
 def reconstruct_with_details(
     words: Sequence[str],
     labels: Sequence[str],
@@ -118,7 +75,6 @@ def reconstruct_with_details(
     capitalize: bool = True,
     ensure_final_punctuation: bool = False,
 ) -> ReconstructionResult:
-    """:func:`reconstruct_text` plus counts for the UI/report."""
     text = reconstruct_text(
         words,
         labels,
@@ -138,11 +94,9 @@ def reconstruct_with_details(
         num_sentences=periods + questions,
     )
 
-
 def split_into_sentences(
     words: Sequence[str], labels: Sequence[str], *, capitalize: bool = True
 ) -> List[str]:
-    """Return the restored text split into individual sentences."""
     if len(words) != len(labels):
         raise ValueError(f"len(words)={len(words)} != len(labels)={len(labels)}")
 

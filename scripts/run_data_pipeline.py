@@ -1,25 +1,3 @@
-"""Master data pipeline — one command, raw repo to training-ready data.
-
-    python scripts/run_data_pipeline.py
-
-Stages::
-
-    download -> verify commit -> parse -> normalize -> map labels -> chunk
-        -> deduplicate -> write JSONL -> validate -> statistics
-        -> class weights -> hashes -> manifest -> human-review samples
-
-Reproducibility
----------------
-* the upstream dataset is pinned to a commit and the checkout is verified;
-* parsing/chunking/dedup are deterministic (no RNG); the only randomness is the
-  human-review sample, which is drawn with a fixed seed (42);
-* every processed file is hashed twice (raw bytes + canonical content) and the
-  hashes are written to ``outputs/data/data_hashes.json``, which every
-  experiment copies into its own artifact folder.
-
-Exit codes: ``0`` success, ``1`` a stage failed (validation errors included).
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -63,7 +41,6 @@ REQUIRED_OUTPUTS = [
     "outputs/data/human_review_samples.csv",
 ]
 
-
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Run the whole data pipeline end to end.")
     parser.add_argument("--config", default=str(CONFIG_DIR / "data.yaml"))
@@ -96,7 +73,6 @@ def main(argv: Optional[List[str]] = None) -> int:
             logger.error("Download stage failed.")
             return rc
 
-
     prep_args = ["--config", args.config]
     if args.max_lines:
         prep_args += ["--max-lines", str(args.max_lines)]
@@ -104,7 +80,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     if rc != 0:
         logger.error("Preparation stage failed.")
         return rc
-
 
     val_args = ["--config", args.config]
     if args.strict_overlap:
@@ -114,12 +89,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         logger.error("Validation stage failed — refusing to continue.")
         return rc
 
-
     rc = compute_statistics.main(["--config", args.config])
     if rc != 0:
         logger.error("Statistics stage failed.")
         return rc
-
 
     section("STAGE 5/6 — ARTIFACT CHECK")
     missing = [p for p in REQUIRED_OUTPUTS if not (PROJECT_ROOT / p).exists()]
@@ -131,7 +104,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     if missing:
         logger.error("Missing expected artifacts: %s", missing)
         return 1
-
 
     section("STAGE 6/6 — PIPELINE RECEIPT")
     elapsed = time.time() - started
@@ -158,7 +130,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("Next: run the four training notebooks manually (E1 -> E2 -> E3 -> E4).")
     print("      No test evaluation happens during training — test.jsonl stays untouched.")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

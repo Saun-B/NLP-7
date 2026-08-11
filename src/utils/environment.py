@@ -1,11 +1,3 @@
-"""Capture the runtime environment so an experiment can be reproduced.
-
-Written to ``outputs/experiments/<E>/environment.json`` by every notebook and
-embedded in every checkpoint's metadata. Imports of torch/transformers are lazy
-and failure-tolerant: the data pipeline must run even on a machine where the
-deep-learning stack is not installed.
-"""
-
 from __future__ import annotations
 
 import platform
@@ -14,16 +6,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict
 
-
 def _safe(fn, default=None):
     try:
         return fn()
     except Exception:
         return default
 
-
 def collect_environment() -> Dict[str, Any]:
-    """Return a JSON-serialisable snapshot of the current runtime."""
     env: Dict[str, Any] = {
         "captured_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "python_version": sys.version.split()[0],
@@ -34,14 +23,12 @@ def collect_environment() -> Dict[str, Any]:
         "executable": Path(sys.executable).name,
     }
 
-
     try:
         import numpy
 
         env["numpy_version"] = numpy.__version__
     except Exception:
         env["numpy_version"] = None
-
 
     try:
         import torch
@@ -71,7 +58,6 @@ def collect_environment() -> Dict[str, Any]:
         env["gpu_total_memory_gb"] = None
         env["gpu_capability"] = None
 
-
     for mod_name, key in (
         ("transformers", "transformers_version"),
         ("tokenizers", "tokenizers_version"),
@@ -84,18 +70,9 @@ def collect_environment() -> Dict[str, Any]:
             env[key] = getattr(mod, "__version__", None)
         except Exception:
             env[key] = None
-
     return env
 
-
-
 def disable_progress_bars() -> None:
-    """Disable optional progress bars that can leave fragile background threads.
-
-    Some Windows/Python combinations can crash during shutdown after Hugging Face
-    loading progress bars start tqdm's monitor thread. Inference does not need
-    those bars, so UI and CLI prediction disable them before loading checkpoints.
-    """
     import os
 
     os.environ.setdefault("TQDM_DISABLE", "1")
@@ -114,7 +91,6 @@ def disable_progress_bars() -> None:
         pass
 
 def format_environment(env: Dict[str, Any] | None = None) -> str:
-    """Human-readable one-block summary, printed at the top of each notebook."""
     env = env or collect_environment()
     lines = [
         f"Python version      : {env.get('python_version')}",

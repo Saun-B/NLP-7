@@ -1,15 +1,3 @@
-"""Learning-rate schedulers.
-
-* **E1 (BiLSTM)** — ``ReduceLROnPlateau`` on the validation Punctuation
-  Macro-F1 (``mode="max"``). Stepped **once per epoch, after validation**.
-* **E2–E4 (PhoBERT)** — linear warmup (10% of total optimizer steps) then
-  linear decay to 0. Stepped **once per optimizer step**, i.e. after each
-  gradient-accumulation cycle, not after each micro-batch.
-
-:func:`build_scheduler` returns ``(scheduler, step_mode)`` so the trainers know
-where to call ``.step()``.
-"""
-
 from __future__ import annotations
 
 import math
@@ -25,9 +13,7 @@ logger = get_logger(__name__)
 
 __all__ = ["build_scheduler", "get_linear_schedule_with_warmup", "STEP_MODES"]
 
-
 STEP_MODES = ("step", "epoch")
-
 
 def get_linear_schedule_with_warmup(
     optimizer: Optimizer,
@@ -35,12 +21,6 @@ def get_linear_schedule_with_warmup(
     num_training_steps: int,
     last_epoch: int = -1,
 ) -> LambdaLR:
-    """Linear warmup then linear decay (same formula as HF's helper).
-
-    Implemented locally so the training code does not depend on a
-    ``transformers`` private/renamed helper across versions.
-    """
-
     def lr_lambda(current_step: int) -> float:
         if num_warmup_steps > 0 and current_step < num_warmup_steps:
             return float(current_step) / float(max(1, num_warmup_steps))
@@ -49,20 +29,12 @@ def get_linear_schedule_with_warmup(
 
     return LambdaLR(optimizer, lr_lambda, last_epoch)
 
-
 def build_scheduler(
     optimizer: Optimizer,
     config: Dict[str, Any],
     *,
     num_training_steps: Optional[int] = None,
 ) -> Tuple[Optional[object], str]:
-    """Build the scheduler described by the ``scheduler`` config section.
-
-    Returns
-    -------
-    (scheduler, step_mode)
-        ``step_mode`` is ``"step"``, ``"epoch"`` or ``"none"``.
-    """
     sched_cfg = config.get("scheduler", {})
     name = str(sched_cfg.get("name", "none")).lower()
 
@@ -105,7 +77,6 @@ def build_scheduler(
         return scheduler, "epoch"
 
     raise ValueError(f"Unknown scheduler {name!r}")
-
 
 def current_lr(optimizer: Optimizer) -> float:
     return float(optimizer.param_groups[0]["lr"])

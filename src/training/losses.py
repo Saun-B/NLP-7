@@ -1,24 +1,3 @@
-"""Loss factory — the only thing that differs between E2, E3 and E4.
-
-============  ==================================================  ============
-experiment    weight mode                                          class weight
-============  ==================================================  ============
-E1            ``none``                                             1, 1, 1, 1
-E2            ``none``                                             1, 1, 1, 1
-E3            ``inverse``   ``total / (4 * count_c)``               ~0.27 … ~45
-E4            ``sqrt_inverse``  ``sqrt(inverse_c)``                 ~0.52 … ~6.7
-============  ==================================================  ============
-
-All weights come from :file:`outputs/data/class_weights.json`, which is
-computed from the **train split only** (see
-:func:`src.data.statistics.compute_class_weights`). Reading weights from
-validation or test would leak evaluation information into training, so
-:func:`load_class_weights` refuses any other source split.
-
-Every loss uses ``ignore_index=-100``, which is what makes padding,
-non-final subwords and special tokens invisible to the optimiser.
-"""
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -44,11 +23,9 @@ __all__ = [
     "build_loss",
 ]
 
-
 def load_class_weights(
     path: Optional[PathLike] = None,
 ) -> Dict[str, Any]:
-    """Load ``outputs/data/class_weights.json`` and assert its provenance."""
     path = Path(path) if path is not None else OUTPUT_DATA_DIR / "class_weights.json"
     if not path.exists():
         raise FileNotFoundError(
@@ -68,15 +45,9 @@ def load_class_weights(
         )
     return blob
 
-
 def get_class_weight_vector(
     weight_mode: str, *, class_weights: Optional[Dict[str, Any]] = None, path: Optional[PathLike] = None
 ) -> Optional[List[float]]:
-    """Return the weight vector for ``weight_mode``, ordered by label id.
-
-    ``none`` returns ``None`` — an unweighted ``CrossEntropyLoss``, not a
-    vector of ones, so the E2 loss is exactly PyTorch's default.
-    """
     mode = weight_mode.lower()
     if mode not in WEIGHT_MODES:
         raise ValueError(f"Unknown weight_mode {weight_mode!r}; expected {WEIGHT_MODES}")
@@ -93,7 +64,6 @@ def get_class_weight_vector(
         raise ValueError(f"weight vector has {len(vector)} entries, expected {len(LABELS)}")
     return [float(x) for x in vector]
 
-
 def build_loss(
     weight_mode: str = "none",
     *,
@@ -103,7 +73,6 @@ def build_loss(
     ignore_index: int = IGNORE_INDEX,
     label_smoothing: float = 0.0,
 ) -> nn.CrossEntropyLoss:
-    """Build the ``CrossEntropyLoss`` for one experiment."""
     vector = get_class_weight_vector(
         weight_mode, class_weights=class_weights, path=weights_path
     )
@@ -126,9 +95,7 @@ def build_loss(
     )
     return loss
 
-
 def describe_loss(weight_mode: str, vector: Optional[Sequence[float]]) -> Dict[str, Any]:
-    """Serialisable description written into each experiment's ``config.json``."""
     return {
         "type": "CrossEntropyLoss",
         "weight_mode": weight_mode,

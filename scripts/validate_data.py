@@ -1,14 +1,3 @@
-"""Stage 3 — validate ``data/processed/*.jsonl``.
-
-    python scripts/validate_data.py [--strict-overlap]
-
-Re-reads the written files and checks every invariant listed in
-:mod:`src.data.validation`. Writes ``outputs/data/validation_report.json`` and
-exits non-zero if any **ERROR** was found. Warnings (notably cross-split text
-overlap) are reported but do not fail the run unless ``--strict-overlap`` is
-passed.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -30,7 +19,6 @@ from src.utils.io import read_yaml, write_json
 from src.utils.logging_utils import get_logger, section
 
 logger = get_logger("validate_data")
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Validate the processed dataset.")
@@ -70,7 +58,6 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     logger.info("Validation PASSED (%d warning(s)).", len(report.warnings))
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

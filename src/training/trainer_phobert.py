@@ -1,24 +1,3 @@
-"""E2/E3/E4 trainer — PhoBERT fine-tuning.
-
-The three PhoBERT experiments share this file completely; the *only* thing that
-differs is ``config['loss']['weight_mode']`` (``none`` / ``inverse`` /
-``sqrt_inverse``). Everything else — seed, data, batch size, LR, schedule — is
-identical by design, so a difference in validation score can be attributed to
-the class weighting.
-
-Loop details
-------------
-* **Gradient accumulation.** ``train_batch_size=4`` fits an 8 GB GPU;
-  ``gradient_accumulation_steps=4`` gives an effective batch of ~16. The loss
-  is divided by the accumulation count so gradient magnitude matches a true
-  batch of 16, and the LR scheduler steps once per *optimizer* step.
-* **Mixed precision.** fp16 autocast + ``GradScaler`` on CUDA, automatic fp32
-  fallback on CPU. Gradients are unscaled before clipping, so ``max_grad_norm``
-  means the same thing in both modes.
-* **Trailing partial accumulation window.** If the epoch ends mid-window the
-  remaining gradients are still applied — no silently dropped batches.
-"""
-
 from __future__ import annotations
 
 import math
@@ -44,7 +23,6 @@ logger = get_logger(__name__)
 
 __all__ = ["PhoBERTTrainer", "build_phobert_trainer", "build_phobert_dataloaders"]
 
-
 class PhoBERTTrainer(TrainerBase):
     def train_epoch(self, epoch: int) -> float:
         self.model.train()
@@ -69,9 +47,6 @@ class PhoBERTTrainer(TrainerBase):
                 loss = self.loss_fn(
                     logits.float().reshape(-1, logits.size(-1)), labels.reshape(-1)
                 )
-
-
-
 
             if not torch.isfinite(loss):
                 logger.warning("epoch %d step %d: non-finite loss, skipping batch", epoch, step)
@@ -105,13 +80,11 @@ class PhoBERTTrainer(TrainerBase):
                 if hasattr(iterator, "set_postfix"):
                     iterator.set_postfix(loss=f"{mean:.4f}")
 
-
         if pending:
             self._clip_gradients()
             self._optimizer_step()
 
         return total_loss / max(1, num_micro_batches)
-
 
 def build_phobert_dataloaders(
     train_examples: Sequence[Example],
@@ -162,7 +135,6 @@ def build_phobert_dataloaders(
     }
     return train_loader, val_loader, encoding_stats
 
-
 def build_phobert_trainer(
     config: Dict[str, Any],
     train_examples: Sequence[Example],
@@ -174,12 +146,6 @@ def build_phobert_trainer(
     checkpoint_dir: Optional[Any] = None,
     experiment_base_dir: Optional[Any] = None,
 ) -> Tuple[PhoBERTTrainer, Any]:
-    """Assemble a PhoBERT experiment. Returns ``(trainer, tokenizer)``.
-
-    ``checkpoint_dir`` / ``experiment_base_dir`` default to the real
-    ``outputs/checkpoints/<E>`` and ``outputs/experiments``; the smoke test
-    overrides them so a throwaway run can never be mistaken for a real one.
-    """
     training_cfg = config.get("training", {})
     model_cfg = config.get("model", {})
     experiment_id = config.get("experiment", {}).get("id", "E2")

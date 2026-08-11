@@ -1,10 +1,3 @@
-"""CLI entry point for punctuation restoration.
-
-It wraps :class:`src.inference.predictor.PunctuationRestorationPredictor` so the
-project can run ``python -m src.inference.predict`` or execute this file
-directly.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -13,7 +6,6 @@ from pathlib import Path
 from typing import Optional
 
 from src.inference.predictor import PunctuationRestorationPredictor
-
 
 def predict_text(text: str, *, checkpoint: Optional[str] = None) -> dict:
     predictor = (
@@ -25,7 +17,6 @@ def predict_text(text: str, *, checkpoint: Optional[str] = None) -> dict:
     data = result.to_dict()
     data["labels"] = result.labels
     return data
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Restore Vietnamese punctuation.")
@@ -52,7 +43,6 @@ def main() -> int:
     else:
         print(data["restored_text"])
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -1,42 +1,3 @@
-"""The predictor — winner checkpoint in, punctuated text out.
-
-Typical use::
-
-    predictor = PunctuationRestorationPredictor.from_selected_model()
-    result = predictor.restore("bạn đã hoàn thành bài tập chưa ngày mai chúng ta nộp bài")
-    print(result.restored_text)
-
-This prints ``Bạn đã hoàn thành bài tập chưa? Ngày mai chúng ta nộp bài.``
-
-What it does, in order::
-
-    read outputs/evaluation/model_selection.json   (locked winner)
-        ↓
-    resolve the winner's checkpoint directory
-        ↓
-    load the model — BiLSTM or PhoBERT, decided by checkpoint metadata
-        ↓
-    load the tokenizer / vocabulary saved inside that same checkpoint
-        ↓
-    tokenize the input text into lexical words
-        ↓
-    predict one label per word (windowing long input, never truncating)
-        ↓
-    reconstruct punctuated, sentence-capitalised text
-
-**Architecture is never assumed.** The winner happens to be a PhoBERT run in
-this repository, but nothing here hardcodes that: ``checkpoint_metadata.json``
-declares ``model_type`` and the loader branches on it. If a re-run made the
-BiLSTM the winner, this class would load the BiLSTM and its vocabulary instead,
-with no code change.
-
-**Long input is never silently truncated.** PhoBERT input longer than the
-192-subword window is split at word boundaries into several windows; the BiLSTM
-path chunks at the 150-word training length. Predictions are stitched back
-together by word index, and the class asserts
-``len(labels) == len(words)`` before returning.
-"""
-
 from __future__ import annotations
 
 import time
@@ -64,11 +25,8 @@ PathLike = Union[str, Path]
 
 __all__ = ["PunctuationRestorationPredictor", "RestorationResult"]
 
-
 @dataclass
 class RestorationResult:
-    """Everything a caller (CLI, UI, test) might want from one restore call."""
-
     input_text: str
     restored_text: str
     words: List[str] = field(default_factory=list)
@@ -102,10 +60,7 @@ class RestorationResult:
             "device": self.device,
         }
 
-
 class PunctuationRestorationPredictor:
-    """Loads a trained checkpoint and restores punctuation in Vietnamese text."""
-
     def __init__(
         self,
         *,
@@ -139,9 +94,6 @@ class PunctuationRestorationPredictor:
                 f"Checkpoint label mapping {checkpoint_labels} differs from the project "
                 f"mapping {LABEL2ID}; predictions would be mislabelled."
             )
-
-
-
 
     @classmethod
     def from_selected_model(
@@ -177,7 +129,6 @@ class PunctuationRestorationPredictor:
         selection: Optional[Dict[str, Any]] = None,
         **kwargs: Any,
     ) -> "PunctuationRestorationPredictor":
-        """Load any checkpoint directory directly, architecture auto-detected."""
         from src.evaluation.loaders import load_checkpoint_encoder
         from src.models.factory import load_model_from_checkpoint
 
@@ -194,9 +145,6 @@ class PunctuationRestorationPredictor:
             selection=selection,
             **kwargs,
         )
-
-
-
 
     @property
     def experiment_id(self) -> str:
@@ -227,9 +175,6 @@ class PunctuationRestorationPredictor:
             "checkpoint_path": self.metadata.get("checkpoint_path")
             or self.selection.get("checkpoint_path"),
         }
-
-
-
 
     @torch.no_grad()
     def predict_labels(self, words: Sequence[str]) -> List[str]:
@@ -314,9 +259,6 @@ class PunctuationRestorationPredictor:
 
         return labels, len(chunks)
 
-
-
-
     def restore(
         self,
         text: str,
@@ -325,11 +267,6 @@ class PunctuationRestorationPredictor:
         ensure_final_punctuation: bool = True,
         max_words: Optional[int] = None,
     ) -> RestorationResult:
-        """Restore punctuation in ``text``.
-
-        ``max_words`` is a *refusal* limit, not a truncation limit: input above
-        it raises :class:`ValueError` rather than quietly dropping the tail.
-        """
         started = time.perf_counter()
         tokenized: TokenizedInput = self.text_tokenizer.tokenize(text or "")
 

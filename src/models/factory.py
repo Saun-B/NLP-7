@@ -1,14 +1,7 @@
-"""Build a model from an experiment config dict.
-
-Keeps the notebooks free of ``if model_type == ...`` branching: each notebook
-loads its YAML config and calls :func:`build_model`.
-"""
-
 from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple, Union
-
 import torch.nn as nn
 
 from src.data.constants import NUM_LABELS, PHOBERT_MAX_LENGTH, PHOBERT_MODEL_NAME, PHOBERT_REVISION
@@ -21,18 +14,7 @@ __all__ = ["build_model", "describe_model", "load_model_from_checkpoint"]
 
 MODEL_TYPES = ("bilstm", "phobert")
 
-
 def build_model(config: Dict[str, Any], *, vocab_size: Optional[int] = None) -> nn.Module:
-    """Instantiate the model described by ``config['model']``.
-
-    Parameters
-    ----------
-    config
-        Parsed experiment YAML.
-    vocab_size
-        Required for ``bilstm`` - the vocabulary is built from the training
-        split at runtime, so its size is not knowable from the YAML.
-    """
     model_cfg = config.get("model", {})
     model_type = str(model_cfg.get("type", "")).lower()
 
@@ -63,16 +45,9 @@ def build_model(config: Dict[str, Any], *, vocab_size: Optional[int] = None) -> 
 
     raise ValueError(f"Unknown model type {model_type!r}; expected one of {MODEL_TYPES}")
 
-
 def load_model_from_checkpoint(
     checkpoint_dir: Union[str, Path], *, device: Optional[Any] = None
 ) -> Tuple[nn.Module, Dict[str, Any]]:
-    """Rebuild the saved best model from a checkpoint folder.
-
-    Returns ``(model_in_eval_mode, checkpoint_metadata)``. The training
-    notebooks use it to show sample predictions from the **best** epoch rather
-    than from whatever the last epoch happened to be.
-    """
     import torch
 
     directory = Path(checkpoint_dir)
@@ -113,7 +88,6 @@ def load_model_from_checkpoint(
     model.eval()
     return model, meta
 
-
 def describe_model(model: nn.Module) -> Dict[str, Any]:
     """Parameter counts + the model's own config, for ``config.json``."""
     total = sum(p.numel() for p in model.parameters())
@@ -128,5 +102,3 @@ def describe_model(model: nn.Module) -> Dict[str, Any]:
     if cfg is not None and hasattr(cfg, "to_dict"):
         desc["model_config"] = cfg.to_dict()
     return desc
-
-

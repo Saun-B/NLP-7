@@ -1,24 +1,3 @@
-"""E1 — BiLSTM word-level tagger (the from-scratch baseline).
-
-Architecture (fixed by the experiment spec)::
-
-    Embedding(vocab_size, 128, padding_idx=0)
-        ↓
-    BiLSTM(input=128, hidden=128 per direction, batch_first)
-        ↓
-    Dropout(0.30)
-        ↓
-    Linear(256 -> 4)
-
-The LSTM is run over ``pack_padded_sequence`` so padded positions never enter
-the recurrence — otherwise the backward direction would start by consuming
-padding and contaminate the representation of the last real word, which is
-exactly where sentence-final punctuation is decided.
-
-The module returns raw logits ``(batch, seq_len, 4)``; loss and masking live in
-the trainer, matching the PhoBERT path.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -31,7 +10,6 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 from src.data.constants import NUM_LABELS, PAD_ID
 
 __all__ = ["BiLSTMConfig", "BiLSTMTagger"]
-
 
 @dataclass
 class BiLSTMConfig:
@@ -55,7 +33,6 @@ class BiLSTMConfig:
             "padding_idx": self.padding_idx,
             "classifier_input_dim": 2 * self.hidden_size,
         }
-
 
 class BiLSTMTagger(nn.Module):
     def __init__(self, config: BiLSTMConfig):

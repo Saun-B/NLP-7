@@ -1,39 +1,3 @@
-"""The processed-example schema, and the checks that enforce it.
-
-One JSONL row = one training example:
-
-.. code-block:: json
-
-    {
-      "id": "train_000001",
-      "source_split": "train",
-      "source_id": "train_seg_000001",
-      "chunk_index": 0,
-      "tokens": ["hôm", "nay", "trời", "đẹp"],
-      "labels": ["O", "O", "O", "PERIOD"]
-    }
-
-Field semantics
----------------
-``id``
-    Globally unique within its split: ``"{split}_{counter:06d}"``.
-``source_split``
-    One of ``train`` / ``validation`` / ``test``. This is the *official*
-    JointCapPunc split (``dev.txt`` becomes ``validation``) and is never
-    reassigned.
-``source_id``
-    Identifier of the raw segment the example came from:
-    ``"{split}_seg_{counter:06d}"``. A segment is a greedy pack of whole
-    sentences (see :mod:`src.data.chunking`).
-``chunk_index``
-    Position of this example inside its source segment. ``0`` for the common
-    case; ``0,1,2,…`` when one over-long sentence had to be hard-cut.
-``tokens`` / ``labels``
-    Parallel arrays. ``labels[i]`` is the punctuation that follows
-    ``tokens[i]``. ``len(tokens) == len(labels)`` is the core invariant of the
-    whole project.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -44,7 +8,6 @@ from src.data.constants import (
     MAX_WORDS_PER_EXAMPLE,
     SPLITS,
 )
-
 
 SCHEMA_FIELDS: List[str] = [
     "id",
@@ -64,7 +27,6 @@ class SchemaError(ValueError):
 
 @dataclass
 class Example:
-    """In-memory processed example."""
 
     id: str
     source_split: str
@@ -103,14 +65,11 @@ class Example:
     def __len__(self) -> int:
         return len(self.tokens)
 
-
 def make_example_id(split: str, index: int) -> str:
     return f"{split}_{index:06d}"
 
-
 def make_source_id(split: str, index: int) -> str:
     return f"{split}_seg_{index:06d}"
-
 
 def validate_row(
     row: Any,
@@ -119,13 +78,6 @@ def validate_row(
     expected_split: str | None = None,
     where: str = "<row>",
 ) -> None:
-    """Raise :class:`SchemaError` if ``row`` is not a valid processed example.
-
-    Checks: required fields present, no unexpected fields, correct types,
-    non-empty token list, ``len(tokens) == len(labels)``, no empty/whitespace
-    token, every label in :data:`~src.data.constants.LABEL2ID`, and the length
-    cap.
-    """
     if not isinstance(row, dict):
         raise SchemaError(f"{where}: expected a JSON object, got {type(row).__name__}")
 
@@ -183,7 +135,6 @@ def validate_row(
             raise SchemaError(
                 f"{where}: labels[{i}] = {lab!r} is not a valid label {sorted(LABEL2ID)}"
             )
-
 
 def validate_rows(
     rows: Sequence[Dict[str, Any]], *, expected_split: str | None = None

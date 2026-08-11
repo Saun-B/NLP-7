@@ -1,30 +1,3 @@
-"""Turn free-form user text into the lexical words the model expects.
-
-The models were trained on JointCapPunc, whose tokens are already clean
-lowercase Vietnamese syllables with punctuation stripped out. Real user input
-is not like that: it has capitals, stray punctuation, URLs, emails, decimal
-numbers and inconsistent spacing. This module bridges the two.
-
-What it protects
-----------------
-Splitting naively on non-letters would shred things that must stay whole:
-
-* ``https://vnexpress.net/tin-tuc`` → one token, not eight
-* ``bacsi@benhvien.vn`` → one token
-* ``38.5`` / ``1,5`` / ``2.500.000`` → one numeric token, not "38" "." "5"
-* ``covid-19``, ``x-quang`` → hyphenated words stay joined
-* ``t/h``, ``bs.`` → kept readable
-
-Everything else that is punctuation gets removed, because the model's job is to
-put punctuation *back*; leaving the user's existing marks in would both confuse
-the model and make the output ambiguous.
-
-The result is always a plain list of lexical words. The predictor assigns
-exactly one label per word, and the reconstructor re-inserts punctuation using
-those labels — so the invariant ``len(words) == len(labels)`` is preserved
-end to end.
-"""
-
 from __future__ import annotations
 
 import re
@@ -40,13 +13,10 @@ __all__ = [
     "tokenize_for_inference",
 ]
 
-
 _URL = r"(?:https?://|www\.)[^\s]+"
 _EMAIL = r"[^\s@]+@[^\s@]+\.[^\s@,.;:!?)]+"
 
 _NUMBER = r"\d+(?:[.,:/]\d+)*(?:%|°c|°|k|tr|tỷ)?"
-
-
 
 _WORD = r"[^\W\d_]+\d*(?:[-_'’][^\W_]+)*"
 
@@ -57,16 +27,11 @@ _TOKEN_RE = re.compile(
     flags=re.UNICODE | re.IGNORECASE,
 )
 
-
 _STRIPPED_PUNCTUATION = ".,?!;:\"'“”‘’()[]{}…—–-"
-
 
 @dataclass
 class TokenizedInput:
-    """Result of preparing user text for the model."""
-
     words: List[str]
-
     model_words: List[str] = field(default_factory=list)
     original_text: str = ""
     num_removed_punctuation: int = 0
@@ -80,8 +45,6 @@ class TokenizedInput:
 
 
 class InferenceTokenizer:
-    """Text → lexical words, preserving URLs / emails / numbers."""
-
     def __init__(self, *, lowercase: bool = True, keep_original_case: bool = True):
         self.lowercase = lowercase
         self.keep_original_case = keep_original_case
@@ -100,7 +63,6 @@ class InferenceTokenizer:
             surface = tok.strip()
             if not surface:
                 continue
-
 
             surface = surface.strip(_STRIPPED_PUNCTUATION)
             if not surface:
@@ -123,9 +85,7 @@ class InferenceTokenizer:
     def __call__(self, text: str) -> TokenizedInput:
         return self.tokenize(text)
 
-
 _DEFAULT = InferenceTokenizer()
-
 
 def tokenize_for_inference(text: str) -> TokenizedInput:
     """Tokenize with the default settings."""

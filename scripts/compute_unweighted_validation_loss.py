@@ -1,26 +1,3 @@
-"""Phase 2, step 2 — a *comparable* validation loss for all four experiments.
-
-    python scripts/compute_unweighted_validation_loss.py
-
-Why this exists
----------------
-Each experiment logged its validation loss under **its own** loss function:
-E2 unweighted, E3 inverse-weighted, E4 sqrt-inverse-weighted. Those numbers are
-on different scales and must never be compared to each other — yet the model
-selection spec asks for ``unweighted_validation_loss`` as the tie-breaker.
-
-So this script reloads every saved best checkpoint and re-evaluates it on the
-validation split with **one shared, unweighted** ``CrossEntropyLoss``. That
-gives four numbers that mean the same thing.
-
-Second job: it verifies each checkpoint actually reproduces the validation
-Punctuation Macro-F1 that its experiment reported. If a checkpoint were stale,
-corrupt, or from the wrong epoch, the reproduced score would not match and this
-script says so.
-
-Reads validation only. Never touches ``test.jsonl``.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -64,7 +41,6 @@ logger = get_logger("unweighted_val_loss")
 EVALUATION_DIR = OUTPUTS_DIR / "evaluation"
 REPRODUCTION_TOLERANCE = 1e-3
 
-
 def build_validation_loader(
     experiment_id: str, meta: Dict[str, Any], examples, *, batch_size: int
 ) -> DataLoader:
@@ -81,7 +57,6 @@ def build_validation_loader(
             shuffle=False,
             collate_fn=lambda b: collate_bilstm(b, pad_id=PAD_ID),
         )
-
 
     from transformers import AutoTokenizer
 
@@ -101,7 +76,6 @@ def build_validation_loader(
         collate_fn=lambda b: collate_phobert(b, pad_id=encoder.pad_id),
     )
 
-
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--experiments", nargs="+", default=list(EXPERIMENT_IDS))
@@ -115,7 +89,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("Split : validation.jsonl  (test.jsonl is NOT touched)\n")
 
     validation_examples = load_examples(PROCESSED_FILES["validation"])
-
 
     criterion = torch.nn.CrossEntropyLoss(ignore_index=IGNORE_INDEX)
 
@@ -197,7 +170,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 1
     print("  All four checkpoints load and reproduce their reported validation scores.")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

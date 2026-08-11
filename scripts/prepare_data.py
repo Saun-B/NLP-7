@@ -1,23 +1,3 @@
-"""Stage 2 — raw text → ``data/processed/*.jsonl``.
-
-    python scripts/prepare_data.py [--max-lines N] [--config configs/data.yaml]
-
-Per official split (train / dev→validation / test):
-
-1. **parse**       strict 3-column reader, errors carry ``file:line``
-2. **normalize**   Unicode NFC, whitespace, lowercase — tone marks preserved
-3. **map labels**  ``QMARK → QUESTION`` (no other renaming, no new classes)
-4. **chunk**       ≤150 lexical words, cut at PERIOD/QUESTION where possible
-5. **verify**      concatenated chunks must reproduce the input stream exactly
-6. **dedup**       exact normalized duplicates removed *within* the split
-7. **write**       ``train.jsonl`` / ``validation.jsonl`` / ``test.jsonl``
-
-Then ``all_labeled.jsonl`` is written as the concatenation of all three — for
-audit and statistics only, never for training.
-
-A per-stage report lands in ``outputs/data/preparation_report.json``.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -50,7 +30,6 @@ from src.utils.logging_utils import get_logger, section
 
 logger = get_logger("prepare_data")
 
-
 def build_split(
     split: str,
     *,
@@ -65,7 +44,6 @@ def build_split(
     """Run the full per-split pipeline and write its JSONL file."""
     section(f"  split: {split}")
     started = time.time()
-
 
     documents, parse_report = parse_split(
         split, raw_data_dir=raw_data_dir, strict=strict, max_lines=max_lines
@@ -126,7 +104,6 @@ def build_split(
         100.0 * chunk_totals["chunks_ending_at_boundary"] / max(1, chunk_totals["chunks"]),
     )
 
-
     if dedup_enabled:
         rows, dedup_report = deduplicate_rows(rows, split=split, key_mode=dedup_key_mode)
         logger.info(
@@ -139,14 +116,12 @@ def build_split(
     else:
         dedup_dict = {"enabled": False}
 
-
     for new_index, row in enumerate(rows, start=1):
         row["id"] = make_example_id(split, new_index)
 
 
     for i, row in enumerate(rows):
         validate_row(row, max_words=max_words, expected_split=split, where=f"{split}[{i}]")
-
 
     out_path = PROCESSED_FILES[split]
     n_written = write_jsonl(out_path, rows)
@@ -170,7 +145,6 @@ def build_split(
         "seconds": round(elapsed, 2),
     }
 
-
 def write_all_labeled() -> Dict[str, Any]:
     """Concatenate the three splits into the audit-only file."""
     section("  all_labeled.jsonl (audit / statistics only — NOT for training)")
@@ -187,7 +161,6 @@ def write_all_labeled() -> Dict[str, Any]:
         "num_examples": n,
         "purpose": "audit and statistics only; never used for training",
     }
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Build data/processed/*.jsonl from raw JointCapPunc.")
@@ -250,7 +223,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"  {split:<11} {s['num_examples']:>8,} examples  {s['num_tokens']:>12,} tokens")
     print(f"  {'all_labeled':<11} {report['all_labeled']['num_examples']:>8,} examples (audit only)")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

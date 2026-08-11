@@ -1,5 +1,3 @@
-"""Training: seeding, losses, optimizer/scheduler, trainers, checkpoints."""
-
 from src.training.artifacts import (
     EpochRecord,
     ExperimentArtifactWriter,

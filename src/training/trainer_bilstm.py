@@ -1,14 +1,3 @@
-"""E1 trainer — BiLSTM.
-
-Simple loop: one optimizer step per batch, no gradient accumulation, no mixed
-precision (the model is tiny; fp16 would buy nothing and adds a failure mode
-for the LSTM). Gradients are clipped to 1.0, which matters for RNNs on 150-word
-sequences.
-
-``build_bilstm_trainer`` wires model + data + loss + optimizer + scheduler from
-a parsed config so the notebook stays a few lines long.
-"""
-
 from __future__ import annotations
 
 from typing import Any, Dict, Optional, Sequence
@@ -32,7 +21,6 @@ from src.utils.logging_utils import get_logger
 logger = get_logger(__name__)
 
 __all__ = ["BiLSTMTrainer", "build_bilstm_trainer", "build_bilstm_dataloaders"]
-
 
 class BiLSTMTrainer(TrainerBase):
     def train_epoch(self, epoch: int) -> float:
@@ -76,7 +64,6 @@ class BiLSTMTrainer(TrainerBase):
 
         return total_loss / max(1, num_batches)
 
-
 def build_bilstm_dataloaders(
     train_examples: Sequence[Example],
     validation_examples: Sequence[Example],
@@ -115,7 +102,6 @@ def build_bilstm_dataloaders(
     )
     return train_loader, val_loader
 
-
 def build_bilstm_trainer(
     config: Dict[str, Any],
     train_examples: Sequence[Example],
@@ -127,19 +113,12 @@ def build_bilstm_trainer(
     checkpoint_dir: Optional[Any] = None,
     experiment_base_dir: Optional[Any] = None,
 ) -> tuple[BiLSTMTrainer, Vocabulary]:
-    """Assemble everything E1 needs. Returns ``(trainer, vocabulary)``.
-
-    ``checkpoint_dir`` / ``experiment_base_dir`` default to the real
-    ``outputs/checkpoints/E1`` and ``outputs/experiments``; the smoke test
-    overrides them so a throwaway run can never be mistaken for a real one.
-    """
     training_cfg = config.get("training", {})
     experiment_id = config.get("experiment", {}).get("id", "E1")
     seed = int(training_cfg.get("seed", SEED))
     set_seed(seed, deterministic=bool(training_cfg.get("deterministic", False)))
 
     device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 
     if vocab is None:
         vocab = Vocabulary.build(

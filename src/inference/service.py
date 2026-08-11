@@ -1,14 +1,3 @@
-"""A thin service layer over the predictor.
-
-Gives the CLI and the Streamlit UI one place to get:
-
-* a lazily-created, process-wide predictor (loading a 135M-parameter model on
-  every request would be absurd);
-* a stable, JSON-serialisable response shape;
-* errors turned into structured responses instead of tracebacks, so the UI can
-  show a useful message rather than a blank page.
-"""
-
 from __future__ import annotations
 
 import threading
@@ -20,9 +9,7 @@ from src.inference.predictor import PunctuationRestorationPredictor, Restoration
 from src.utils.logging_utils import get_logger
 
 logger = get_logger(__name__)
-
 PathLike = Union[str, Path]
-
 
 DEFAULT_MAX_WORDS = 5000
 
@@ -33,11 +20,8 @@ __all__ = [
     "reset_service",
 ]
 
-
 @dataclass
 class ServiceResponse:
-    """Uniform response — ``ok`` tells you which half of the object is filled."""
-
     ok: bool
     input_text: str = ""
     restored_text: str = ""
@@ -53,10 +37,7 @@ class ServiceResponse:
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
 
-
 class PunctuationService:
-    """Loads the locked winner once and serves restore requests."""
-
     def __init__(
         self,
         *,
@@ -72,7 +53,6 @@ class PunctuationService:
         self._lock = threading.Lock()
         self._warmup_requested = warmup
         self._warmup_ms: Optional[float] = None
-
 
     @property
     def predictor(self) -> PunctuationRestorationPredictor:
@@ -97,9 +77,7 @@ class PunctuationService:
         info["max_words"] = self.max_words
         return info
 
-
     def restore(self, text: str, **kwargs: Any) -> ServiceResponse:
-        """Restore punctuation, converting every failure into a response."""
         if text is None or not str(text).strip():
             return ServiceResponse(
                 ok=False,
@@ -155,23 +133,17 @@ class PunctuationService:
             ok=False, input_text=text, error=message, error_type=error_type
         )
 
-
-
-
-
 _service: Optional[PunctuationService] = None
 _service_lock = threading.Lock()
 
 
 def get_service(**kwargs: Any) -> PunctuationService:
-    """Return the shared service, creating it on first call."""
     global _service
     if _service is None:
         with _service_lock:
             if _service is None:
                 _service = PunctuationService(**kwargs)
     return _service
-
 
 def reset_service() -> None:
     """Drop the shared service (used by tests)."""

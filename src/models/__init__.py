@@ -1,5 +1,3 @@
-"""Models: BiLSTM (E1) and PhoBERT token classification (E2–E4)."""
-
 from src.models.bilstm import BiLSTMConfig, BiLSTMTagger
 from src.models.factory import build_model, describe_model, load_model_from_checkpoint
 from src.models.phobert import (

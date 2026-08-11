@@ -1,34 +1,3 @@
-"""Best-checkpoint management.
-
-One rule: **the best checkpoint is the epoch with the highest validation
-Punctuation Macro-F1** (mean F1 of COMMA/PERIOD/QUESTION). Not accuracy, not
-loss — see :mod:`src.evaluation.metrics` for why.
-
-Saved layout
-------------
-PhoBERT (E2-E4) - a normal Hugging Face folder, so downstream inference can do
-``AutoModelForTokenClassification.from_pretrained("outputs/checkpoints/E2")``::
-
-    outputs/checkpoints/E2/
-    ├── config.json
-    ├── model.safetensors
-    ├── tokenizer / bpe.codes / vocab.txt / …
-    └── checkpoint_metadata.json
-
-BiLSTM (E1) — no HF format exists, so a plain state dict plus the vocabulary
-that produced its input ids::
-
-    outputs/checkpoints/E1/
-    ├── model.pt                 (state_dict + model config)
-    ├── vocabulary.json
-    └── checkpoint_metadata.json
-
-``checkpoint_metadata.json`` always records: experiment id, model name and
-revision, label mapping, full training config, best epoch, best validation
-score, dataset hashes, seed, and the Python/PyTorch/Transformers/CUDA/GPU
-versions — everything needed to explain or rerun the result.
-"""
-
 from __future__ import annotations
 
 import shutil
@@ -49,7 +18,6 @@ logger = get_logger(__name__)
 PathLike = Union[str, Path]
 
 __all__ = ["CheckpointManager", "CheckpointMetadata"]
-
 
 @dataclass
 class CheckpointMetadata:
@@ -98,10 +66,7 @@ class CheckpointMetadata:
             "environment": env,
         }
 
-
 class CheckpointManager:
-    """Keeps only the best checkpoint, by validation Punctuation Macro-F1."""
-
     def __init__(
         self,
         experiment_id: str,
@@ -140,7 +105,6 @@ class CheckpointManager:
 
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
-
     def is_improvement(self, score: float) -> bool:
         if self.mode == "max":
             return score > self.best_score
@@ -154,7 +118,6 @@ class CheckpointManager:
         metrics: Dict[str, Any],
         force: bool = False,
     ) -> bool:
-        """Save the model iff ``metrics[self.monitor]`` improved. Returns saved?"""
         if self.monitor not in metrics:
             raise KeyError(
                 f"Monitored metric {self.monitor!r} missing from validation metrics "
@@ -187,7 +150,6 @@ class CheckpointManager:
             self.checkpoint_dir,
         )
         return True
-
 
     def _write_checkpoint(self, model: torch.nn.Module) -> None:
         self._clear_dir()
@@ -245,7 +207,6 @@ class CheckpointManager:
             },
         )
         return write_json(self.checkpoint_dir / "checkpoint_metadata.json", meta.to_dict())
-
 
     @staticmethod
     def read_metadata(checkpoint_dir: PathLike) -> Dict[str, Any]:

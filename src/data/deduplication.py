@@ -1,24 +1,3 @@
-"""Exact-duplicate removal, applied **within** each official split.
-
-Rules
------
-* A duplicate is detected on a *normalised* key, so casing/whitespace noise
-  cannot hide one.
-* Two key modes:
-
-  ``text_and_labels`` (default, used by the pipeline)
-      Key = normalised text **plus** the label sequence. Removes only rows that
-      are byte-for-byte the same supervision signal.
-  ``text``
-      Key = normalised text only. Reported as a statistic so we can see how
-      many rows share text but disagree on labels (a data-quality signal).
-
-* Deduplication **never moves an example between splits** — that would destroy
-  the official split. Cross-split overlap is measured separately in
-  :mod:`src.data.validation` and reported as a warning, not silently "fixed".
-* The first occurrence in file order is kept, so the result is deterministic.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -33,7 +12,6 @@ __all__ = [
     "example_full_key",
     "deduplicate_rows",
 ]
-
 
 @dataclass
 class DedupReport:
@@ -63,16 +41,13 @@ class DedupReport:
             "removed_example_ids_sample": self.removed_example_ids[:25],
         }
 
-
 def example_text_key(tokens: Sequence[str]) -> str:
     """Normalised-text dedup key (hashed to keep memory flat on 5M tokens)."""
     return sha256_text(canonical_text(tokens))
 
-
 def example_full_key(tokens: Sequence[str], labels: Sequence[str]) -> str:
     """Normalised text + label sequence dedup key."""
     return sha256_text(canonical_text(tokens) + "␟" + " ".join(labels))
-
 
 def deduplicate_rows(
     rows: Iterable[Dict[str, Any]],

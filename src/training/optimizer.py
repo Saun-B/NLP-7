@@ -1,19 +1,6 @@
-"""Optimizer construction.
-
-Both families use ``torch.optim.AdamW`` but with different conventions:
-
-* **E1 (BiLSTM)** — one parameter group, ``lr=1e-3``, ``weight_decay=1e-4``.
-* **E2–E4 (PhoBERT)** — ``lr=3e-5``, ``weight_decay=1e-2``, with the standard
-  transformer split: biases and LayerNorm parameters get **no** weight decay.
-  Decaying them is known to hurt fine-tuning, and every reference PhoBERT
-  recipe excludes them, so the three PhoBERT runs stay comparable to published
-  numbers.
-"""
-
 from __future__ import annotations
 
 from typing import Any, Dict, Iterable, List
-
 import torch
 import torch.nn as nn
 
@@ -23,9 +10,7 @@ logger = get_logger(__name__)
 
 __all__ = ["build_optimizer", "build_param_groups", "NO_DECAY_KEYWORDS"]
 
-
 NO_DECAY_KEYWORDS = ("bias", "LayerNorm.weight", "layer_norm.weight", "layernorm.weight")
-
 
 def build_param_groups(
     model: nn.Module,
@@ -34,7 +19,6 @@ def build_param_groups(
     no_decay_keywords: Iterable[str] = NO_DECAY_KEYWORDS,
     split_no_decay: bool = True,
 ) -> List[Dict[str, Any]]:
-    """Split parameters into decay / no-decay groups."""
     if not split_no_decay:
         return [
             {
@@ -42,7 +26,6 @@ def build_param_groups(
                 "weight_decay": weight_decay,
             }
         ]
-
     keywords = tuple(no_decay_keywords)
     decay, no_decay = [], []
     for name, param in model.named_parameters():
@@ -56,7 +39,6 @@ def build_param_groups(
         {"params": decay, "weight_decay": weight_decay},
         {"params": no_decay, "weight_decay": 0.0},
     ]
-
 
 def build_optimizer(model: nn.Module, config: Dict[str, Any]) -> torch.optim.Optimizer:
     """Build AdamW from the ``optimizer`` section of an experiment config."""

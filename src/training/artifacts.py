@@ -1,25 +1,3 @@
-"""Experiment artifact writer.
-
-Every experiment folder ``outputs/experiments/<E>/`` ends up with the same set
-of files, whichever model produced them::
-
-    config.json                        resolved config + model/loss description
-    training_history.csv               one row per epoch
-    best_validation_metrics.json       metrics of the best epoch
-    per_class_validation_metrics.csv   precision/recall/F1/support per class
-    validation_confusion_matrix.csv    gold × predicted counts
-    environment.json                   python/torch/transformers/CUDA/GPU
-    data_hashes.json                   SHA-256 of the exact data used
-    experiment_summary.json            status + headline numbers
-    validation_sample_predictions.csv  a few gold-vs-predicted examples
-    training_curves.png                loss / PUNCT-F1 curves
-
-``experiment_summary.json`` starts life as ``{"status": "NOT_YET_RUN"}`` and is
-only overwritten with real numbers by
-:meth:`ExperimentArtifactWriter.write_summary`, which the notebook calls **after**
-training actually finished. Nothing here ever invents a metric.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -44,11 +22,8 @@ STATUS_FAILED = "FAILED"
 
 __all__ = ["ExperimentArtifactWriter", "STATUS_NOT_RUN", "STATUS_COMPLETED"]
 
-
 @dataclass
 class EpochRecord:
-    """One row of ``training_history.csv``."""
-
     epoch: int
     train_loss: float
     learning_rate: float
@@ -73,10 +48,7 @@ class EpochRecord:
         )
         return row
 
-
 class ExperimentArtifactWriter:
-    """Owns everything written under ``outputs/experiments/<experiment_id>``."""
-
     def __init__(
         self,
         experiment_id: str,
@@ -90,13 +62,10 @@ class ExperimentArtifactWriter:
         self.monitor_metric = monitor_metric
         self.history: List[EpochRecord] = []
 
-
     def path(self, filename: str) -> Path:
         return self.dir / filename
 
-
     def init_not_run(self) -> None:
-        """Write the honest placeholder summary (used when scaffolding)."""
         if self.path("experiment_summary.json").exists():
             existing = read_json(self.path("experiment_summary.json"))
             if existing.get("status") == STATUS_COMPLETED:
@@ -136,7 +105,6 @@ class ExperimentArtifactWriter:
             },
         )
 
-
     def add_epoch(self, record: EpochRecord) -> None:
         self.history.append(record)
         self.write_history()
@@ -151,7 +119,6 @@ class ExperimentArtifactWriter:
             header,
             [[row.get(col, "") for col in header] for row in rows],
         )
-
 
     def write_best_validation(self, metrics: Dict[str, Any], *, best_epoch: int) -> Path:
         blob = {
@@ -224,7 +191,6 @@ class ExperimentArtifactWriter:
         checkpoint_path: PathLike,
         extra: Optional[Dict[str, Any]] = None,
     ) -> Path:
-        """Write the real ``experiment_summary.json`` — only after training."""
         blob: Dict[str, Any] = {
             "status": STATUS_COMPLETED,
             "experiment_id": self.experiment_id,
@@ -255,7 +221,6 @@ class ExperimentArtifactWriter:
 
 
     def plot_training_curves(self, *, show: bool = True) -> Optional[Path]:
-        """Plot train loss / val loss / validation Punctuation Macro-F1."""
         if not self.history:
             return None
         try:

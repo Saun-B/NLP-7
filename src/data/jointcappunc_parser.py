@@ -1,27 +1,3 @@
-"""Strict parser for the raw JointCapPunc ``.txt`` files.
-
-Raw format (verified against commit ``ee258cae``)::
-
-    word<TAB>capitalization_label<TAB>punctuation_label
-
-* One lexical word per line, CRLF line endings, UTF-8, no BOM.
-* ``capitalization_label`` ∈ {0, 1, 2} — parsed and validated, then dropped:
-  this project only restores punctuation.
-* ``punctuation_label`` ∈ {O, COMMA, PERIOD, QMARK} — mapped to the project
-  label space by :func:`src.data.normalization.map_raw_label`.
-* The three shipped files contain **no blank lines**; a blank line is
-  nevertheless handled as an explicit document boundary (standard CoNLL
-  convention) and counted in the report.
-
-Strictness
-----------
-The parser never silently skips a bad line. Any malformed line raises
-:class:`ParseError` carrying ``file:line`` and the offending content. Set
-``strict=False`` only for diagnostics: bad lines are then *recorded* in
-:class:`ParseReport.errors` (still not silently discarded) so a human can look
-at them.
-"""
-
 from __future__ import annotations
 
 import sys
@@ -45,7 +21,6 @@ PathLike = Union[str, Path]
 
 EXPECTED_COLUMNS = 3
 
-
 class ParseError(ValueError):
     """Raised on a malformed raw line, with file and line number attached."""
 
@@ -55,10 +30,8 @@ class ParseError(ValueError):
         self.raw_line = raw_line
         super().__init__(f"{self.path}:{line_no}: {message} | raw={raw_line!r}")
 
-
 @dataclass
 class ParseReport:
-    """Everything observed while reading one raw file."""
 
     path: str = ""
     split: str = ""
@@ -90,11 +63,8 @@ class ParseReport:
             "errors": self.errors[:50],
         }
 
-
 @dataclass
 class RawDocument:
-    """A maximal run of lines not interrupted by a blank line."""
-
     tokens: List[str]
     labels: List[str]
     start_line: int
@@ -103,13 +73,11 @@ class RawDocument:
     def __len__(self) -> int:
         return len(self.tokens)
 
-
 def iter_raw_lines(path: PathLike) -> Iterator[Tuple[int, str]]:
     """Yield ``(1-based line number, line without its newline)``."""
     with open(path, "r", encoding="utf-8", newline="") as f:
         for line_no, line in enumerate(f, start=1):
             yield line_no, line.rstrip("\r\n")
-
 
 def parse_line(path: PathLike, line_no: int, line: str) -> Tuple[str, str, str, str]:
     """Parse one raw line into ``(token, cap_label, raw_punc_label, mapped_label)``."""
@@ -146,7 +114,6 @@ def parse_line(path: PathLike, line_no: int, line: str) -> Tuple[str, str, str, 
     mapped = map_raw_label(punc_label)
     return token, cap_label, punc_label, mapped
 
-
 def parse_file(
     path: PathLike,
     split: str,
@@ -155,24 +122,6 @@ def parse_file(
     max_lines: Optional[int] = None,
     intern_tokens: bool = True,
 ) -> Tuple[List[RawDocument], ParseReport]:
-    """Parse one raw file into documents plus a :class:`ParseReport`.
-
-    Parameters
-    ----------
-    path
-        Raw ``.txt`` file.
-    split
-        Official split name this file maps to (``train``/``validation``/``test``).
-    strict
-        ``True`` (default): the first malformed line raises :class:`ParseError`.
-        ``False``: malformed lines are collected in ``report.errors`` and the
-        parse continues — for diagnostics only.
-    max_lines
-        Stop after this many lines. Used by smoke tests, never by the pipeline.
-    intern_tokens
-        Intern token strings. The corpus has ~31k unique words over ~5M lines,
-        so interning cuts memory by roughly an order of magnitude.
-    """
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(
@@ -199,7 +148,6 @@ def parse_file(
 
     intern = sys.intern if intern_tokens else (lambda s: s)
     last_line_no = 0
-
 
     raw_counts = report.raw_label_counts
     mapped_counts = report.mapped_label_counts
@@ -233,7 +181,6 @@ def parse_file(
 
         if not token:
 
-
             report.dropped_empty_tokens += 1
             if strict:
                 raise ParseError(path, line_no, "token is empty after normalization", line)
@@ -258,7 +205,6 @@ def parse_file(
     if report.errors:
         logger.warning("%s: %d malformed line(s) recorded", path.name, len(report.errors))
     return documents, report
-
 
 def parse_split(
     split: str,

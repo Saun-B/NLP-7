@@ -1,22 +1,9 @@
-"""Validation-set evaluation shared by all four experiments.
-
-The same function evaluates the BiLSTM and PhoBERT: both produce logits of
-shape ``(batch, seq_len, num_labels)`` and both mark unsupervised positions
-with ``IGNORE_INDEX`` in ``labels``, so the scoring code does not need to know
-which model it is looking at.
-
-Counts are accumulated into a 4×4 confusion matrix batch by batch rather than
-storing every prediction — the validation split is ~2M supervised tokens.
-"""
-
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Sequence
-
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
-
 from src.data.constants import ID2LABEL, IGNORE_INDEX, LABELS, NUM_LABELS
 from src.evaluation.metrics import metrics_from_confusion_matrix
 from src.utils.logging_utils import get_logger
@@ -24,7 +11,6 @@ from src.utils.logging_utils import get_logger
 logger = get_logger(__name__)
 
 __all__ = ["evaluate", "predict_word_labels", "sample_predictions"]
-
 
 @torch.no_grad()
 def evaluate(
@@ -38,7 +24,6 @@ def evaluate(
     progress: bool = True,
     desc: str = "validation",
 ) -> Dict[str, Any]:
-    """Run one full evaluation pass and return the metric bundle."""
     model.eval()
     cm = np.zeros((NUM_LABELS, NUM_LABELS), dtype=np.int64)
     total_loss = 0.0
@@ -87,14 +72,12 @@ def evaluate(
     metrics["num_supervised_positions"] = total_supervised
     return metrics
 
-
 def _forward_logits(
     model: torch.nn.Module, input_ids: torch.Tensor, attention_mask: torch.Tensor
 ) -> torch.Tensor:
     """Call the model and return logits, handling both model families."""
     out = model(input_ids=input_ids, attention_mask=attention_mask)
     return out.logits if hasattr(out, "logits") else out
-
 
 @torch.no_grad()
 def predict_word_labels(
@@ -106,12 +89,6 @@ def predict_word_labels(
     amp_dtype: torch.dtype = torch.float16,
     max_batches: Optional[int] = None,
 ) -> Dict[str, List[str]]:
-    """Predict label sequences, regrouped per ``example_id``.
-
-    PhoBERT examples can span several windows; ``word_index`` (present in the
-    PhoBERT collate output) says which lexical word each supervised position
-    belongs to, so the pieces are stitched back into one sequence per example.
-    """
     model.eval()
     per_example: Dict[str, Dict[int, str]] = {}
     autocast_enabled = bool(use_amp and device.type == "cuda")
@@ -146,7 +123,6 @@ def predict_word_labels(
         ex_id: [slot[k] for k in sorted(slot)] for ex_id, slot in per_example.items()
     }
 
-
 def sample_predictions(
     model: torch.nn.Module,
     examples: Sequence[Any],
@@ -154,7 +130,6 @@ def sample_predictions(
     *,
     n: int = 10,
 ) -> List[Dict[str, Any]]:
-    """Build a small side-by-side gold/predicted table for the notebooks."""
     from src.data.statistics import render_text_with_punctuation
 
     rows: List[Dict[str, Any]] = []

@@ -1,21 +1,3 @@
-"""SMOKE TEST ONLY — NOT FINAL TRAINING, NOT A FINAL RESULT.
-
-    python scripts/smoke_test.py [--experiments E1 E2] [--train-size 64]
-
-Runs a few dozen examples through the *real* training code for one tiny epoch,
-purely to prove the wiring works before the user spends hours on real training:
-model builds, batches collate, loss goes backward, validation computes metrics,
-checkpoints and artifacts get written.
-
-Guard rails
------------
-* everything is written under ``outputs/smoke/`` — never
-  ``outputs/checkpoints/E*`` or ``outputs/experiments/E*``;
-* every artifact it writes is stamped ``"SMOKE TEST ONLY — NOT FINAL RESULT"``;
-* the numbers it prints are meaningless by construction (64 examples, 1 epoch)
-  and must never be reported as experiment results.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -39,7 +21,6 @@ logger = get_logger("smoke_test")
 
 BANNER = "SMOKE TEST ONLY — NOT FINAL TRAINING — NOT FINAL RESULT"
 
-
 def shrink_config(config: Dict[str, Any], *, train_batch_size: int) -> Dict[str, Any]:
     """Cut the config down to something that finishes in seconds."""
     cfg = {k: (dict(v) if isinstance(v, dict) else v) for k, v in config.items()}
@@ -51,7 +32,6 @@ def shrink_config(config: Dict[str, Any], *, train_batch_size: int) -> Dict[str,
     training["num_workers"] = 0
     cfg["training"] = training
     return cfg
-
 
 def run_one(experiment_id: str, *, train_size: int, val_size: int) -> Dict[str, Any]:
     import torch
@@ -125,7 +105,6 @@ def run_one(experiment_id: str, *, train_size: int, val_size: int) -> Dict[str, 
         "checkpoint_written": smoke_ckpt.exists(),
     }
 
-
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=BANNER)
     parser.add_argument("--experiments", nargs="+", default=["E1", "E2"])
@@ -161,7 +140,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         "four notebooks."
     )
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

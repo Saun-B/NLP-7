@@ -1,33 +1,3 @@
-"""Phase 2, step 1 — verify the four completed training runs before comparing them.
-
-    python scripts/verify_experiments.py
-
-Comparing four experiments only means something if they really were run under
-the same protocol. This script refuses to take that on trust and checks:
-
-**Per experiment**
-  * every required artifact exists and parses;
-  * ``experiment_summary.json`` says ``COMPLETED`` with real numbers;
-  * a loadable checkpoint plus ``checkpoint_metadata.json`` exists;
-  * ``training_history.csv`` is non-empty and its best epoch agrees with the
-    summary and with ``best_validation_metrics.json``;
-  * the reported ``punctuation_macro_f1`` really equals the mean of the three
-    punctuation F1 scores (recomputed here, not trusted);
-  * per-class metrics recomputed from the stored confusion matrix match the
-    stored per-class metrics.
-
-**Across experiments**
-  * identical train / validation / test data hashes;
-  * identical label mapping;
-  * identical seed;
-  * the validation split really was evaluated (same token count everywhere);
-  * no experiment recorded having used the test split.
-
-Writes ``outputs/evaluation/training_verification.json`` and exits non-zero on
-any hard failure. It never repairs or invents a metric — a broken artifact is
-reported as broken.
-"""
-
 from __future__ import annotations
 
 import csv
@@ -73,7 +43,6 @@ REQUIRED_ARTIFACTS = [
 
 TOLERANCE = 1e-6
 
-
 class Verifier:
     def __init__(self) -> None:
         self.errors: List[str] = []
@@ -92,17 +61,14 @@ class Verifier:
             self.error(msg)
         return condition
 
-
 def _read_history(path: Path) -> List[Dict[str, str]]:
     with open(path, "r", encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
-
 
 def verify_experiment(v: Verifier, experiment_id: str) -> Dict[str, Any]:
     exp_dir = EXPERIMENT_DIR / experiment_id
     ckpt_dir = CHECKPOINT_DIR / experiment_id
     facts: Dict[str, Any] = {"experiment_id": experiment_id, "ok": False}
-
 
     missing = [a for a in REQUIRED_ARTIFACTS if not (exp_dir / a).exists()]
     if missing:
@@ -116,12 +82,10 @@ def verify_experiment(v: Verifier, experiment_id: str) -> Dict[str, Any]:
     hashes = read_json(exp_dir / "data_hashes.json")
     config = read_json(exp_dir / "config.json")
 
-
     v.check(
         summary.get("status") == STATUS_COMPLETED,
         f"{experiment_id}: status is {summary.get('status')!r}, expected {STATUS_COMPLETED}",
     )
-
 
     has_ckpt = CheckpointManager.has_checkpoint(ckpt_dir)
     v.check(has_ckpt, f"{experiment_id}: no usable checkpoint in {ckpt_dir}")
@@ -137,7 +101,6 @@ def verify_experiment(v: Verifier, experiment_id: str) -> Dict[str, Any]:
         facts["checkpoint_bytes"] = sum(
             p.stat().st_size for p in ckpt_dir.iterdir() if p.is_file()
         )
-
 
     history = _read_history(exp_dir / "training_history.csv")
     v.check(len(history) > 0, f"{experiment_id}: training_history.csv is empty")
@@ -170,7 +133,6 @@ def verify_experiment(v: Verifier, experiment_id: str) -> Dict[str, Any]:
                 f"highest score is at epoch {history_best_epoch}"
             )
 
-
     metrics = best["metrics"]
     per_class = metrics["per_class"]
     recomputed = float(
@@ -185,7 +147,6 @@ def verify_experiment(v: Verifier, experiment_id: str) -> Dict[str, Any]:
         abs(float(summary["best_validation_punctuation_macro_f1"]) - recomputed) < TOLERANCE,
         f"{experiment_id}: summary score disagrees with best_validation_metrics.json",
     )
-
 
     cm_path = exp_dir / "validation_confusion_matrix.csv"
     with open(cm_path, "r", encoding="utf-8-sig", newline="") as f:
@@ -205,7 +166,6 @@ def verify_experiment(v: Verifier, experiment_id: str) -> Dict[str, Any]:
         f"{experiment_id}: confusion matrix sums to {int(cm.sum())} but "
         f"num_evaluated_tokens={metrics['num_evaluated_tokens']}",
     )
-
 
     if summary.get("test_split_used") is True:
         v.error(f"{experiment_id}: summary claims the test split was used during training")
@@ -241,7 +201,6 @@ def verify_experiment(v: Verifier, experiment_id: str) -> Dict[str, Any]:
     )
     facts["ok"] = True
     return facts
-
 
 def verify_across(v: Verifier, facts: List[Dict[str, Any]]) -> Dict[str, Any]:
     usable = [f for f in facts if f.get("ok")]
@@ -295,7 +254,6 @@ def verify_across(v: Verifier, facts: List[Dict[str, Any]]) -> Dict[str, Any]:
         "note": "every experiment recorded test_split_used = false",
     }
     return out
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     section("PHASE 2 · STEP 1 — VERIFY THE FOUR TRAINING RUNS")
@@ -360,7 +318,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("\n  VERIFICATION PASSED — all four runs are complete, self-consistent,")
     print("  and were trained on identical data with an identical label mapping.")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,5 +1,3 @@
-"""Shared utilities: IO, hashing, logging, environment capture."""
-
 from src.utils.hashing import sha256_bytes, sha256_file, sha256_text, hash_jsonl_dataset
 from src.utils.io import (
     ensure_dir,

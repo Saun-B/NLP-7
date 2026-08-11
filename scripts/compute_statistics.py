@@ -1,18 +1,3 @@
-"""Stage 4 — statistics, class weights, hashes, human-review samples.
-
-    python scripts/compute_statistics.py
-
-Writes into ``outputs/data/``:
-
-===============================  ============================================
-``data_statistics.json``          per-split counts, lengths, label ratios
-``data_statistics.csv``           same, as a spreadsheet-friendly table
-``class_weights.json``            inverse + sqrt-inverse weights (TRAIN only)
-``data_hashes.json``              SHA-256 of every processed file
-``human_review_samples.csv``      100 random examples for manual checking
-===============================  ============================================
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -27,7 +12,6 @@ from src.utils.io import read_yaml
 from src.utils.logging_utils import get_logger, section
 
 logger = get_logger("compute_statistics")
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Compute dataset statistics and class weights.")
@@ -74,7 +58,6 @@ def main(argv: Optional[List[str]] = None) -> int:
             f"  {lab:<12}{weights['counts'][lab]:>12,}"
             f"{weights['inverse'][lab]:>12.4f}{weights['sqrt_inverse'][lab]:>14.4f}"
         )
-
     print("\nDataset hashes (content_sha256)")
     for name, rec in result["hashes"].items():
         if rec.get("exists"):
@@ -87,7 +70,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         f"are intentionally left blank for a human to fill in)"
     )
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

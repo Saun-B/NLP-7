@@ -1,22 +1,3 @@
-"""Shared training scaffolding for all four experiments.
-
-:class:`TrainerBase` owns everything that is identical across E1–E4:
-
-* the epoch loop and its timing,
-* validation after **every** epoch,
-* best-checkpoint selection on validation Punctuation Macro-F1,
-* the artifact files under ``outputs/experiments/<E>/``,
-* optional early stopping.
-
-Only :meth:`TrainerBase.train_epoch` differs, and that is implemented in
-:mod:`src.training.trainer_bilstm` and :mod:`src.training.trainer_phobert`.
-
-Test-set discipline
--------------------
-This class never receives, opens or references ``test.jsonl``. It takes exactly
-two dataloaders: train and validation.
-"""
-
 from __future__ import annotations
 
 import time
@@ -39,11 +20,8 @@ logger = get_logger(__name__)
 
 __all__ = ["TrainerBase", "TrainingResult"]
 
-
 @dataclass
 class TrainingResult:
-    """What a finished ``fit()`` returns (all numbers measured, never assumed)."""
-
     experiment_id: str
     best_epoch: int
     best_score: float
@@ -63,7 +41,6 @@ class TrainingResult:
             "total_seconds": round(self.total_seconds, 2),
             "num_epochs": len(self.history),
         }
-
 
 class TrainerBase:
     def __init__(
@@ -113,15 +90,8 @@ class TrainerBase:
         self.model.to(self.device)
         self.global_step = 0
 
-
-
-
     def train_epoch(self, epoch: int) -> float:
-        """Run one training epoch; return the mean training loss."""
         raise NotImplementedError
-
-
-
 
     def fit(self) -> TrainingResult:
         logger.info(
@@ -212,9 +182,6 @@ class TrainerBase:
             experiment_dir=self.artifacts.dir.as_posix(),
             total_seconds=total,
         )
-
-
-
 
     def _clip_gradients(self) -> None:
         if self.max_grad_norm and self.max_grad_norm > 0:

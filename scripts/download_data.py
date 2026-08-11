@@ -1,20 +1,3 @@
-"""Stage 1 — fetch JointCapPunc and pin it to the exact upstream commit.
-
-    python scripts/download_data.py [--force]
-
-What it guarantees
-------------------
-* the checkout in ``data/raw/JointCapPunc`` is **exactly** commit
-  ``ee258cae0e95e64245428d59ebbb030280fcebec`` — anything else is a hard error,
-  never a warning;
-* the three raw files exist and are non-empty;
-* the upstream Apache-2.0 LICENSE is copied to ``JOINTCAPPUNC_LICENSE.txt`` at
-  the repo root;
-* ``outputs/data/data_source_manifest.json`` records the URL, commit, license,
-  and the SHA-256 + byte size of every raw file, so the provenance of the
-  processed data is auditable after the fact.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -64,20 +47,16 @@ def run_git(args: List[str], cwd: Optional[Path] = None, check: bool = True) -> 
         )
     return (proc.stdout or "").strip()
 
-
 def is_git_repo(path: Path) -> bool:
     return (path / ".git").exists()
 
-
 def head_commit(path: Path) -> str:
     return run_git(["rev-parse", "HEAD"], cwd=path)
-
 
 def clone_repository(target: Path) -> None:
     logger.info("Cloning %s -> %s", DATASET_REPO_URL, target)
     target.parent.mkdir(parents=True, exist_ok=True)
     run_git(["clone", DATASET_REPO_URL, str(target)])
-
 
 def checkout_commit(repo: Path, commit: str) -> None:
     current = head_commit(repo)
@@ -92,7 +71,6 @@ def checkout_commit(repo: Path, commit: str) -> None:
         run_git(["fetch", "--all", "--tags"], cwd=repo)
         run_git(["checkout", "--force", commit], cwd=repo)
 
-
 def verify_commit(repo: Path, expected: str) -> str:
     actual = head_commit(repo)
     if actual != expected:
@@ -105,7 +83,6 @@ def verify_commit(repo: Path, expected: str) -> str:
         )
     logger.info("Commit verified: %s", actual)
     return actual
-
 
 def verify_raw_files(raw_data_dir: Path) -> Dict[str, Dict[str, Any]]:
     """Check every expected raw file exists and hash it."""
@@ -127,7 +104,6 @@ def verify_raw_files(raw_data_dir: Path) -> Dict[str, Dict[str, Any]]:
         }
     return records
 
-
 def copy_license(repo: Path) -> Optional[str]:
     src = repo / "LICENSE"
     if not src.exists():
@@ -137,7 +113,6 @@ def copy_license(repo: Path) -> Optional[str]:
     dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
     logger.info("License copied to %s", dst.name)
     return dst.name
-
 
 def write_manifest(commit: str, raw_files: Dict[str, Dict[str, Any]], license_file: Optional[str]) -> Path:
     manifest = {
@@ -164,7 +139,6 @@ def write_manifest(commit: str, raw_files: Dict[str, Dict[str, Any]], license_fi
     path = write_json(OUTPUT_DATA_DIR / "data_source_manifest.json", manifest)
     logger.info("Manifest written to %s", path.relative_to(PROJECT_ROOT).as_posix())
     return path
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Download and pin the JointCapPunc dataset.")
@@ -207,7 +181,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"  {split:<11} {rec['upstream_filename']:<10} "
               f"{rec['bytes'] / 1024 / 1024:8.1f} MB  sha256={rec['sha256'][:16]}…")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

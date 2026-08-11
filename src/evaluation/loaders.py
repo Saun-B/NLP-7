@@ -1,23 +1,8 @@
-"""Build an evaluation DataLoader that matches whatever a checkpoint contains.
-
-A checkpoint folder is self-describing: ``checkpoint_metadata.json`` says
-whether it holds a BiLSTM or a PhoBERT, and the folder ships the artifacts that
-model needs to reproduce its own inputs (``vocabulary.json`` for E1, the
-tokenizer files for E2-E4).
-
-Using the tokenizer/vocabulary **saved inside the checkpoint** - rather than
-rebuilding them from the training data or re-downloading from the hub - is what
-makes evaluation faithful: the model sees exactly the input ids it was trained
-on.
-"""
-
 from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, Dict, Optional, Sequence, Tuple, Union
-
 from torch.utils.data import DataLoader
-
 from src.data.constants import PAD_ID, PHOBERT_MAX_LENGTH, PROJECT_ROOT
 from src.data.dataset import (
     BiLSTMDataset,
@@ -37,9 +22,7 @@ PathLike = Union[str, Path]
 
 __all__ = ["build_eval_dataloader", "load_checkpoint_encoder"]
 
-
 def _resolve_max_length(checkpoint_dir: Path, meta: Dict[str, Any], fallback: int) -> int:
-    """Prefer the max_length the experiment actually trained with."""
     cfg = meta.get("training_config", {})
     model_cfg = cfg.get("model", {}) if isinstance(cfg, dict) else {}
     value = model_cfg.get("max_length")
@@ -56,16 +39,9 @@ def _resolve_max_length(checkpoint_dir: Path, meta: Dict[str, Any], fallback: in
                 pass
     return fallback
 
-
 def load_checkpoint_encoder(
     checkpoint_dir: PathLike, *, fallback_max_length: int = PHOBERT_MAX_LENGTH
 ) -> Tuple[str, Any, Dict[str, Any]]:
-    """Return ``(model_type, encoder_or_vocabulary, metadata)`` for a checkpoint.
-
-    ``encoder_or_vocabulary`` is a :class:`~src.data.dataset.Vocabulary` for a
-    BiLSTM checkpoint and a :class:`~src.data.dataset.PhoBERTEncoder` for a
-    PhoBERT one.
-    """
     directory = Path(checkpoint_dir)
     meta_path = directory / "checkpoint_metadata.json"
     if not meta_path.exists():
@@ -119,11 +95,6 @@ def build_eval_dataloader(
     encoder: Optional[Any] = None,
     model_type: Optional[str] = None,
 ) -> Tuple[DataLoader, str, Any]:
-    """Build a non-shuffling DataLoader appropriate to ``checkpoint_dir``.
-
-    Returns ``(dataloader, model_type, encoder_or_vocabulary)`` so callers can
-    reuse the encoder (encoding the test split twice is wasted minutes).
-    """
     if encoder is None or model_type is None:
         model_type, encoder, _ = load_checkpoint_encoder(checkpoint_dir)
 
@@ -143,5 +114,3 @@ def build_eval_dataloader(
         num_workers=num_workers,
     )
     return loader, model_type, encoder
-
-

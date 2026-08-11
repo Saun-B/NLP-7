@@ -1,10 +1,3 @@
-"""Generate final project deliverables from verified artifacts.
-
-This script does not invent evaluation numbers. It consolidates the artifacts
-already produced by notebooks 05-07 into the exact file names requested by the
-project handoff checklist.
-"""
-
 from __future__ import annotations
 
 import csv
@@ -22,7 +15,6 @@ import _bootstrap
 
 from src.utils.io import read_json, write_csv, write_json
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 EVAL_DIR = OUTPUTS_DIR / "evaluation"
@@ -32,14 +24,12 @@ def _read_csv_dicts(path: Path) -> List[Dict[str, str]]:
     with open(path, "r", encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
 
-
 def _checkpoint_size_mb(exp_id: str) -> float | None:
     directory = OUTPUTS_DIR / "checkpoints" / exp_id
     if not directory.exists():
         return None
     total = sum(p.stat().st_size for p in directory.rglob("*") if p.is_file())
     return round(total / (1024 * 1024), 2)
-
 
 def generate_metrics() -> Path:
     final_test = read_json(EVAL_DIR / "final_test_results.json")
@@ -87,7 +77,6 @@ def generate_metrics() -> Path:
     }
     return write_json(OUTPUTS_DIR / "metrics.json", out)
 
-
 def generate_model_comparison() -> Path:
     rows = _read_csv_dicts(EVAL_DIR / "posthoc_test_model_comparison.csv")
     wanted = [r for r in rows if r["type"] == "trained model"]
@@ -130,7 +119,6 @@ def generate_model_comparison() -> Path:
         )
     return write_csv(OUTPUTS_DIR / "model_comparison.csv", header, out_rows)
 
-
 def generate_confusion_matrix_png() -> Path:
     final_test = read_json(EVAL_DIR / "final_test_results.json")
     labels = final_test["confusion_matrix"]["labels"]
@@ -158,7 +146,6 @@ def generate_confusion_matrix_png() -> Path:
     plt.close(fig)
     return out
 
-
 def _error_category(gold: str, predicted: str, meaning: str) -> str:
     if {gold, predicted} == {"PERIOD", "QUESTION"}:
         return "Nhầm dấu chấm và dấu hỏi"
@@ -173,7 +160,6 @@ def _error_category(gold: str, predicted: str, meaning: str) -> str:
     if "QUESTION" in (gold, predicted):
         return "Câu hội thoại / câu hỏi"
     return meaning
-
 
 def generate_error_analysis_csv(max_cases: int = 30) -> Path:
     analysis = read_json(EVAL_DIR / "final_error_analysis.json")
@@ -215,7 +201,6 @@ def generate_error_analysis_csv(max_cases: int = 30) -> Path:
                 return write_csv(OUTPUTS_DIR / "error_analysis.csv", header, rows)
     return write_csv(OUTPUTS_DIR / "error_analysis.csv", header, rows)
 
-
 def generate_predictions_sample() -> Path:
     analysis = read_json(EVAL_DIR / "final_error_analysis.json")
     header = [
@@ -245,7 +230,6 @@ def generate_predictions_sample() -> Path:
                 return write_csv(OUTPUTS_DIR / "predictions.csv", header, rows)
     return write_csv(OUTPUTS_DIR / "predictions.csv", header, rows)
 
-
 def generate_asr_note() -> Path:
     path = OUTPUTS_DIR / "asr_evaluation_status.md"
     path.write_text(
@@ -263,7 +247,6 @@ def generate_asr_note() -> Path:
     )
     return path
 
-
 def main() -> int:
     generated = [
         generate_metrics(),
@@ -276,7 +259,6 @@ def main() -> int:
     for path in generated:
         print(path.relative_to(PROJECT_ROOT).as_posix())
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

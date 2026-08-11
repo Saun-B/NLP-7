@@ -1,20 +1,3 @@
-"""CLI demo — restore punctuation with the locked winner, no Streamlit needed.
-
-    python scripts/demo_inference.py
-    python scripts/demo_inference.py --interactive
-    python scripts/demo_inference.py --text "hôm nay trời đẹp bạn khỏe không"
-    python scripts/demo_inference.py --file input.txt
-    python scripts/demo_inference.py --save
-
-Latency note
-------------
-The first call pays for CUDA context creation and lazy kernel compilation, so a
-warm-up pass runs before anything is timed. Even then, the numbers reported are
-**demo latency on this machine**, measured over a handful of short inputs — not
-a benchmark. A real benchmark would need many inputs, fixed batch sizes,
-repeated runs and reported variance.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -36,7 +19,6 @@ logger = get_logger("demo_inference")
 
 EVALUATION_DIR = OUTPUTS_DIR / "evaluation"
 
-
 def print_result(index: int, label: str, note: str, response) -> None:
     print(f"\n[{index}] {label}")
     if note:
@@ -50,7 +32,6 @@ def print_result(index: int, label: str, note: str, response) -> None:
         )
     else:
         print(f"    ERROR [{response.error_type}]: {response.error}")
-
 
 def run_examples(service, *, save: bool) -> int:
     section("DEMO — restore punctuation using the locked winner")
@@ -117,7 +98,6 @@ def run_examples(service, *, save: bool) -> int:
 
     return 1 if failures else 0
 
-
 def run_interactive(service) -> int:
     section("INTERACTIVE MODE — nhập văn bản tiếng Việt không dấu câu")
     info = service.model_info()
@@ -142,7 +122,6 @@ def run_interactive(service) -> int:
             )
         else:
             print(f"  ERROR [{response.error_type}]: {response.error}\n")
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -193,7 +172,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         return run_interactive(service)
 
     return run_examples(service, save=args.save)
-
 
 if __name__ == "__main__":
     sys.exit(main())

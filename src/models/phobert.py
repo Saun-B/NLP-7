@@ -1,17 +1,3 @@
-"""E2-E4 - PhoBERT token classification.
-
-Model: ``vinai/phobert-base-v2`` pinned to revision
-``fb76b7e1f77fa19bc4870e2ad956876f7c81c53f`` (:mod:`src.data.constants`), loaded
-as ``RobertaForTokenClassification`` with ``num_labels = 4``.
-
-Pinning the revision is what makes the three PhoBERT experiments comparable:
-E2/E3/E4 differ **only** in the class weights of the loss, so the backbone
-weights must be bit-identical across them.
-
-The wrapper returns bare logits (like the BiLSTM) so the trainer owns the loss
-and the three experiments can swap loss functions without touching the model.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -35,7 +21,6 @@ logger = get_logger(__name__)
 
 __all__ = ["PhoBERTConfig", "PhoBERTTokenClassifier", "load_phobert_tokenizer"]
 
-
 @dataclass
 class PhoBERTConfig:
     model_name: str = PHOBERT_MODEL_NAME
@@ -54,20 +39,15 @@ class PhoBERTConfig:
             "dropout_override": self.dropout,
         }
 
-
 def load_phobert_tokenizer(
     model_name: str = PHOBERT_MODEL_NAME, revision: str = PHOBERT_REVISION
 ):
-    """Load the pinned PhoBERT tokenizer."""
     disable_progress_bars()
     from transformers import AutoTokenizer
 
     return AutoTokenizer.from_pretrained(model_name, revision=revision)
 
-
 class PhoBERTTokenClassifier(nn.Module):
-    """Thin wrapper around ``RobertaForTokenClassification`` returning logits."""
-
     def __init__(self, config: PhoBERTConfig):
         super().__init__()
         disable_progress_bars()
@@ -105,14 +85,8 @@ class PhoBERTTokenClassifier(nn.Module):
         attention_mask: Optional[torch.Tensor] = None,
         **_ignored,
     ) -> torch.Tensor:
-        """Return logits ``(batch, seq_len, num_labels)``.
-
-        ``labels`` is deliberately not forwarded: the trainer applies the
-        experiment-specific weighted loss itself.
-        """
         out = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
         return out.logits
-
 
     def save_pretrained(self, save_directory) -> None:
         """Save in HF format so inference code can ``from_pretrained`` the folder."""
@@ -139,6 +113,3 @@ class PhoBERTTokenClassifier(nn.Module):
 
     def gradient_checkpointing_enable(self) -> None:
         self.backbone.gradient_checkpointing_enable()
-
-
-

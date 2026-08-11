@@ -1,38 +1,9 @@
-"""Model selection — **validation only**, by construction.
-
-The rule
---------
-1. Rank by validation **Punctuation Macro-F1** (mean F1 of COMMA/PERIOD/
-   QUESTION), descending. Accuracy is never used: with 91% ``O`` it rewards a
-   model that predicts nothing.
-2. Tie-break by validation **unweighted** loss, ascending — the loss computed
-   with one shared unweighted criterion for every model
-   (:file:`scripts/compute_unweighted_validation_loss.py`), because each
-   experiment's own logged loss is on its own weighted scale.
-3. Final tie-break by experiment id, so the outcome is deterministic.
-
-How test leakage is made structurally impossible
-------------------------------------------------
-:class:`ValidationCandidate` is a frozen dataclass whose fields are *only*
-validation quantities. There is nowhere to put a test metric. Constructing one
-with a test-looking field raises ``TypeError``, and
-:meth:`ValidationCandidate.from_experiment` refuses any artifact that was not
-evaluated on ``validation.jsonl``. :func:`select_winner` takes nothing but
-those candidates.
-
-Once :func:`write_model_selection` has run, ``winner_locked`` is ``true`` and
-the winner must not change — not even if the official test later favours a
-different model. :func:`load_locked_winner` enforces that contract for every
-downstream consumer (notebook 06/07, inference, UI).
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Union
-
 from src.data.constants import (
     CHECKPOINT_DIR,
     EXPERIMENT_DIR,
@@ -58,7 +29,6 @@ SELECTION_SPLIT = "validation"
 SELECTION_METRIC = "punctuation_macro_f1"
 TIE_BREAKER = "unweighted_validation_loss"
 
-
 TIE_TOLERANCE = 1e-6
 
 __all__ = [
@@ -72,18 +42,11 @@ __all__ = [
     "MODEL_SELECTION_PATH",
 ]
 
-
 class SelectionError(RuntimeError):
     """Raised when selection inputs are unusable or the lock is violated."""
 
-
 @dataclass(frozen=True)
 class ValidationCandidate:
-    """One experiment's **validation** results. Contains no test information.
-
-    Frozen and closed: there is no field a test metric could be written into.
-    """
-
     experiment_id: str
     model: str
     model_type: str
@@ -100,7 +63,6 @@ class ValidationCandidate:
     num_evaluated_tokens: int = 0
     checkpoint_dir: str = ""
     total_training_seconds: Optional[float] = None
-
 
     @classmethod
     def from_experiment(
@@ -167,7 +129,6 @@ class ValidationCandidate:
             total_training_seconds=summary.get("total_training_seconds"),
         )
 
-
     def to_row(self) -> Dict[str, Any]:
         row: Dict[str, Any] = {
             "experiment_id": self.experiment_id,
@@ -186,7 +147,6 @@ class ValidationCandidate:
         )
         return row
 
-
 @dataclass
 class SelectionResult:
     winner: ValidationCandidate
@@ -198,14 +158,12 @@ class SelectionResult:
     def runner_up(self) -> Optional[ValidationCandidate]:
         return self.ranking[1] if len(self.ranking) > 1 else None
 
-
 def load_validation_candidates(
     experiment_ids: Sequence[str] = tuple(EXPERIMENT_IDS),
     *,
     experiment_dir: PathLike = EXPERIMENT_DIR,
     unweighted_loss_path: PathLike = UNWEIGHTED_LOSS_PATH,
 ) -> List[ValidationCandidate]:
-    """Read the validation artifacts of every experiment. Reads no test data."""
     path = Path(unweighted_loss_path)
     if not path.exists():
         raise SelectionError(
@@ -222,15 +180,9 @@ def load_validation_candidates(
         for e in experiment_ids
     ]
 
-
 def select_winner(
     candidates: Sequence[ValidationCandidate], *, tie_tolerance: float = TIE_TOLERANCE
 ) -> SelectionResult:
-    """Pick the winner from validation results alone.
-
-    Deterministic: sorts by ``(-punctuation_macro_f1, unweighted_validation_loss,
-    experiment_id)``.
-    """
     if not candidates:
         raise SelectionError("No candidates supplied to select_winner().")
     for c in candidates:
@@ -246,7 +198,6 @@ def select_winner(
         key=lambda c: (-c.punctuation_macro_f1, c.unweighted_validation_loss, c.experiment_id),
     )
     winner = ranking[0]
-
     tie_used = False
     margin = None
     if len(ranking) > 1:
@@ -265,11 +216,9 @@ def select_winner(
         winner=winner, ranking=list(ranking), tie_breaker_used=tie_used, margin_over_runner_up=margin
     )
 
-
 def write_model_selection(
     result: SelectionResult, *, path: PathLike = MODEL_SELECTION_PATH
 ) -> Path:
-    """Write ``model_selection.json`` and **lock** the winner."""
     winner = result.winner
     blob: Dict[str, Any] = {
 
@@ -313,9 +262,7 @@ def write_model_selection(
     logger.info("Winner %s locked in %s", winner.experiment_id, out)
     return out
 
-
 def load_locked_winner(path: PathLike = MODEL_SELECTION_PATH) -> Dict[str, Any]:
-    """Load ``model_selection.json`` and enforce the lock contract."""
     p = Path(path)
     if not p.exists():
         raise SelectionError(
@@ -339,11 +286,9 @@ def load_locked_winner(path: PathLike = MODEL_SELECTION_PATH) -> Dict[str, Any]:
         )
     return blob
 
-
 def resolve_winner_checkpoint(
     selection: Optional[Dict[str, Any]] = None, *, path: PathLike = MODEL_SELECTION_PATH
 ) -> Path:
-    """Absolute path of the locked winner's checkpoint directory."""
     blob = selection or load_locked_winner(path)
     raw = blob.get("checkpoint_path") or f"outputs/checkpoints/{blob['winner']}"
     ckpt = Path(raw)

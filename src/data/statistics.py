@@ -1,27 +1,3 @@
-"""Dataset statistics, class weights, hashes and the human-review sample.
-
-Everything here is *descriptive* — it reads the processed JSONL files and
-writes reports into ``outputs/data/``. Nothing in this module modifies data.
-
-Class weights
--------------
-Two weighting schemes are produced, and **both are computed from ``train``
-only** — using validation or test token counts to build a training loss would
-leak information about the evaluation sets.
-
-Inverse frequency (E3)::
-
-    w_c = total_train_tokens / (num_classes * count_c)
-
-Square-root inverse (E4)::
-
-    w_c = sqrt(inverse_weight_c)
-
-``O`` covers ~91% of tokens, so plain inverse weighting pushes the model hard
-towards the rare classes (``QUESTION`` gets a weight around 45×). The sqrt
-variant is the usual compromise: same ordering, much gentler magnitude.
-"""
-
 from __future__ import annotations
 
 import math
@@ -57,10 +33,6 @@ __all__ = [
     "render_text_with_punctuation",
 ]
 
-
-
-
-
 @dataclass
 class SplitStatistics:
     split: str
@@ -95,7 +67,6 @@ class SplitStatistics:
             "num_source_segments": self.num_source_segments,
             "num_hard_cut_examples": self.num_hard_cut_examples,
         }
-
 
 def compute_split_statistics(path: PathLike, split: str) -> SplitStatistics:
     """Stream a processed JSONL file and compute descriptive statistics."""
@@ -137,7 +108,6 @@ def compute_split_statistics(path: PathLike, split: str) -> SplitStatistics:
     stats.vocabulary_size = len(vocab)
     stats.num_source_segments = len(segments)
     return stats
-
 
 def compute_all_statistics(
     files: Optional[Dict[str, PathLike]] = None,
@@ -183,10 +153,6 @@ def compute_all_statistics(
 
     return out
 
-
-
-
-
 def compute_class_weights(
     train_label_counts: Dict[str, int], *, num_classes: int = NUM_LABELS
 ) -> Dict[str, Any]:
@@ -231,10 +197,6 @@ def compute_class_weights(
         "none_vector": [1.0] * num_classes,
     }
 
-
-
-
-
 def statistics_to_csv_rows(stats: Dict[str, Any]) -> List[List[Any]]:
     rows: List[List[Any]] = []
     sections = [(s, stats["splits"][s]) for s in SPLITS]
@@ -260,7 +222,6 @@ def statistics_to_csv_rows(stats: Dict[str, Any]) -> List[List[Any]]:
         rows.append(row)
     return rows
 
-
 STATISTICS_CSV_HEADER: List[str] = (
     [
         "split",
@@ -278,18 +239,9 @@ STATISTICS_CSV_HEADER: List[str] = (
     + [f"ratio_{lab}" for lab in LABELS]
 )
 
-
-
-
-
 def render_text_with_punctuation(
     tokens: Sequence[str], labels: Sequence[str], *, capitalize: bool = True
 ) -> str:
-    """Render ``tokens``+``labels`` as readable punctuated text.
-
-    Used for the human-review CSV so a reviewer sees what the label sequence
-    actually claims, instead of having to read two parallel arrays.
-    """
     pieces: List[str] = []
     start_of_sentence = True
     for tok, lab in zip(tokens, labels):
@@ -300,18 +252,13 @@ def render_text_with_punctuation(
         start_of_sentence = lab in ("PERIOD", "QUESTION")
     return " ".join(pieces)
 
-
 def build_human_review_samples(
     files: Optional[Dict[str, PathLike]] = None,
     *,
     n_samples: int = 100,
     seed: int = SEED,
 ) -> List[List[Any]]:
-    """Draw ``n_samples`` random examples across splits for manual review.
 
-    The reviewer fills ``is_correct`` and ``review_note`` by hand — the
-    pipeline writes them empty on purpose.
-    """
     files = files or dict(PROCESSED_FILES)
     pool: List[Dict[str, Any]] = []
     for split in SPLITS:
@@ -340,7 +287,6 @@ def build_human_review_samples(
         )
     return rows
 
-
 HUMAN_REVIEW_HEADER: List[str] = [
     "id",
     "source_split",
@@ -350,10 +296,6 @@ HUMAN_REVIEW_HEADER: List[str] = [
     "is_correct",
     "review_note",
 ]
-
-
-
-
 
 def compute_dataset_hashes(
     files: Optional[Dict[str, PathLike]] = None,
@@ -371,10 +313,6 @@ def compute_dataset_hashes(
         out["all_labeled"] = hash_jsonl_dataset(p) if p.exists() else missing_hash_record(p)
     return out
 
-
-
-
-
 def write_statistics_artifacts(
     output_dir: PathLike = OUTPUT_DATA_DIR,
     files: Optional[Dict[str, PathLike]] = None,
@@ -382,7 +320,6 @@ def write_statistics_artifacts(
     n_review_samples: int = 100,
     seed: int = SEED,
 ) -> Dict[str, Any]:
-    """Write every ``outputs/data`` statistics artifact; return a summary."""
     output_dir = Path(output_dir)
     files = files or dict(PROCESSED_FILES)
 

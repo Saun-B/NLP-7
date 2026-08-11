@@ -1,36 +1,3 @@
-"""Turn a long token stream into training examples of at most 150 words.
-
-Why chunking is needed
-----------------------
-JointCapPunc ships each split as one continuous stream of ~2–5 million tokens
-with no document markers. A model needs bounded-length examples, and the
-boundaries we pick change what the model can see: cutting in the middle of a
-sentence hides the evidence for the sentence-final ``PERIOD``/``QUESTION``.
-
-Algorithm
----------
-1. **Split into sentences** at every ``PERIOD`` / ``QUESTION`` label. The
-   trailing token *keeps* its label and stays in the sentence, so a sentence
-   always ends with its own punctuation. Trailing tokens after the last
-   sentence-final label form a final (unterminated) sentence.
-2. **Greedily pack whole sentences** into segments of at most
-   ``max_words`` (150) tokens. A segment therefore almost always ends exactly
-   at a ``PERIOD``/``QUESTION`` — the preferred boundary.
-3. **Hard-cut only when unavoidable**: a single sentence longer than
-   ``max_words`` becomes its own segment and is sliced into consecutive chunks
-   of ``max_words``. Those chunks share a ``source_id`` and are numbered by
-   ``chunk_index`` so the split is auditable afterwards.
-
-Invariants (asserted by :func:`assert_chunking_invariants`, which the pipeline
-runs on every split)
---------------------------------------------------------------------------
-* concatenating all chunk tokens reproduces the input token stream exactly —
-  no token lost, none duplicated, order unchanged;
-* the same holds for labels;
-* ``len(tokens) == len(labels)`` for every chunk;
-* every chunk is non-empty and has at most ``max_words`` tokens.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -47,10 +14,8 @@ __all__ = [
     "assert_chunking_invariants",
 ]
 
-
 @dataclass
 class Chunk:
-    """One processed example, before it gets its ids."""
 
     tokens: List[str]
     labels: List[str]
@@ -62,10 +27,8 @@ class Chunk:
     def __len__(self) -> int:
         return len(self.tokens)
 
-
 @dataclass
 class ChunkingStats:
-    """Counters describing how a stream was chunked."""
 
     input_tokens: int = 0
     sentences: int = 0
@@ -90,19 +53,12 @@ class ChunkingStats:
             "boundary_ratio": round(boundary_ratio, 6),
         }
 
-
 def split_into_sentences(
     tokens: Sequence[str],
     labels: Sequence[str],
     *,
     end_labels: Iterable[str] = tuple(SENTENCE_END_LABELS),
 ) -> List[Tuple[List[str], List[str]]]:
-    """Split a token stream into sentences at ``PERIOD``/``QUESTION``.
-
-    The punctuation-bearing token is the **last** token of its sentence.
-    Any tail after the final sentence-ending label is returned as a last,
-    unterminated sentence (nothing is dropped).
-    """
     if len(tokens) != len(labels):
         raise ValueError(
             f"len(tokens)={len(tokens)} != len(labels)={len(labels)}"
@@ -119,17 +75,12 @@ def split_into_sentences(
         sentences.append((list(tokens[start:]), list(labels[start:])))
     return sentences
 
-
 def pack_sentences(
     sentences: Sequence[Tuple[List[str], List[str]]],
     *,
     max_words: int = MAX_WORDS_PER_EXAMPLE,
 ) -> List[Tuple[List[str], List[str]]]:
-    """Greedily pack whole sentences into segments of ``<= max_words`` tokens.
 
-    A sentence longer than ``max_words`` cannot be packed with anything else:
-    it is flushed as its own segment (and gets hard-cut later).
-    """
     if max_words <= 0:
         raise ValueError(f"max_words must be positive, got {max_words}")
 
@@ -158,7 +109,6 @@ def pack_sentences(
 
     flush()
     return segments
-
 
 def chunk_sequence(
     tokens: Sequence[str],
@@ -211,7 +161,6 @@ def chunk_sequence(
 
     stats.chunks = len(chunks)
     return chunks, stats
-
 
 def assert_chunking_invariants(
     tokens: Sequence[str],

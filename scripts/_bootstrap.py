@@ -1,10 +1,3 @@
-"""Make ``src`` importable when a script is run directly.
-
-Every script starts with ``import _bootstrap`` so that
-``python scripts/foo.py`` works from any working directory without requiring
-``pip install -e .`` or a PYTHONPATH tweak.
-"""
-
 from __future__ import annotations
 
 import sys

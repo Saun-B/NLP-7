@@ -1,37 +1,4 @@
-"""Đóng gói dự án thành file .zip để nộp bài / bàn giao.
-
-    python scripts/package_release.py --profile submission
-    python scripts/package_release.py --profile code
-    python scripts/package_release.py --profile full
-    python scripts/package_release.py --profile submission --dry-run
-
-Vì sao cần script này
----------------------
-Cả repository nặng ~2.0 GB, gần như toàn bộ nằm ở checkpoint (1.6 GB) và dữ
-liệu đã xử lý (284 MB). Không thể nộp nguyên trạng, nhưng cũng không nên xoá
-bừa: người chấm cần đủ thứ để kiểm chứng kết quả.
-
-Ba profile
-----------
-``code`` (~6 MB)
-    Toàn bộ mã nguồn, notebook (kèm output đã chạy), config, test và **mọi
-    báo cáo** trong ``outputs/data``, ``outputs/experiments``,
-    ``outputs/evaluation``, ``outputs/figures``. Không có dữ liệu, không có
-    trọng số model. Người nhận vẫn đọc được mọi con số và biểu đồ, và có thể
-    tái tạo dữ liệu bằng một lệnh.
-
-``submission`` (~520 MB, MẶC ĐỊNH)
-    Như ``code``, cộng thêm **checkpoint của model thắng cuộc** (đọc từ
-    ``model_selection.json``, không hardcode). Người nhận chạy được inference
-    và Streamlit UI ngay mà không cần huấn luyện lại.
-
-``full`` (~2.0 GB)
-    Thêm cả 4 checkpoint và dữ liệu đã xử lý. Dùng cho lưu trữ nội bộ.
-
-Script luôn ghi kèm ``PACKAGE_MANIFEST.json`` vào trong zip: profile, danh sách
-file, kích thước, winner, và hash dữ liệu — để bên nhận biết chính xác họ đang
-cầm thứ gì.
-"""
+"""Đóng gói dự án thành file .zip """
 
 from __future__ import annotations
 
@@ -51,7 +18,6 @@ from src.utils.logging_utils import get_logger, section
 
 logger = get_logger("package_release")
 
-
 ALWAYS_EXCLUDE = [
     ".git/*", ".git",
     ".venv/*", "venv/*", "env/*",
@@ -67,14 +33,12 @@ ALWAYS_EXCLUDE = [
     ".DS_Store", "Thumbs.db", "desktop.ini",
 ]
 
-
 REPORT_DIRS = [
     "outputs/data",
     "outputs/experiments",
     "outputs/evaluation",
     "outputs/figures",
 ]
-
 
 CODE_PATTERNS = [
     "README.md", "PROJECT_AUDIT.md", "JOINTCAPPUNC_LICENSE.txt",
@@ -85,7 +49,6 @@ CODE_PATTERNS = [
     "outputs/confusion_matrix.png", "outputs/error_analysis.csv",
     "outputs/predictions.csv", "outputs/asr_evaluation_status.md",
 ]
-
 
 def matches(rel: str, patterns: List[str]) -> bool:
     rel_posix = rel.replace("\\", "/")
@@ -98,7 +61,6 @@ def matches(rel: str, patterns: List[str]) -> bool:
         if pattern.endswith("/*") and rel_posix.startswith(pattern[:-2] + "/"):
             return True
     return False
-
 
 def winner_checkpoint_dir() -> Tuple[Optional[str], Optional[str]]:
     """Trả về (experiment_id, đường dẫn tương đối) của winner, nếu đã khoá."""
@@ -113,7 +75,6 @@ def winner_checkpoint_dir() -> Tuple[Optional[str], Optional[str]]:
     if not winner:
         return None, None
     return winner, blob.get("checkpoint_path") or f"outputs/checkpoints/{winner}"
-
 
 def collect_files(profile: str) -> Tuple[List[Path], Dict[str, Any]]:
     """Chọn file theo profile. Trả về (danh sách file, thông tin profile)."""
@@ -160,7 +121,6 @@ def collect_files(profile: str) -> Tuple[List[Path], Dict[str, Any]]:
         files.append(path)
 
     return files, info
-
 
 def build_manifest(profile: str, files: List[Path], info: Dict[str, Any]) -> Dict[str, Any]:
     total = sum(f.stat().st_size for f in files)
@@ -231,7 +191,6 @@ def build_manifest(profile: str, files: List[Path], info: Dict[str, Any]) -> Dic
     ]
     return manifest
 
-
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -293,7 +252,6 @@ def main(argv: Optional[List[str]] = None) -> int:
             "  sau khi cài requirements."
         )
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

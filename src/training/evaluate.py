@@ -1,9 +1,3 @@
-"""Command-line evaluation wrapper for saved checkpoints.
-
-The canonical evaluation implementation lives in ``src.evaluation``. This file
-can recompute metrics from any saved checkpoint.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -20,9 +14,7 @@ from src.evaluation.loaders import build_eval_dataloader
 from src.models.factory import load_model_from_checkpoint
 from src.utils.io import project_relative_path, write_json
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-
 
 def evaluate_saved_checkpoint(
     checkpoint_dir: str | Path,
@@ -32,7 +24,6 @@ def evaluate_saved_checkpoint(
     limit: Optional[int] = None,
     device: Optional[torch.device] = None,
 ) -> Dict[str, Any]:
-    """Load a checkpoint, evaluate a split, and include throughput numbers."""
     checkpoint_dir = Path(checkpoint_dir)
     split_file = Path(split_file)
     device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -77,7 +68,6 @@ def evaluate_saved_checkpoint(
         "metrics": metrics,
     }
 
-
 def main() -> int:
     parser = argparse.ArgumentParser(description="Evaluate a saved checkpoint.")
     parser.add_argument("--checkpoint", required=True, help="Checkpoint directory.")
@@ -101,7 +91,6 @@ def main() -> int:
         write_json(args.output, report)
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

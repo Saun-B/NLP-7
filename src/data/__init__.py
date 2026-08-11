@@ -1,11 +1,3 @@
-"""Data pipeline: parse, normalize, chunk, deduplicate and validate.
-
-Import order note: :mod:`src.data.dataset` needs PyTorch, so it is *not*
-re-exported here. The data pipeline itself must run on a machine without the
-deep-learning stack installed; import ``src.data.dataset`` explicitly when you
-need the torch datasets.
-"""
-
 from src.data import constants
 from src.data.chunking import (
     Chunk,

@@ -1,27 +1,3 @@
-"""Post-hoc validation of the processed dataset.
-
-The pipeline writes ``data/processed/*.jsonl``; this module then re-reads those
-files from disk and tries to break them. Checking the *written artifact* rather
-than the in-memory objects is deliberate — it catches serialisation bugs too.
-
-Severity model
---------------
-``ERROR``
-    A hard invariant is broken (missing file, bad schema, duplicate id,
-    length mismatch, id overlap between splits, a split missing a punctuation
-    class …). Any error makes the report ``passed = false`` and the pipeline
-    exits non-zero.
-
-``WARNING``
-    Something a human should look at but that does not invalidate the dataset.
-    The most important one is **cross-split text overlap**: JointCapPunc is a
-    large crawled corpus, so short generic utterances ("vâng ạ.", "cảm ơn bác
-    sĩ.") legitimately appear in more than one official split. We report the
-    exact count and show examples, but we do **not** delete or move rows —
-    the official split has to stay intact, and silently "fixing" leakage would
-    change the benchmark.
-"""
-
 from __future__ import annotations
 
 from collections import Counter
@@ -44,16 +20,11 @@ from src.utils.io import iter_jsonl, project_relative_path
 from src.utils.logging_utils import get_logger
 
 logger = get_logger(__name__)
-
 PathLike = Union[str, Path]
 
 ERROR = "ERROR"
 WARNING = "WARNING"
-
-
-
 OVERLAP_WARN_RATIO = 0.02
-
 
 @dataclass
 class Issue:
@@ -70,13 +41,11 @@ class Issue:
             "details": self.details,
         }
 
-
 class ValidationReport:
     def __init__(self) -> None:
         self.issues: List[Issue] = []
         self.checks: List[Dict[str, Any]] = []
         self.split_summary: Dict[str, Any] = {}
-
 
     def error(self, code: str, message: str, **details: Any) -> None:
         self.issues.append(Issue(ERROR, code, message, details))
@@ -89,7 +58,6 @@ class ValidationReport:
     def check(self, name: str, passed: bool, **details: Any) -> bool:
         self.checks.append({"check": name, "passed": bool(passed), **details})
         return passed
-
 
     @property
     def errors(self) -> List[Issue]:
@@ -124,10 +92,6 @@ class ValidationReport:
             lines.append(f"  … {len(self.issues) - 40} more")
         return "\n".join(lines)
 
-
-
-
-
 def _validate_split_file(
     report: ValidationReport,
     split: str,
@@ -136,7 +100,6 @@ def _validate_split_file(
     max_words: int,
     max_schema_errors: int,
 ) -> Dict[str, Any]:
-    """Schema + invariant checks for one split. Returns per-split facts."""
     path = Path(path)
     facts: Dict[str, Any] = {
         "path": project_relative_path(path),
@@ -217,7 +180,6 @@ def _validate_split_file(
         }
     )
 
-
     report.check(f"{split}.file_exists", True, path=project_relative_path(path))
 
     if n == 0:
@@ -265,10 +227,6 @@ def _validate_split_file(
     )
 
     return facts
-
-
-
-
 
 def _validate_cross_split(report: ValidationReport, facts: Dict[str, Dict[str, Any]]) -> None:
     pairs = [("train", "validation"), ("train", "test"), ("validation", "test")]
@@ -327,10 +285,6 @@ def _validate_cross_split(report: ValidationReport, facts: Dict[str, Dict[str, A
             severity="warning-only",
         )
 
-
-
-
-
 def _validate_all_labeled(
     report: ValidationReport,
     all_labeled_path: PathLike,
@@ -372,10 +326,6 @@ def _validate_all_labeled(
         num_rows=n,
         per_split=dict(per_split),
     )
-
-
-
-
 
 def validate_processed_data(
     files: Optional[Dict[str, PathLike]] = None,

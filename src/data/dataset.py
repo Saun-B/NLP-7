@@ -1,25 +1,3 @@
-"""Torch datasets: word-level vocabulary (E1) and PhoBERT alignment (E2–E4).
-
-The two model families need different views of the same JSONL rows:
-
-**BiLSTM (E1)** consumes lexical words directly. A ``Vocabulary`` built
-**from train only** maps word → id, with ``<PAD>=0`` and ``<UNK>=1`` reserved.
-Padding positions get ``labels = IGNORE_INDEX`` so the loss ignores them.
-
-**PhoBERT (E2–E4)** consumes BPE subwords. One lexical word can become several
-subwords, but the punctuation belongs *after the whole word*, so the gold label
-is placed on the **last subword** of the word and every other position
-(non-final subwords, ``<s>``, ``</s>``, padding) is ``IGNORE_INDEX``. That
-gives the invariant this project depends on:
-
-    every lexical word is supervised exactly once, and no word is dropped.
-
-Sequences longer than ``max_length`` subwords are **split into several
-windows at word boundaries** — never truncated. A word therefore lands in
-exactly one window, so pooling predictions over all windows reconstructs the
-full word-level prediction sequence.
-"""
-
 from __future__ import annotations
 
 import math
@@ -60,23 +38,9 @@ __all__ = [
     "collate_phobert",
 ]
 
-
-
-
-
 def load_examples(
     path: PathLike, *, limit: Optional[int] = None, intern_tokens: bool = True
 ) -> List[Example]:
-    """Read a processed JSONL split into :class:`~src.data.schema.Example` objects.
-
-    ``limit`` truncates the split — used only by smoke tests, never for a real
-    training run (the notebooks pass ``limit=None``).
-
-    ``intern_tokens`` deduplicates token strings. ``json.loads`` allocates a
-    fresh ``str`` for every occurrence, so a 4.9M-token split would hold 4.9M
-    string objects; the corpus only has ~31k distinct words, and interning
-    collapses those hundreds of megabytes to a few.
-    """
     import sys as _sys
 
     intern = _sys.intern if intern_tokens else (lambda s: s)
@@ -94,18 +58,7 @@ def load_examples(
     logger.info("Loaded %d examples from %s", len(out), Path(path).name)
     return out
 
-
-
-
-
 class Vocabulary:
-    """Word → id mapping for the BiLSTM.
-
-    Built **from the training split only**: letting validation words into the
-    vocabulary would be a (small but real) form of leakage, and would also make
-    validation look easier than deployment.
-    """
-
     def __init__(self, itos: Sequence[str], min_freq: int = 1, source_split: str = "train"):
         self.itos: List[str] = list(itos)
         self.stoi: Dict[str, int] = {tok: i for i, tok in enumerate(self.itos)}
@@ -116,7 +69,6 @@ class Vocabulary:
                 f"Reserved slots wrong: expected {PAD_TOKEN!r} at {PAD_ID} and "
                 f"{UNK_TOKEN!r} at {UNK_ID}, got {self.itos[:2]!r}"
             )
-
 
     @classmethod
     def build(
@@ -130,7 +82,6 @@ class Vocabulary:
         counter: Counter[str] = Counter()
         for ex in examples:
             counter.update(ex.tokens)
-
 
         candidates = [tok for tok, c in counter.items() if c >= min_freq]
         candidates.sort(key=lambda t: (-counter[t], t))
@@ -147,7 +98,6 @@ class Vocabulary:
             len(counter),
         )
         return vocab
-
 
     def __len__(self) -> int:
         return len(self.itos)
@@ -174,7 +124,6 @@ class Vocabulary:
                     unk += 1
         return unk / total if total else 0.0
 
-
     def save(self, path: PathLike) -> Path:
         return write_json(
             path,
@@ -197,9 +146,7 @@ class Vocabulary:
             source_split=blob.get("source_split", "train"),
         )
 
-
 class BiLSTMDataset(Dataset):
-    """Word-id sequences + label-id sequences for the BiLSTM."""
 
     def __init__(self, examples: Sequence[Example], vocab: Vocabulary):
         self.examples = list(examples)
@@ -218,7 +165,6 @@ class BiLSTMDataset(Dataset):
             "example_id": ex.id,
             "index": idx,
         }
-
 
 def collate_bilstm(
     batch: Sequence[Dict[str, Any]],
@@ -250,14 +196,8 @@ def collate_bilstm(
         "example_ids": [item["example_id"] for item in batch],
     }
 
-
-
-
-
 @dataclass
 class SubwordWindow:
-    """One PhoBERT input window covering a contiguous range of lexical words."""
-
     input_ids: List[int]
     attention_mask: List[int]
     labels: List[int]
@@ -286,20 +226,6 @@ def align_words_to_subwords(
     ignore_index: int = IGNORE_INDEX,
     example_id: str = "",
 ) -> List[SubwordWindow]:
-    """Lay lexical words out into ``<s> … </s>`` windows of ``<= max_length``.
-
-    * The label of word *j* is written at the position of its **last** subword.
-    * Every other position — non-final subwords, ``<s>``, ``</s>`` — is
-      ``ignore_index``, so ``CrossEntropyLoss`` supervises each word once.
-    * When the words do not fit in one window, the sequence is **split at a
-      word boundary** into consecutive windows. No word is ever dropped and no
-      word is split across two windows.
-    * Degenerate case: a single word whose subword count exceeds the window
-      capacity is truncated to the capacity (its last kept subword carries the
-      label). This cannot happen with PhoBERT on this corpus — a Vietnamese
-      syllable is 1–3 BPE pieces — but the branch exists so the invariant
-      "no word is dropped" holds unconditionally.
-    """
     if len(word_subword_ids) != len(label_ids):
         raise ValueError(
             f"len(word_subword_ids)={len(word_subword_ids)} != len(label_ids)={len(label_ids)}"
@@ -368,7 +294,6 @@ def align_words_to_subwords(
 
     flush()
 
-
     supervised = [w for win in windows for w in win.word_index if w >= 0]
     if supervised != list(range(len(word_subword_ids))):
         raise AssertionError(
@@ -379,12 +304,6 @@ def align_words_to_subwords(
 
 
 class PhoBERTEncoder:
-    """Tokenizer wrapper that memoises word → subword-id lookups.
-
-    The corpus has ~31k distinct words spread over millions of tokens, so
-    caching turns tokenisation from the dominant cost into a dict lookup.
-    """
-
     def __init__(self, tokenizer, *, max_length: int = PHOBERT_MAX_LENGTH):
         self.tokenizer = tokenizer
         self.max_length = max_length
@@ -423,13 +342,6 @@ class PhoBERTEncoder:
     def encode_words(
         self, words: Sequence[str], *, example_id: str = "inference"
     ) -> List[SubwordWindow]:
-        """Encode unlabelled words for inference.
-
-        Same windowing as training, so text of any length is split at word
-        boundaries instead of being truncated. ``labels`` come back as
-        ``IGNORE_INDEX`` placeholders — at inference we only need
-        ``word_index`` to map each supervised position back to its word.
-        """
         if not words:
             return []
         word_ids = [list(self.word_to_ids(w)) for w in words]
@@ -449,7 +361,6 @@ class PhoBERTEncoder:
     @property
     def cache_size(self) -> int:
         return len(self._cache)
-
 
 @dataclass
 class PhoBERTDatasetStats:
@@ -478,20 +389,7 @@ class PhoBERTDatasetStats:
             "max_window_length": self.max_window_length,
         }
 
-
 class PhoBERTDataset(Dataset):
-    """Pre-encoded PhoBERT windows.
-
-    One dataset item = one window. Encoding happens once in ``__init__`` (fast
-    thanks to :class:`PhoBERTEncoder`'s cache) so the training loop never pays
-    tokenisation cost.
-
-    Windows are stored as compact NumPy arrays rather than Python lists: the
-    train split is ~5.4M subword positions, which as boxed Python ints would
-    cost several hundred megabytes. ``int32``/``int16`` arrays bring that down
-    to a few tens of MB.
-    """
-
     def __init__(
         self,
         examples: Sequence[Example],
@@ -546,7 +444,6 @@ class PhoBERTDataset(Dataset):
             "window_index": self._window_indices[idx],
         }
 
-
 def collate_phobert(
     batch: Sequence[Dict[str, Any]],
     *,
@@ -554,11 +451,6 @@ def collate_phobert(
     ignore_index: int = IGNORE_INDEX,
     pad_to_multiple_of: Optional[int] = 8,
 ) -> Dict[str, Any]:
-    """Right-pad a batch of windows.
-
-    ``pad_to_multiple_of=8`` keeps sequence lengths tensor-core friendly under
-    fp16 on the GPU; it costs a handful of ignored positions.
-    """
     max_len = max(int(item["length"]) for item in batch)
     if pad_to_multiple_of:
         max_len = int(math.ceil(max_len / pad_to_multiple_of) * pad_to_multiple_of)
