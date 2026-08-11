@@ -1,0 +1,60 @@
+experiment:
+  id: E1
+  name: BiLSTM baseline
+  description: >
+    Word-level BiLSTM tagger trained from scratch on the JointCapPunc train
+    split. Vocabulary is built from train only. Unweighted CrossEntropyLoss.
+
+model:
+  type: bilstm
+  embedding_dim: 128
+  hidden_size: 128
+  num_layers: 1
+  dropout: 0.30
+  num_labels: 4
+
+data:
+  train_file: data/processed/train.jsonl
+  validation_file: data/processed/validation.jsonl
+
+  max_words: 150
+  vocab_min_freq: 1
+  vocab_max_size: null
+
+loss:
+  type: cross_entropy
+  weight_mode: none
+  ignore_index: -100
+
+optimizer:
+  name: adamw
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  no_decay_on_bias_and_layernorm: false
+
+scheduler:
+  name: reduce_on_plateau
+  mode: max
+  factor: 0.5
+  patience: 1
+  min_lr: 1.0e-6
+
+training:
+  epochs: 12
+  train_batch_size: 128
+  eval_batch_size: 256
+  gradient_accumulation_steps: 1
+  max_grad_norm: 1.0
+  seed: 42
+  num_workers: 0
+  fp16: false
+  deterministic: false
+  monitor_metric: punctuation_macro_f1
+  early_stopping_patience: null
+  log_every_n_steps: 100
+
+paths:
+  checkpoint_dir: outputs/checkpoints/E1
+  experiment_dir: outputs/experiments/E1

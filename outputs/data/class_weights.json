@@ -1,0 +1,64 @@
+{
+  "source_split": "train",
+  "note": "Weights are computed from the TRAIN split only. Using validation or test counts here would leak evaluation information into the loss.",
+  "num_classes": 4,
+  "total_train_tokens": 4940478,
+  "label_order": [
+    "O",
+    "COMMA",
+    "PERIOD",
+    "QUESTION"
+  ],
+  "counts": {
+    "O": 4500812,
+    "COMMA": 228032,
+    "PERIOD": 184186,
+    "QUESTION": 27448
+  },
+  "frequencies": {
+    "O": 0.911007396450303,
+    "COMMA": 0.04615585779351714,
+    "PERIOD": 0.03728100803201634,
+    "QUESTION": 0.005555737724163533
+  },
+  "formulas": {
+    "inverse": "w_c = total_train_tokens / (num_classes * count_c)",
+    "sqrt_inverse": "w_c = sqrt(inverse_weight_c)"
+  },
+  "inverse": {
+    "O": 0.2744214821681066,
+    "COMMA": 5.416430588689307,
+    "PERIOD": 6.705827261572541,
+    "QUESTION": 44.99852448265812
+  },
+  "sqrt_inverse": {
+    "O": 0.5238525385717879,
+    "COMMA": 2.3273226223902235,
+    "PERIOD": 2.5895612102386267,
+    "QUESTION": 6.708093953028544
+  },
+  "none": {
+    "O": 1.0,
+    "COMMA": 1.0,
+    "PERIOD": 1.0,
+    "QUESTION": 1.0
+  },
+  "inverse_vector": [
+    0.2744214821681066,
+    5.416430588689307,
+    6.705827261572541,
+    44.99852448265812
+  ],
+  "sqrt_inverse_vector": [
+    0.5238525385717879,
+    2.3273226223902235,
+    2.5895612102386267,
+    6.708093953028544
+  ],
+  "none_vector": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ]
+}

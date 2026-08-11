@@ -1,0 +1,256 @@
+{
+  "passed": true,
+  "num_errors": 0,
+  "num_warnings": 3,
+  "checks": [
+    {
+      "check": "train.file_exists",
+      "passed": true,
+      "path": "data/processed/train.jsonl"
+    },
+    {
+      "check": "train.non_empty",
+      "passed": true,
+      "num_examples": 38066
+    },
+    {
+      "check": "train.schema_valid",
+      "passed": true,
+      "num_bad_rows": 0
+    },
+    {
+      "check": "train.unique_ids",
+      "passed": true,
+      "num_duplicates": 0
+    },
+    {
+      "check": "train.max_length_ok",
+      "passed": true,
+      "max_length": 150
+    },
+    {
+      "check": "train.all_punctuation_classes_present",
+      "passed": true,
+      "missing": []
+    },
+    {
+      "check": "validation.file_exists",
+      "passed": true,
+      "path": "data/processed/validation.jsonl"
+    },
+    {
+      "check": "validation.non_empty",
+      "passed": true,
+      "num_examples": 15227
+    },
+    {
+      "check": "validation.schema_valid",
+      "passed": true,
+      "num_bad_rows": 0
+    },
+    {
+      "check": "validation.unique_ids",
+      "passed": true,
+      "num_duplicates": 0
+    },
+    {
+      "check": "validation.max_length_ok",
+      "passed": true,
+      "max_length": 150
+    },
+    {
+      "check": "validation.all_punctuation_classes_present",
+      "passed": true,
+      "missing": []
+    },
+    {
+      "check": "test.file_exists",
+      "passed": true,
+      "path": "data/processed/test.jsonl"
+    },
+    {
+      "check": "test.non_empty",
+      "passed": true,
+      "num_examples": 22832
+    },
+    {
+      "check": "test.schema_valid",
+      "passed": true,
+      "num_bad_rows": 0
+    },
+    {
+      "check": "test.unique_ids",
+      "passed": true,
+      "num_duplicates": 0
+    },
+    {
+      "check": "test.max_length_ok",
+      "passed": true,
+      "max_length": 150
+    },
+    {
+      "check": "test.all_punctuation_classes_present",
+      "passed": true,
+      "missing": []
+    },
+    {
+      "check": "train_vs_validation.no_id_overlap",
+      "passed": true,
+      "num_shared": 0
+    },
+    {
+      "check": "train_vs_validation.no_source_id_overlap",
+      "passed": true,
+      "num_shared": 0
+    },
+    {
+      "check": "train_vs_validation.text_overlap_measured",
+      "passed": true,
+      "num_shared_texts": 53,
+      "overlap_ratio": 0.003481,
+      "severity": "warning-only"
+    },
+    {
+      "check": "train_vs_test.no_id_overlap",
+      "passed": true,
+      "num_shared": 0
+    },
+    {
+      "check": "train_vs_test.no_source_id_overlap",
+      "passed": true,
+      "num_shared": 0
+    },
+    {
+      "check": "train_vs_test.text_overlap_measured",
+      "passed": true,
+      "num_shared_texts": 73,
+      "overlap_ratio": 0.003197,
+      "severity": "warning-only"
+    },
+    {
+      "check": "validation_vs_test.no_id_overlap",
+      "passed": true,
+      "num_shared": 0
+    },
+    {
+      "check": "validation_vs_test.no_source_id_overlap",
+      "passed": true,
+      "num_shared": 0
+    },
+    {
+      "check": "validation_vs_test.text_overlap_measured",
+      "passed": true,
+      "num_shared_texts": 52,
+      "overlap_ratio": 0.003415,
+      "severity": "warning-only"
+    },
+    {
+      "check": "all_labeled.consistent_with_splits",
+      "passed": true,
+      "num_rows": 76125,
+      "per_split": {
+        "train": 38066,
+        "validation": 15227,
+        "test": 22832
+      }
+    }
+  ],
+  "splits": {
+    "train": {
+      "path": "data/processed/train.jsonl",
+      "exists": true,
+      "num_examples": 38066,
+      "num_tokens": 4940478,
+      "label_counts": {
+        "O": 4500812,
+        "COMMA": 228032,
+        "PERIOD": 184186,
+        "QUESTION": 27448
+      },
+      "max_length": 150,
+      "min_length": 1,
+      "ids": 0,
+      "num_unique_ids": 38066,
+      "num_duplicate_ids": 0,
+      "num_source_segments": 37627,
+      "num_schema_errors": 0
+    },
+    "validation": {
+      "path": "data/processed/validation.jsonl",
+      "exists": true,
+      "num_examples": 15227,
+      "num_tokens": 1977406,
+      "label_counts": {
+        "O": 1800593,
+        "COMMA": 91818,
+        "PERIOD": 74008,
+        "QUESTION": 10987
+      },
+      "max_length": 150,
+      "min_length": 1,
+      "ids": 0,
+      "num_unique_ids": 15227,
+      "num_duplicate_ids": 0,
+      "num_source_segments": 15066,
+      "num_schema_errors": 0
+    },
+    "test": {
+      "path": "data/processed/test.jsonl",
+      "exists": true,
+      "num_examples": 22832,
+      "num_tokens": 2968815,
+      "label_counts": {
+        "O": 2702879,
+        "COMMA": 137612,
+        "PERIOD": 111606,
+        "QUESTION": 16718
+      },
+      "max_length": 150,
+      "min_length": 1,
+      "ids": 0,
+      "num_unique_ids": 22832,
+      "num_duplicate_ids": 0,
+      "num_source_segments": 22582,
+      "num_schema_errors": 0
+    }
+  },
+  "issues": [
+    {
+      "severity": "WARNING",
+      "code": "TEXT_OVERLAP",
+      "message": "train/validation: 53 identical normalized example text(s) (0.3481% of the smaller split). The official JointCapPunc split is preserved as-is; overlapping rows are reported, not removed.",
+      "details": {
+        "split_a": "train",
+        "split_b": "validation",
+        "num_shared_texts": 53,
+        "overlap_ratio": 0.003481,
+        "exceeds_threshold": false
+      }
+    },
+    {
+      "severity": "WARNING",
+      "code": "TEXT_OVERLAP",
+      "message": "train/test: 73 identical normalized example text(s) (0.3197% of the smaller split). The official JointCapPunc split is preserved as-is; overlapping rows are reported, not removed.",
+      "details": {
+        "split_a": "train",
+        "split_b": "test",
+        "num_shared_texts": 73,
+        "overlap_ratio": 0.003197,
+        "exceeds_threshold": false
+      }
+    },
+    {
+      "severity": "WARNING",
+      "code": "TEXT_OVERLAP",
+      "message": "validation/test: 52 identical normalized example text(s) (0.3415% of the smaller split). The official JointCapPunc split is preserved as-is; overlapping rows are reported, not removed.",
+      "details": {
+        "split_a": "validation",
+        "split_b": "test",
+        "num_shared_texts": 52,
+        "overlap_ratio": 0.003415,
+        "exceeds_threshold": false
+      }
+    }
+  ],
+  "strict_overlap_mode": false
+}

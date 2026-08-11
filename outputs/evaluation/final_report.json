@@ -1,0 +1,179 @@
+{
+  "project": "Vietnamese Punctuation Restoration",
+  "generated_at_utc": "2026-08-09T23:01:27.029148+00:00",
+  "task": "word-level punctuation restoration (O / COMMA / PERIOD / QUESTION)",
+  "dataset": {
+    "name": "JointCapPunc",
+    "url": "https://github.com/ductho9799/JointCapPunc.git",
+    "commit": "ee258cae0e95e64245428d59ebbb030280fcebec",
+    "license": "Apache-2.0",
+    "official_split_preserved": true,
+    "hashes": {
+      "train": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+      "validation": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+      "test": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+      "all_labeled": "e077f98640acbe7f25a962b330612d9206e47022334171fdb3aea275950bf372"
+    }
+  },
+  "experiments": [
+    {
+      "experiment_id": "E2",
+      "model": "vinai/phobert-base-v2",
+      "weight_mode": "none",
+      "best_epoch": 5,
+      "validation_punctuation_macro_f1": 0.778718,
+      "validation_accuracy": 0.966725,
+      "validation_macro_f1": 0.830614,
+      "validation_loss_unweighted": 0.090323
+    },
+    {
+      "experiment_id": "E4",
+      "model": "vinai/phobert-base-v2",
+      "weight_mode": "sqrt_inverse",
+      "best_epoch": 5,
+      "validation_punctuation_macro_f1": 0.745676,
+      "validation_accuracy": 0.957236,
+      "validation_macro_f1": 0.804645,
+      "validation_loss_unweighted": 0.114305
+    },
+    {
+      "experiment_id": "E3",
+      "model": "vinai/phobert-base-v2",
+      "weight_mode": "inverse",
+      "best_epoch": 5,
+      "validation_punctuation_macro_f1": 0.695324,
+      "validation_accuracy": 0.935833,
+      "validation_macro_f1": 0.763878,
+      "validation_loss_unweighted": 0.18598
+    },
+    {
+      "experiment_id": "E1",
+      "model": "BiLSTM(emb=128, hidden=128x2)",
+      "weight_mode": "none",
+      "best_epoch": 11,
+      "validation_punctuation_macro_f1": 0.628241,
+      "validation_accuracy": 0.944757,
+      "validation_macro_f1": 0.714699,
+      "validation_loss_unweighted": 0.158479
+    }
+  ],
+  "selection": {
+    "split": "validation",
+    "metric": "punctuation_macro_f1",
+    "tie_breaker": "unweighted_validation_loss",
+    "winner": "E2",
+    "winner_locked": true,
+    "test_was_used_for_selection": false,
+    "margin_over_runner_up": 0.03304147981826966,
+    "runner_up": "E4"
+  },
+  "winner": {
+    "experiment_id": "E2",
+    "model": "vinai/phobert-base-v2",
+    "weight_mode": "none",
+    "checkpoint_path": "outputs/checkpoints/E2",
+    "validation_punctuation_macro_f1": 0.7787176875966945
+  },
+  "official_test": {
+    "punctuation_macro_f1": 0.7763224185875327,
+    "accuracy": 0.9662646544159875,
+    "macro_f1": 0.828766617848689,
+    "per_class_f1": {
+      "O": 0.9860992156321577,
+      "COMMA": 0.7226213252536683,
+      "PERIOD": 0.8091306203067882,
+      "QUESTION": 0.7972153102021415
+    },
+    "per_class_precision": {
+      "O": 0.9860765970293041,
+      "COMMA": 0.7407246310455871,
+      "PERIOD": 0.7947579007405999,
+      "QUESTION": 0.7484382382277285
+    },
+    "per_class_recall": {
+      "O": 0.9861218352726852,
+      "COMMA": 0.705381798099003,
+      "PERIOD": 0.8240327580954429,
+      "QUESTION": 0.852793396339275
+    },
+    "num_words": 2968815,
+    "evaluation_runs": 1
+  },
+  "error_analysis_summary": {
+    "analyzed_examples": 4000,
+    "error_rate": 0.03380898844013953,
+    "top_confusions": [
+      {
+        "gold": "COMMA",
+        "predicted": "O",
+        "count": 4844
+      },
+      {
+        "gold": "O",
+        "predicted": "COMMA",
+        "count": 4342
+      },
+      {
+        "gold": "COMMA",
+        "predicted": "PERIOD",
+        "count": 2134
+      },
+      {
+        "gold": "O",
+        "predicted": "PERIOD",
+        "count": 1967
+      },
+      {
+        "gold": "PERIOD",
+        "predicted": "COMMA",
+        "count": 1567
+      },
+      {
+        "gold": "PERIOD",
+        "predicted": "O",
+        "count": 1466
+      },
+      {
+        "gold": "O",
+        "predicted": "QUESTION",
+        "count": 343
+      },
+      {
+        "gold": "PERIOD",
+        "predicted": "QUESTION",
+        "count": 327
+      }
+    ]
+  },
+  "training_verification_passed": true,
+  "environment": {
+    "captured_at_utc": "2026-08-09T23:01:27+00:00",
+    "python_version": "3.13.2",
+    "python_implementation": "CPython",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "executable": "python.exe",
+    "numpy_version": "2.2.5",
+    "torch_version": "2.13.0+cu126",
+    "cuda_available": true,
+    "cuda_runtime_version": "12.6",
+    "cudnn_version": 91002,
+    "gpu_count": 1,
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_total_memory_gb": 8.0,
+    "gpu_capability": "8.9",
+    "transformers_version": "5.14.1",
+    "tokenizers_version": "0.22.2",
+    "safetensors_version": "0.8.0",
+    "scikit_learn_version": "1.9.0",
+    "pandas_version": "2.2.3"
+  },
+  "limitations": [
+    "Dataset là hội thoại tư vấn y tế tiếng Việt; hiệu năng trên văn bản pháp luật, tin tức hay khẩu ngữ đời thường có thể thấp hơn.",
+    "Chỉ khôi phục 4 nhãn: O, COMMA, PERIOD, QUESTION. Không có dấu chấm than, hai chấm, chấm phẩy, ngoặc kép.",
+    "Viết hoa khi hiển thị là rule-based (đầu câu, sau PERIOD/QUESTION), không phải mô hình capitalization.",
+    "Có ~0.32-0.35% câu trùng text giữa các split — đặc tính của corpus gốc; split chính thức được giữ nguyên chứ không bị chỉnh sửa.",
+    "Chưa tích hợp ASR/audio."
+  ]
+}

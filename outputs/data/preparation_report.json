@@ -1,0 +1,262 @@
+{
+  "generated_at_utc": "2026-08-09T13:17:20+00:00",
+  "config_file": "data.yaml",
+  "max_words_per_example": 150,
+  "boundary_labels": [
+    "PERIOD",
+    "QUESTION"
+  ],
+  "deduplication_enabled": true,
+  "deduplication_key_mode": "text_and_labels",
+  "truncated_for_development": false,
+  "splits": {
+    "train": {
+      "split": "train",
+      "output_file": "data/processed/train.jsonl",
+      "num_examples": 38066,
+      "num_tokens": 4940478,
+      "parse": {
+        "path": "data/raw/JointCapPunc/data/train.txt",
+        "split": "train",
+        "total_lines": 4947885,
+        "blank_lines": 0,
+        "parsed_tokens": 4947885,
+        "dropped_empty_tokens": 0,
+        "documents": 1,
+        "raw_label_counts": {
+          "COMMA": 228495,
+          "O": 4507559,
+          "PERIOD": 184383,
+          "QMARK": 27448
+        },
+        "mapped_label_counts": {
+          "COMMA": 228495,
+          "O": 4507559,
+          "PERIOD": 184383,
+          "QUESTION": 27448
+        },
+        "capitalization_label_counts": {
+          "0": 4591689,
+          "1": 318654,
+          "2": 37542
+        },
+        "num_errors": 0,
+        "errors": []
+      },
+      "chunking": {
+        "input_tokens": 4947885,
+        "sentences": 211831,
+        "segments": 37688,
+        "chunks": 38129,
+        "hard_cut_chunks": 858,
+        "oversized_sentences": 417,
+        "chunks_ending_at_boundary": 37688
+      },
+      "deduplication": {
+        "split": "train",
+        "key_mode": "text_and_labels",
+        "input_examples": 38129,
+        "kept_examples": 38066,
+        "removed_examples": 63,
+        "removed_ratio": 0.001652,
+        "removed_tokens": 7407,
+        "text_collisions_with_different_labels": 3,
+        "removed_example_ids_sample": [
+          "train_002738",
+          "train_002739",
+          "train_002740",
+          "train_002741",
+          "train_005881",
+          "train_007745",
+          "train_007746",
+          "train_008126",
+          "train_010484",
+          "train_010925",
+          "train_011711",
+          "train_012232",
+          "train_012233",
+          "train_012234",
+          "train_012980",
+          "train_015587",
+          "train_016181",
+          "train_016998",
+          "train_018621",
+          "train_019677",
+          "train_019704",
+          "train_019913",
+          "train_020322",
+          "train_020640",
+          "train_022324"
+        ]
+      },
+      "seconds": 10.33
+    },
+    "validation": {
+      "split": "validation",
+      "output_file": "data/processed/validation.jsonl",
+      "num_examples": 15227,
+      "num_tokens": 1977406,
+      "parse": {
+        "path": "data/raw/JointCapPunc/data/dev.txt",
+        "split": "validation",
+        "total_lines": 1980706,
+        "blank_lines": 0,
+        "parsed_tokens": 1980706,
+        "dropped_empty_tokens": 0,
+        "documents": 1,
+        "raw_label_counts": {
+          "COMMA": 92026,
+          "O": 1803596,
+          "PERIOD": 74097,
+          "QMARK": 10987
+        },
+        "mapped_label_counts": {
+          "COMMA": 92026,
+          "O": 1803596,
+          "PERIOD": 74097,
+          "QUESTION": 10987
+        },
+        "capitalization_label_counts": {
+          "0": 1838902,
+          "1": 127222,
+          "2": 14582
+        },
+        "num_errors": 0,
+        "errors": []
+      },
+      "chunking": {
+        "input_tokens": 1980706,
+        "sentences": 85084,
+        "segments": 15093,
+        "chunks": 15254,
+        "hard_cut_chunks": 317,
+        "oversized_sentences": 156,
+        "chunks_ending_at_boundary": 15093
+      },
+      "deduplication": {
+        "split": "validation",
+        "key_mode": "text_and_labels",
+        "input_examples": 15254,
+        "kept_examples": 15227,
+        "removed_examples": 27,
+        "removed_ratio": 0.00177,
+        "removed_tokens": 3300,
+        "text_collisions_with_different_labels": 2,
+        "removed_example_ids_sample": [
+          "validation_002969",
+          "validation_002970",
+          "validation_003660",
+          "validation_003661",
+          "validation_003810",
+          "validation_004669",
+          "validation_006678",
+          "validation_007382",
+          "validation_007383",
+          "validation_007384",
+          "validation_008249",
+          "validation_008250",
+          "validation_008251",
+          "validation_008679",
+          "validation_009534",
+          "validation_009629",
+          "validation_009849",
+          "validation_009909",
+          "validation_010216",
+          "validation_010617",
+          "validation_011887",
+          "validation_013337",
+          "validation_014082",
+          "validation_015009",
+          "validation_015236"
+        ]
+      },
+      "seconds": 4.06
+    },
+    "test": {
+      "split": "test",
+      "output_file": "data/processed/test.jsonl",
+      "num_examples": 22832,
+      "num_tokens": 2968815,
+      "parse": {
+        "path": "data/raw/JointCapPunc/data/test.txt",
+        "split": "test",
+        "total_lines": 2972806,
+        "blank_lines": 0,
+        "parsed_tokens": 2972806,
+        "dropped_empty_tokens": 0,
+        "documents": 1,
+        "raw_label_counts": {
+          "COMMA": 137865,
+          "O": 2706506,
+          "PERIOD": 111717,
+          "QMARK": 16718
+        },
+        "mapped_label_counts": {
+          "COMMA": 137865,
+          "O": 2706506,
+          "PERIOD": 111717,
+          "QUESTION": 16718
+        },
+        "capitalization_label_counts": {
+          "0": 2757866,
+          "1": 191767,
+          "2": 23173
+        },
+        "num_errors": 0,
+        "errors": []
+      },
+      "chunking": {
+        "input_tokens": 2972806,
+        "sentences": 128435,
+        "segments": 22613,
+        "chunks": 22864,
+        "hard_cut_chunks": 491,
+        "oversized_sentences": 240,
+        "chunks_ending_at_boundary": 22613
+      },
+      "deduplication": {
+        "split": "test",
+        "key_mode": "text_and_labels",
+        "input_examples": 22864,
+        "kept_examples": 22832,
+        "removed_examples": 32,
+        "removed_ratio": 0.0014,
+        "removed_tokens": 3991,
+        "text_collisions_with_different_labels": 1,
+        "removed_example_ids_sample": [
+          "test_005023",
+          "test_005024",
+          "test_009847",
+          "test_009935",
+          "test_009962",
+          "test_012085",
+          "test_012345",
+          "test_012631",
+          "test_012632",
+          "test_012633",
+          "test_012634",
+          "test_012635",
+          "test_012637",
+          "test_012638",
+          "test_012808",
+          "test_013630",
+          "test_013631",
+          "test_016157",
+          "test_017140",
+          "test_018171",
+          "test_018377",
+          "test_018402",
+          "test_018403",
+          "test_019097",
+          "test_019207"
+        ]
+      },
+      "seconds": 6.13
+    }
+  },
+  "all_labeled": {
+    "output_file": "data/processed/all_labeled.jsonl",
+    "num_examples": 76125,
+    "purpose": "audit and statistics only; never used for training"
+  }
+}

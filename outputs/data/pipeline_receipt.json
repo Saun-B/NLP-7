@@ -1,0 +1,27 @@
+{
+  "status": "SUCCESS",
+  "completed_at_utc": "2026-08-09T13:18:03+00:00",
+  "total_seconds": 43.0,
+  "truncated_for_development": false,
+  "artifacts": [
+    "data/processed/train.jsonl",
+    "data/processed/validation.jsonl",
+    "data/processed/test.jsonl",
+    "data/processed/all_labeled.jsonl",
+    "outputs/data/data_source_manifest.json",
+    "outputs/data/preparation_report.json",
+    "outputs/data/validation_report.json",
+    "outputs/data/data_statistics.json",
+    "outputs/data/data_statistics.csv",
+    "outputs/data/class_weights.json",
+    "outputs/data/data_hashes.json",
+    "outputs/data/human_review_samples.csv"
+  ],
+  "processed_files": {
+    "train": "data/processed/train.jsonl",
+    "validation": "data/processed/validation.jsonl",
+    "test": "data/processed/test.jsonl",
+    "all_labeled": "data/processed/all_labeled.jsonl"
+  },
+  "next_step": "Data is ready. Train the four experiments manually, in order: notebooks/01_E1_BiLSTM.ipynb, notebooks/02_E2_PhoBERT_NoWeight.ipynb, notebooks/03_E3_PhoBERT_InverseWeight.ipynb, notebooks/04_E4_PhoBERT_SqrtInverse.ipynb"
+}

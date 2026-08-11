@@ -1,0 +1,23 @@
+{
+  "status": "COMPLETED",
+  "experiment_id": "E1",
+  "model": "BiLSTM(emb=128, hidden=128x2)",
+  "weight_mode": "none",
+  "best_epoch": 11,
+  "best_validation_punctuation_macro_f1": 0.6282411379220462,
+  "checkpoint_path": "outputs/checkpoints/E1",
+  "monitor_metric": "punctuation_macro_f1",
+  "num_epochs_completed": 12,
+  "completed_at_utc": "2026-08-09T14:48:09+00:00",
+  "best_validation_accuracy": 0.9447574246259999,
+  "best_validation_macro_f1_all_classes": 0.7146991206663476,
+  "best_validation_f1_per_class": {
+    "O": 0.9740730688992513,
+    "COMMA": 0.4964364575194483,
+    "PERIOD": 0.6864584163220372,
+    "QUESTION": 0.7018285399246531
+  },
+  "total_training_seconds": 202.6,
+  "evaluated_on": "validation.jsonl (official JointCapPunc dev split)",
+  "test_split_used": false
+}

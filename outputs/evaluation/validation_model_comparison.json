@@ -1,0 +1,73 @@
+{
+  "split": "validation",
+  "selection_metric": "punctuation_macro_f1",
+  "tie_breaker": "unweighted_validation_loss",
+  "test_split_used": false,
+  "note": "validation_loss_unweighted is computed for every model with ONE shared unweighted CrossEntropyLoss so the values are comparable. validation_loss_own_weighting is each experiment's own (weighted) loss and is NOT comparable across experiments.",
+  "rows": [
+    {
+      "rank": 1,
+      "experiment_id": "E2",
+      "model": "vinai/phobert-base-v2",
+      "weight_mode": "none",
+      "best_epoch": 5,
+      "validation_loss_unweighted": 0.090323,
+      "validation_accuracy": 0.966725,
+      "validation_macro_f1": 0.830614,
+      "validation_punctuation_macro_f1": 0.778718,
+      "f1_o": 0.986302,
+      "f1_comma": 0.726973,
+      "f1_period": 0.810835,
+      "f1_question": 0.798345,
+      "validation_loss_own_weighting": 0.09039
+    },
+    {
+      "rank": 2,
+      "experiment_id": "E4",
+      "model": "vinai/phobert-base-v2",
+      "weight_mode": "sqrt_inverse",
+      "best_epoch": 5,
+      "validation_loss_unweighted": 0.114305,
+      "validation_accuracy": 0.957236,
+      "validation_macro_f1": 0.804645,
+      "validation_punctuation_macro_f1": 0.745676,
+      "f1_o": 0.981549,
+      "f1_comma": 0.700309,
+      "f1_period": 0.791063,
+      "f1_question": 0.745657,
+      "validation_loss_own_weighting": 0.204728
+    },
+    {
+      "rank": 3,
+      "experiment_id": "E3",
+      "model": "vinai/phobert-base-v2",
+      "weight_mode": "inverse",
+      "best_epoch": 5,
+      "validation_loss_unweighted": 0.18598,
+      "validation_accuracy": 0.935833,
+      "validation_macro_f1": 0.763878,
+      "validation_punctuation_macro_f1": 0.695324,
+      "f1_o": 0.969542,
+      "f1_comma": 0.612241,
+      "f1_period": 0.758988,
+      "f1_question": 0.714742,
+      "validation_loss_own_weighting": 0.302224
+    },
+    {
+      "rank": 4,
+      "experiment_id": "E1",
+      "model": "BiLSTM(emb=128, hidden=128x2)",
+      "weight_mode": "none",
+      "best_epoch": 11,
+      "validation_loss_unweighted": 0.158479,
+      "validation_accuracy": 0.944757,
+      "validation_macro_f1": 0.714699,
+      "validation_punctuation_macro_f1": 0.628241,
+      "f1_o": 0.974073,
+      "f1_comma": 0.496436,
+      "f1_period": 0.686458,
+      "f1_question": 0.701829,
+      "validation_loss_own_weighting": 0.158479
+    }
+  ]
+}

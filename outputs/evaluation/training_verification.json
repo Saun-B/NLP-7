@@ -1,0 +1,255 @@
+{
+  "generated_at_utc": "2026-08-11T14:57:26+00:00",
+  "passed": true,
+  "num_errors": 0,
+  "num_warnings": 0,
+  "errors": [],
+  "warnings": [],
+  "experiments": [
+    {
+      "experiment_id": "E1",
+      "ok": true,
+      "missing_artifacts": [],
+      "checkpoint_files": [
+        "model.pt"
+      ],
+      "checkpoint_bytes": 17726241,
+      "num_epochs": 12,
+      "history_best_epoch": 11,
+      "history_best_score": 0.628241,
+      "confusion_matrix_total": 1977406,
+      "status": "COMPLETED",
+      "model": "BiLSTM(emb=128, hidden=128x2)",
+      "model_type": "bilstm",
+      "model_revision": null,
+      "weight_mode": "none",
+      "best_epoch": 11,
+      "punctuation_macro_f1": 0.6282411379220462,
+      "accuracy": 0.9447574246259999,
+      "macro_f1": 0.7146991206663476,
+      "own_loss": 0.15847920750578245,
+      "num_evaluated_tokens": 1977406,
+      "seed": 42,
+      "label2id": {
+        "O": 0,
+        "COMMA": 1,
+        "PERIOD": 2,
+        "QUESTION": 3
+      },
+      "train_hash": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+      "validation_hash": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+      "test_hash": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+      "checkpoint_dir": "outputs/checkpoints/E1",
+      "experiment_dir": "outputs/experiments/E1",
+      "total_training_seconds": 202.6,
+      "config_epochs": 12,
+      "has_checkpoint": true
+    },
+    {
+      "experiment_id": "E2",
+      "ok": true,
+      "missing_artifacts": [],
+      "checkpoint_files": [
+        "model.safetensors"
+      ],
+      "checkpoint_bytes": 539705950,
+      "num_epochs": 5,
+      "history_best_epoch": 5,
+      "history_best_score": 0.778718,
+      "confusion_matrix_total": 1977406,
+      "status": "COMPLETED",
+      "model": "vinai/phobert-base-v2",
+      "model_type": "phobert",
+      "model_revision": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f",
+      "weight_mode": "none",
+      "best_epoch": 5,
+      "punctuation_macro_f1": 0.7787176875966945,
+      "accuracy": 0.9667250933799129,
+      "macro_f1": 0.8306138687401703,
+      "own_loss": 0.09038993018676389,
+      "num_evaluated_tokens": 1977406,
+      "seed": 42,
+      "label2id": {
+        "O": 0,
+        "COMMA": 1,
+        "PERIOD": 2,
+        "QUESTION": 3
+      },
+      "train_hash": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+      "validation_hash": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+      "test_hash": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+      "checkpoint_dir": "outputs/checkpoints/E2",
+      "experiment_dir": "outputs/experiments/E2",
+      "total_training_seconds": 2467.0,
+      "config_epochs": 5,
+      "has_checkpoint": true
+    },
+    {
+      "experiment_id": "E3",
+      "ok": true,
+      "missing_artifacts": [],
+      "checkpoint_files": [
+        "model.safetensors"
+      ],
+      "checkpoint_bytes": 539706040,
+      "num_epochs": 5,
+      "history_best_epoch": 5,
+      "history_best_score": 0.695324,
+      "confusion_matrix_total": 1977406,
+      "status": "COMPLETED",
+      "model": "vinai/phobert-base-v2",
+      "model_type": "phobert",
+      "model_revision": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f",
+      "weight_mode": "inverse",
+      "best_epoch": 5,
+      "punctuation_macro_f1": 0.6953238496529216,
+      "accuracy": 0.9358331066053203,
+      "macro_f1": 0.76387838532413,
+      "own_loss": 0.3022237757547267,
+      "num_evaluated_tokens": 1977406,
+      "seed": 42,
+      "label2id": {
+        "O": 0,
+        "COMMA": 1,
+        "PERIOD": 2,
+        "QUESTION": 3
+      },
+      "train_hash": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+      "validation_hash": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+      "test_hash": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+      "checkpoint_dir": "outputs/checkpoints/E3",
+      "experiment_dir": "outputs/experiments/E3",
+      "total_training_seconds": 2465.9,
+      "config_epochs": 5,
+      "has_checkpoint": true
+    },
+    {
+      "experiment_id": "E4",
+      "ok": true,
+      "missing_artifacts": [],
+      "checkpoint_files": [
+        "model.safetensors"
+      ],
+      "checkpoint_bytes": 539706022,
+      "num_epochs": 5,
+      "history_best_epoch": 5,
+      "history_best_score": 0.745676,
+      "confusion_matrix_total": 1977406,
+      "status": "COMPLETED",
+      "model": "vinai/phobert-base-v2",
+      "model_type": "phobert",
+      "model_revision": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f",
+      "weight_mode": "sqrt_inverse",
+      "best_epoch": 5,
+      "punctuation_macro_f1": 0.7456762077784248,
+      "accuracy": 0.957236399606353,
+      "macro_f1": 0.8046445059543296,
+      "own_loss": 0.20472830780835555,
+      "num_evaluated_tokens": 1977406,
+      "seed": 42,
+      "label2id": {
+        "O": 0,
+        "COMMA": 1,
+        "PERIOD": 2,
+        "QUESTION": 3
+      },
+      "train_hash": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+      "validation_hash": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+      "test_hash": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+      "checkpoint_dir": "outputs/checkpoints/E4",
+      "experiment_dir": "outputs/experiments/E4",
+      "total_training_seconds": 20624.5,
+      "config_epochs": 5,
+      "has_checkpoint": true
+    }
+  ],
+  "cross_experiment": {
+    "train_hash": {
+      "consistent": true,
+      "values": {
+        "E1": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+        "E2": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+        "E3": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e",
+        "E4": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e"
+      }
+    },
+    "validation_hash": {
+      "consistent": true,
+      "values": {
+        "E1": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+        "E2": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+        "E3": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad",
+        "E4": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad"
+      }
+    },
+    "test_hash": {
+      "consistent": true,
+      "values": {
+        "E1": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+        "E2": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+        "E3": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1",
+        "E4": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1"
+      }
+    },
+    "seed": {
+      "consistent": true,
+      "values": {
+        "E1": 42,
+        "E2": 42,
+        "E3": 42,
+        "E4": 42
+      }
+    },
+    "num_evaluated_tokens": {
+      "consistent": true,
+      "values": {
+        "E1": 1977406,
+        "E2": 1977406,
+        "E3": 1977406,
+        "E4": 1977406
+      }
+    },
+    "label2id": {
+      "consistent": true,
+      "values": {
+        "E1": {
+          "COMMA": 1,
+          "O": 0,
+          "PERIOD": 2,
+          "QUESTION": 3
+        },
+        "E2": {
+          "COMMA": 1,
+          "O": 0,
+          "PERIOD": 2,
+          "QUESTION": 3
+        },
+        "E3": {
+          "COMMA": 1,
+          "O": 0,
+          "PERIOD": 2,
+          "QUESTION": 3
+        },
+        "E4": {
+          "COMMA": 1,
+          "O": 0,
+          "PERIOD": 2,
+          "QUESTION": 3
+        }
+      }
+    },
+    "phobert_revision": {
+      "consistent": true,
+      "values": {
+        "E2": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f",
+        "E3": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f",
+        "E4": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f"
+      }
+    },
+    "test_used_for_training": {
+      "any": false,
+      "note": "every experiment recorded test_split_used = false"
+    }
+  },
+  "note": "The 'own_loss' field is each experiment's validation loss under ITS OWN loss function (E3 inverse-weighted, E4 sqrt-inverse-weighted). Those values are not comparable across experiments; a comparable unweighted validation loss is computed separately by scripts/compute_unweighted_validation_loss.py."
+}

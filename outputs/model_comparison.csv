@@ -1,0 +1,5 @@
+﻿model,description,weight_mode,f1_comma,f1_period,f1_question,punctuation_macro_f1,accuracy_reference_only,checkpoint_size_mb,timing_note
+E2,PhoBERT,none,0.722621,0.809131,0.797215,0.776322,0.966265,514.7,Only full-test timing for locked winner E2 is stored; use src/training/evaluate.py to benchmark each checkpoint.
+E4,PhoBERT + sqrt-inverse weight,sqrt_inverse,0.697223,0.788731,0.74558,0.743845,0.956761,514.7,Only full-test timing for locked winner E2 is stored; use src/training/evaluate.py to benchmark each checkpoint.
+E3,PhoBERT + inverse weight,inverse,0.610662,0.756901,0.716764,0.694776,0.935458,514.7,Only full-test timing for locked winner E2 is stored; use src/training/evaluate.py to benchmark each checkpoint.
+E1,BiLSTM,none,0.489322,0.683727,0.700838,0.624629,0.944153,16.9,Only full-test timing for locked winner E2 is stored; use src/training/evaluate.py to benchmark each checkpoint.

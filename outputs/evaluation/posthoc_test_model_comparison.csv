@@ -1,0 +1,7 @@
+﻿test_rank,system,type,weight_mode,validation_punct_f1,test_punct_f1,test_accuracy,test_macro_f1,test_f1_o,test_f1_comma,test_f1_period,test_f1_question,is_locked_winner
+1,E2,trained model,none,0.778718,0.776322,0.966265,0.828767,0.986099,0.722621,0.809131,0.797215,True
+2,E4,trained model,sqrt_inverse,0.745676,0.743845,0.956761,0.803218,0.981339,0.697223,0.788731,0.74558,False
+3,E3,trained model,inverse,0.695324,0.694776,0.935458,0.763427,0.969381,0.610662,0.756901,0.716764,False
+4,E1,trained model,none,0.628241,0.624629,0.944153,0.711906,0.973737,0.489322,0.683727,0.700838,False
+5,B1,baseline,-,nan,0.166006,0.831232,0.352572,0.91227,0.086179,0.198948,0.21289,False
+6,B0,baseline,-,nan,0.0,0.910424,0.238278,0.953112,0.0,0.0,0.0,False

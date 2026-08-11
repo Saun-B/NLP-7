@@ -1,0 +1,94 @@
+{
+  "source_artifact": "outputs/evaluation/final_test_results.json",
+  "split": "test",
+  "winner": "E2",
+  "winner_model": "vinai/phobert-base-v2",
+  "selection_was_validation_only": true,
+  "test_used_for_selection": false,
+  "evaluation_runs_on_test": 1,
+  "accuracy_reference_only": 0.9662646544159875,
+  "macro_f1_all_4_classes": 0.828766617848689,
+  "punctuation_macro_f1": 0.7763224185875327,
+  "per_punctuation_label": {
+    "COMMA": {
+      "precision": 0.7407246310455871,
+      "recall": 0.705381798099003,
+      "f1": 0.7226213252536683,
+      "support": 137612.0,
+      "tp": 97069.0,
+      "fp": 33977.0,
+      "fn": 40543.0
+    },
+    "PERIOD": {
+      "precision": 0.7947579007405999,
+      "recall": 0.8240327580954429,
+      "f1": 0.8091306203067882,
+      "support": 111606.0,
+      "tp": 91967.0,
+      "fp": 23750.0,
+      "fn": 19639.0
+    },
+    "QUESTION": {
+      "precision": 0.7484382382277285,
+      "recall": 0.852793396339275,
+      "f1": 0.7972153102021415,
+      "support": 16718.0,
+      "tp": 14257.0,
+      "fp": 4792.0,
+      "fn": 2461.0
+    }
+  },
+  "confusion_matrix": {
+    "labels": [
+      "O",
+      "COMMA",
+      "PERIOD",
+      "QUESTION"
+    ],
+    "rows_are_gold": true,
+    "matrix": [
+      [
+        2665368,
+        24647,
+        10936,
+        1928
+      ],
+      [
+        27483,
+        97069,
+        12034,
+        1026
+      ],
+      [
+        8789,
+        9012,
+        91967,
+        1838
+      ],
+      [
+        1363,
+        318,
+        780,
+        14257
+      ]
+    ]
+  },
+  "timing": {
+    "evaluation_seconds": 38.3,
+    "average_inference_ms_per_example": 1.6774702172389628,
+    "examples_per_second": 596.135770234987,
+    "words_per_second": 77514.75195822454,
+    "note": "Timing is for the locked winner E2 on the full official test split. Post-hoc E1/E3/E4 timing was not stored in the current artifacts."
+  },
+  "asr_evaluation": {
+    "status": "not_available",
+    "reason": "No ASR transcript/audio/reference ASR dataset is present in this repository. The project is text-only; ASR is documented as future work."
+  },
+  "limitations": [
+    "Dataset là hội thoại tư vấn y tế tiếng Việt; hiệu năng trên văn bản pháp luật, tin tức hay khẩu ngữ đời thường có thể thấp hơn.",
+    "Chỉ khôi phục 4 nhãn: O, COMMA, PERIOD, QUESTION. Không có dấu chấm than, hai chấm, chấm phẩy, ngoặc kép.",
+    "Viết hoa khi hiển thị là rule-based (đầu câu, sau PERIOD/QUESTION), không phải mô hình capitalization.",
+    "Có ~0.32-0.35% câu trùng text giữa các split — đặc tính của corpus gốc; split chính thức được giữ nguyên chứ không bị chỉnh sửa.",
+    "Chưa tích hợp ASR/audio."
+  ]
+}

@@ -1,0 +1,61 @@
+﻿example_id,word_index,context,gold_label,predicted_label,is_error
+test_000001,109,"… sách báo thấy mình giống sỏi **thận**[gold=COMMA',' pred=O''] trong khi bs bảo bình thường. …",COMMA,O,True
+test_000002,82,"… đến viêm thận mãn hoặc suy **thận**[gold=COMMA',' pred=O''] gây nguy hiểm và điều trị …",COMMA,O,True
+test_000003,87,"… gối lành lại. trong giai đoạn **này**[gold=COMMA',' pred=O''] bạn cần khám chuyên khoa để …",COMMA,O,True
+test_000004,68,"… hỏi cũng không nói. mặt ngơ **ngác**[gold=COMMA',' pred=O''] khóc, đi qua đi lại. nhưng …",COMMA,O,True
+test_000004,69,"… cũng không nói. mặt ngơ ngác, **khóc**[gold=COMMA',' pred=O''] đi qua đi lại. nhưng sau …",COMMA,O,True
+test_000002,30,"… nhưng nếu bị viêm đường tiết **niệu**[gold=O'' pred=COMMA','] bạn nên đi làm xét nghiệm …",O,COMMA,True
+test_000005,20,"… ích mẫu thì xuống được 40 **ngày**[gold=O'' pred=COMMA','] nhưng dừng thuốc thì lại dài …",O,COMMA,True
+test_000006,127,"… những người có cơ địa dị **ứng**[gold=O'' pred=COMMA','] điều trị hết là khó khăn.",O,COMMA,True
+test_000007,52,"… em tăng cường chế độ dinh **dường**[gold=O'' pred=COMMA','] kết hợp chế độ thể dục …",O,COMMA,True
+test_000008,15,"… bởi 2 cách qua đường hô **hấp**[gold=O'' pred=COMMA','] ngoài ra, bạch hầu có thể …",O,COMMA,True
+test_000001,84,"… trắng đục đục như nước vo **gạo**[gold=COMMA',' pred=PERIOD'.'] sau mỗi lần đi là tôi …",COMMA,PERIOD,True
+test_000002,56,"… niệu để có chuẩn đoán chính **xác**[gold=COMMA',' pred=PERIOD'.'] lúc đó bạn phải điều trị …",COMMA,PERIOD,True
+test_000002,109,"… trái và được kê thuốc nhỏ **mắt**[gold=COMMA',' pred=PERIOD'.'] sau khi nhỏ thuốc cho mắt …",COMMA,PERIOD,True
+test_000002,123,"… 3 ngày thì mắt phải bị **lây**[gold=COMMA',' pred=PERIOD'.'] vậy có dùng thuốc đó để …",COMMA,PERIOD,True
+test_000003,42,"… dẫn của bác sĩ. chào bác **sĩ**[gold=COMMA',' pred=PERIOD'.'] cho tôi hỏi sau khi phẫu …",COMMA,PERIOD,True
+test_000001,68,… địa phương để chứng minh sự **việc**[gold=O'' pred=PERIOD'.'] tôi thỉnh thoảng hay đi tiểu …,O,PERIOD,True
+test_000003,99,… để xác định thời điểm thích **hợp**[gold=O'' pred=PERIOD'.'] có thể tập vật lý trị …,O,PERIOD,True
+test_000006,32,… thuốc mát gan nhưng mãi ko **hết**[gold=O'' pred=PERIOD'.'] vậy xin hỏi bs là tôi …,O,PERIOD,True
+test_000011,13,… thuật và truyền hóa chất 6 **năm**[gold=O'' pred=PERIOD'.'] về nguyên tắc nếu trong quá …,O,PERIOD,True
+test_000013,143,… chậm rụng sau 3 tuần. thân **ái**[gold=O'' pred=PERIOD'.'] chào em.,O,PERIOD,True
+test_000002,65,"… bạn phải điều trị tích cực **ngay**[gold=PERIOD'.' pred=COMMA','] nếu để tình trạng này kéo …",PERIOD,COMMA,True
+test_000004,21,"… đi lại, sinh hoạt nhẹ nhàng **được**[gold=PERIOD'.' pred=COMMA','] với các hoạt động nặng hơn …",PERIOD,COMMA,True
+test_000004,65,"… mình là ai, hỏi cũng không **nói**[gold=PERIOD'.' pred=COMMA','] mặt ngơ ngác, khóc, đi qua …",PERIOD,COMMA,True
+test_000012,110,"… sát trùng lại bằng cồn 90 **độ**[gold=PERIOD'.' pred=COMMA','] nhẹ nhàng tháo băng rốn và …",PERIOD,COMMA,True
+test_000012,118,"… nhàng tháo băng rốn và gạc **rốn**[gold=PERIOD'.' pred=COMMA','] quan sát mặt cắt rốn và …",PERIOD,COMMA,True
+test_000001,17,… đó chích 2 mũi vaccine covid **rồi**[gold=PERIOD'.' pred=O''] nhunge k có giấy tờ chứng …,PERIOD,O,True
+test_000004,42,… bạn nhé. thân mến. bác sĩ **ơi**[gold=PERIOD'.' pred=O''] cháu nhà em thường có biểu …,PERIOD,O,True
+test_000004,73,"… ngơ ngác, khóc, đi qua đi **lại**[gold=PERIOD'.' pred=O''] nhưng sau khi đi tiểu xong …",PERIOD,O,True
+test_000014,38,"… phẩm dễ tiêu sau mổ ruột **thừa**[gold=PERIOD'.' pred=O''] chào bạn, sau phẫu thuật ổ …",PERIOD,O,True
+test_000019,119,… viện thuộc hệ thống y tế **vinmec**[gold=PERIOD'.' pred=O''] để được các bác sĩ chuyên …,PERIOD,O,True
+test_000010,131,… liệu có bị di căn không **ạ**[gold=O'' pred=QUESTION'?'] chưa sinh thiết.,O,QUESTION,True
+test_000016,27,"… hỏi bs là con bị làm **sao**[gold=O'' pred=QUESTION'?'] xin cảm ơn bs chào bạn, …",O,QUESTION,True
+test_000031,107,… vậy cháu có bị sao không **ạ**[gold=O'' pred=QUESTION'?'] và chứng són đái và són …,O,QUESTION,True
+test_000032,22,… thói quen nhịn tiểu thường xuyên **không**[gold=O'' pred=QUESTION'?'] cái này có thể gặp ở …,O,QUESTION,True
+test_000032,86,"… hộ của bé có đỏ, ngứa **không**[gold=O'' pred=QUESTION'?'] với bé gái. nếu có bạn …",O,QUESTION,True
+test_000004,90,… cháu nhà em bị bệnh gì **ạ**[gold=PERIOD'.' pred=QUESTION'?'] mong bs tư vấn giúp ạ …,PERIOD,QUESTION,True
+test_000006,118,… các yếu tố tiếp xúc hay **không**[gold=PERIOD'.' pred=QUESTION'?'] đối với những người có cơ …,PERIOD,QUESTION,True
+test_000022,148,… thì phải xử lý như thế **nào**[gold=PERIOD'.' pred=QUESTION'?'],PERIOD,QUESTION,True
+test_000058,71,… không và chi phí khoảng bao **nhiêu**[gold=PERIOD'.' pred=QUESTION'?'] vì em ở hà tĩnh khoảng …,PERIOD,QUESTION,True
+test_000064,39,… chế độ ăn uống để chữa **bệnh**[gold=PERIOD'.' pred=QUESTION'?'] người bị bệnh này nên kiêng …,PERIOD,QUESTION,True
+test_000012,15,… bé sơ sinh như thế nào **ạ**[gold=QUESTION'?' pred=O''] với dùng cồn gì ạ? - …,QUESTION,O,True
+test_000017,30,… tiêu khi áp dụng lowcarb k **ạ**[gold=QUESTION'?' pred=O''] đúng là chế độ giảm cân …,QUESTION,O,True
+test_000047,116,… vậy thì làm sao phân biệt **ạ**[gold=QUESTION'?' pred=O''] chào bác hiện tại bác có …,QUESTION,O,True
+test_000048,25,… bây giờ tôi không tiêm được **ạ**[gold=QUESTION'?' pred=O''] do khu phố tôi có lịch …,QUESTION,O,True
+test_000048,87,"… có phải tái phát bệnh không **ạ**[gold=QUESTION'?' pred=O''] dạ, để hiểu rõ hơn tình …",QUESTION,O,True
+test_000006,41,"… hỏi bs là tôi bị bệnh **gì**[gold=COMMA',' pred=QUESTION'?'] triệu chứng của bệnh là ngứa …",COMMA,QUESTION,True
+test_000030,10,"… dậy người rất mệt thưa bs **thanh**[gold=COMMA',' pred=QUESTION'?'] trẻ có thể chịu đựng bao …",COMMA,QUESTION,True
+test_000047,84,"… có thể tiêm vaccine covid không **ạ**[gold=COMMA',' pred=QUESTION'?'] do tôi đọc thấy các triệu …",COMMA,QUESTION,True
+test_000199,116,"… quát có ý nghĩa như thế **nào**[gold=COMMA',' pred=QUESTION'?'] thời gian bao nhiêu lâu nên …",COMMA,QUESTION,True
+test_000220,37,"… lúc sinh của con là bao **nhiêu**[gold=COMMA',' pred=QUESTION'?'] con có đang uống vitamin d …",COMMA,QUESTION,True
+test_000005,47,… có con. tôi không biết thế **nào**[gold=QUESTION'?' pred=PERIOD'.'] bác sĩ có thể tư vấn …,QUESTION,PERIOD,True
+test_000033,39,… trẻ em có cần điều trị **không**[gold=QUESTION'?' pred=PERIOD'.'] chúc bé luôn có sức khỏe …,QUESTION,PERIOD,True
+test_000134,140,"… là có gây sốt, đau hay **không**[gold=QUESTION'?' pred=PERIOD'.']",QUESTION,PERIOD,True
+test_000229,57,… 9 thì được uống canxi chưa **ạ**[gold=QUESTION'?' pred=PERIOD'.'] với lại e bị nghén nặng …,QUESTION,PERIOD,True
+test_000252,144,… thể. lệ phí thế nào bs **ơi**[gold=QUESTION'?' pred=PERIOD'.'],QUESTION,PERIOD,True
+test_000008,92,"… như vậy có ảnh hưởng gì **không**[gold=QUESTION'?' pred=COMMA','] thời gian sống được bao lâu …",QUESTION,COMMA,True
+test_000013,7,"… ý xem rốn có mùi hôi **không**[gold=QUESTION'?' pred=COMMA','] lau rốn sạch bằng gòn và …",QUESTION,COMMA,True
+test_000205,100,"… em dùng được bao nhiêu ngày **rồi**[gold=QUESTION'?' pred=COMMA','] tiến triển ra sao?",QUESTION,COMMA,True
+test_000226,95,"… hôm sau ngủ dậy thấy lưỡi **đen**[gold=QUESTION'?' pred=COMMA','] nếu uống ít thì không xuất …",QUESTION,COMMA,True
+test_000321,21,"… nguy cơ mắc tiểu đường hay **không**[gold=QUESTION'?' pred=COMMA','] em có thể đến tại các …",QUESTION,COMMA,True

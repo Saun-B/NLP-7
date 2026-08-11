@@ -1,0 +1,5 @@
+﻿rank,experiment_id,model,weight_mode,best_epoch,validation_loss_unweighted,validation_accuracy,validation_macro_f1,validation_punctuation_macro_f1,f1_o,f1_comma,f1_period,f1_question,validation_loss_own_weighting
+1,E2,vinai/phobert-base-v2,none,5,0.090323,0.966725,0.830614,0.778718,0.986302,0.726973,0.810835,0.798345,0.09039
+2,E4,vinai/phobert-base-v2,sqrt_inverse,5,0.114305,0.957236,0.804645,0.745676,0.981549,0.700309,0.791063,0.745657,0.204728
+3,E3,vinai/phobert-base-v2,inverse,5,0.18598,0.935833,0.763878,0.695324,0.969542,0.612241,0.758988,0.714742,0.302224
+4,E1,"BiLSTM(emb=128, hidden=128x2)",none,11,0.158479,0.944757,0.714699,0.628241,0.974073,0.496436,0.686458,0.701829,0.158479

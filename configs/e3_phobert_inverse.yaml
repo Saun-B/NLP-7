@@ -1,0 +1,55 @@
+experiment:
+  id: E3
+  name: PhoBERT — inverse-frequency class weights
+  description: >
+    Same setup as E2, but CrossEntropyLoss is weighted by inverse class
+    frequency computed from the TRAIN split only. Tests whether directly
+    counteracting the class imbalance improves punctuation F1.
+
+model:
+  type: phobert
+  name: vinai/phobert-base-v2
+  revision: fb76b7e1f77fa19bc4870e2ad956876f7c81c53f
+  num_labels: 4
+  max_length: 192
+  dropout: null
+
+data:
+  train_file: data/processed/train.jsonl
+  validation_file: data/processed/validation.jsonl
+  max_words: 150
+
+loss:
+  type: cross_entropy
+  weight_mode: inverse
+  ignore_index: -100
+
+optimizer:
+  name: adamw
+  learning_rate: 3.0e-5
+  weight_decay: 0.01
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  no_decay_on_bias_and_layernorm: true
+
+scheduler:
+  name: linear_warmup
+  warmup_ratio: 0.10
+
+training:
+  epochs: 5
+  train_batch_size: 4
+  gradient_accumulation_steps: 4
+  eval_batch_size: 8
+  max_grad_norm: 1.0
+  seed: 42
+  num_workers: 0
+  fp16: true
+  deterministic: false
+  monitor_metric: punctuation_macro_f1
+  early_stopping_patience: null
+  log_every_n_steps: 500
+
+paths:
+  checkpoint_dir: outputs/checkpoints/E3
+  experiment_dir: outputs/experiments/E3

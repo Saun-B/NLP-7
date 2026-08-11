@@ -1,0 +1,59 @@
+{
+  "generated_at_utc": "2026-08-09T22:50:48+00:00",
+  "split": "validation",
+  "criterion": "CrossEntropyLoss(weight=None, ignore_index=-100)",
+  "purpose": "A single unweighted criterion applied to all four checkpoints, so the losses are comparable across experiments and can serve as the documented tie-breaker for model selection.",
+  "test_split_used": false,
+  "all_checkpoints_reproduce_reported_scores": true,
+  "reproduction_tolerance": 0.001,
+  "results": {
+    "E1": {
+      "experiment_id": "E1",
+      "model_type": "bilstm",
+      "weight_mode": "none",
+      "unweighted_validation_loss": 0.15847901354233423,
+      "reproduced_punctuation_macro_f1": 0.6282526281178261,
+      "reported_punctuation_macro_f1": 0.6282411379220462,
+      "abs_difference": 1.1490195779950696e-05,
+      "checkpoint_reproduces_reported_score": true,
+      "num_evaluated_tokens": 1977406,
+      "seconds": 2.3
+    },
+    "E2": {
+      "experiment_id": "E2",
+      "model_type": "phobert",
+      "weight_mode": "none",
+      "unweighted_validation_loss": 0.09032337520607363,
+      "reproduced_punctuation_macro_f1": 0.7787108509433461,
+      "reported_punctuation_macro_f1": 0.7787176875966945,
+      "abs_difference": 6.836653348329946e-06,
+      "checkpoint_reproduces_reported_score": true,
+      "num_evaluated_tokens": 1977406,
+      "seconds": 52.6
+    },
+    "E3": {
+      "experiment_id": "E3",
+      "model_type": "phobert",
+      "weight_mode": "inverse",
+      "unweighted_validation_loss": 0.18598009171101032,
+      "reproduced_punctuation_macro_f1": 0.6952926370012605,
+      "reported_punctuation_macro_f1": 0.6953238496529216,
+      "abs_difference": 3.121265166106113e-05,
+      "checkpoint_reproduces_reported_score": true,
+      "num_evaluated_tokens": 1977406,
+      "seconds": 30.4
+    },
+    "E4": {
+      "experiment_id": "E4",
+      "model_type": "phobert",
+      "weight_mode": "sqrt_inverse",
+      "unweighted_validation_loss": 0.11430509946068877,
+      "reproduced_punctuation_macro_f1": 0.7456590139478781,
+      "reported_punctuation_macro_f1": 0.7456762077784248,
+      "abs_difference": 1.7193830546657907e-05,
+      "checkpoint_reproduces_reported_score": true,
+      "num_evaluated_tokens": 1977406,
+      "seconds": 30.6
+    }
+  }
+}

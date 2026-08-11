@@ -1,0 +1,54 @@
+{
+  "selection_split": "validation",
+  "selection_metric": "punctuation_macro_f1",
+  "tie_breaker": "unweighted_validation_loss",
+  "winner": "E2",
+  "test_was_used_for_selection": false,
+  "winner_locked": true,
+  "locked_at_utc": "2026-08-10T11:30:10+00:00",
+  "winner_model": "vinai/phobert-base-v2",
+  "winner_model_type": "phobert",
+  "winner_weight_mode": "none",
+  "winner_best_epoch": 5,
+  "winner_validation_punctuation_macro_f1": 0.7787176875966945,
+  "winner_validation_unweighted_loss": 0.09032337520607363,
+  "winner_validation_accuracy": 0.9667250933799129,
+  "winner_validation_macro_f1": 0.8306138687401703,
+  "winner_validation_f1_per_class": {
+    "O": 0.986302412170598,
+    "COMMA": 0.7269730798140364,
+    "PERIOD": 0.81083520246327,
+    "QUESTION": 0.7983447805127768
+  },
+  "checkpoint_path": "outputs/checkpoints/E2",
+  "tie_breaker_used": false,
+  "margin_over_runner_up": 0.03304147981826966,
+  "runner_up": "E4",
+  "ranking": [
+    {
+      "rank": 1,
+      "experiment_id": "E2",
+      "validation_punctuation_macro_f1": 0.7787176875966945,
+      "unweighted_validation_loss": 0.09032337520607363
+    },
+    {
+      "rank": 2,
+      "experiment_id": "E4",
+      "validation_punctuation_macro_f1": 0.7456762077784248,
+      "unweighted_validation_loss": 0.11430509946068877
+    },
+    {
+      "rank": 3,
+      "experiment_id": "E3",
+      "validation_punctuation_macro_f1": 0.6953238496529216,
+      "unweighted_validation_loss": 0.18598009171101032
+    },
+    {
+      "rank": 4,
+      "experiment_id": "E1",
+      "validation_punctuation_macro_f1": 0.6282411379220462,
+      "unweighted_validation_loss": 0.15847901354233423
+    }
+  ],
+  "policy": "The winner was chosen using the validation split only, before any test evaluation was run. It is locked: a post-hoc test comparison may not change it, even if another model scores higher on the official test."
+}

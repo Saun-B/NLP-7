@@ -1,0 +1,91 @@
+{
+  "generated_at_utc": "2026-08-09T23:24:45+00:00",
+  "winner": "E2",
+  "model": "vinai/phobert-base-v2",
+  "model_type": "phobert",
+  "device": "cuda",
+  "warmup_ms": 179.56970003433526,
+  "measurement_note": "Demo inference latency measured on a handful of short inputs after a warm-up pass. Not a production benchmark: no repeated runs, no batching study, no variance reported.",
+  "results": [
+    {
+      "label": "Câu kể + câu hỏi",
+      "input": "hôm nay trời đẹp bạn có muốn đi dạo không",
+      "restored": "Hôm nay trời đẹp bạn có muốn đi dạo không?",
+      "num_words": 10,
+      "num_sentences": 1,
+      "latency_ms": 8.67,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    },
+    {
+      "label": "Bài tập nhóm",
+      "input": "bạn đã hoàn thành bài tập chưa ngày mai chúng ta nộp bài",
+      "restored": "Bạn đã hoàn thành bài tập chưa? Ngày mai chúng ta nộp bài.",
+      "num_words": 13,
+      "num_sentences": 2,
+      "latency_ms": 7.96,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    },
+    {
+      "label": "Giới thiệu",
+      "input": "xin chào tôi đang thử mô hình khôi phục dấu câu tiếng việt mô hình này được huấn luyện trên bộ dữ liệu jointcappunc",
+      "restored": "Xin chào, tôi đang thử mô hình khôi phục dấu câu tiếng việt, mô hình này được huấn luyện trên bộ dữ liệu jointcappunc.",
+      "num_words": 24,
+      "num_sentences": 1,
+      "latency_ms": 26.95,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    },
+    {
+      "label": "Hội thoại y tế (đúng domain)",
+      "input": "chào bác sĩ em bị đau bụng mấy hôm nay rồi em có nên đi khám không em cảm ơn bác sĩ nhiều",
+      "restored": "Chào bác sĩ, em bị đau bụng mấy hôm nay rồi. Em có nên đi khám không? Em cảm ơn bác sĩ nhiều.",
+      "num_words": 23,
+      "num_sentences": 3,
+      "latency_ms": 8.09,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    },
+    {
+      "label": "Nhiều mệnh đề",
+      "input": "tôi muốn đi chơi nhưng trời đang mưa rất to nếu chiều nay tạnh thì chúng ta sẽ đi công viên",
+      "restored": "Tôi muốn đi chơi nhưng trời đang mưa rất to, nếu chiều nay tạnh thì chúng ta sẽ đi công viên.",
+      "num_words": 21,
+      "num_sentences": 1,
+      "latency_ms": 7.57,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    },
+    {
+      "label": "Có số và đơn vị",
+      "input": "em bị sốt 38.5 độ từ tối qua uống thuốc hạ sốt rồi mà chưa đỡ em phải làm sao ạ",
+      "restored": "Em bị sốt 38.5 độ từ tối qua, uống thuốc hạ sốt rồi mà chưa đỡ, em phải làm sao ạ?",
+      "num_words": 21,
+      "num_sentences": 1,
+      "latency_ms": 8.31,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    },
+    {
+      "label": "Ngoài domain (tin tức)",
+      "input": "giá xăng trong nước tiếp tục tăng mạnh trong kỳ điều hành hôm nay nhiều doanh nghiệp vận tải cho biết họ sẽ phải điều chỉnh giá cước",
+      "restored": "Giá xăng trong nước tiếp tục tăng mạnh trong kỳ điều hành hôm nay, nhiều doanh nghiệp vận tải cho biết họ sẽ phải điều chỉnh giá cước.",
+      "num_words": 28,
+      "num_sentences": 1,
+      "latency_ms": 9.06,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    },
+    {
+      "label": "Văn bản dài (nhiều câu)",
+      "input": "em chào bác sĩ ạ em năm nay 25 tuổi gần đây em hay bị mất ngủ khó vào giấc và hay tỉnh giấc lúc nửa đêm ban ngày em thấy mệt mỏi khó tập trung làm việc em có nên đi khám chuyên khoa thần kinh không hay chỉ cần điều chỉnh sinh hoạt thôi ạ em xin cảm ơn bác sĩ",
+      "restored": "Em chào bác sĩ ạ, em năm nay 25 tuổi, gần đây em hay bị mất ngủ, khó vào giấc và hay tỉnh giấc lúc nửa đêm. Ban ngày em thấy mệt mỏi, khó tập trung làm việc. Em có nên đi khám chuyên khoa thần kinh không hay chỉ cần điều chỉnh sinh hoạt thôi ạ? Em xin cảm ơn bác sĩ.",
+      "num_words": 63,
+      "num_sentences": 4,
+      "latency_ms": 9.01,
+      "winner": "E2",
+      "model": "vinai/phobert-base-v2"
+    }
+  ]
+}

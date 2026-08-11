@@ -1,0 +1,113 @@
+{
+  "experiment_id": "E2",
+  "config": {
+    "experiment": {
+      "id": "E2",
+      "name": "PhoBERT — no class weight",
+      "description": "Fine-tune vinai/phobert-base-v2 for 4-way token classification with a plain unweighted CrossEntropyLoss (ignore_index=-100).\n"
+    },
+    "model": {
+      "type": "phobert",
+      "name": "vinai/phobert-base-v2",
+      "revision": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f",
+      "num_labels": 4,
+      "max_length": 192,
+      "dropout": null
+    },
+    "data": {
+      "train_file": "data/processed/train.jsonl",
+      "validation_file": "data/processed/validation.jsonl",
+      "max_words": 150
+    },
+    "loss": {
+      "type": "cross_entropy",
+      "weight_mode": "none",
+      "ignore_index": -100
+    },
+    "optimizer": {
+      "name": "adamw",
+      "learning_rate": 3e-05,
+      "weight_decay": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "no_decay_on_bias_and_layernorm": true
+    },
+    "scheduler": {
+      "name": "linear_warmup",
+      "warmup_ratio": 0.1
+    },
+    "training": {
+      "epochs": 5,
+      "train_batch_size": 4,
+      "gradient_accumulation_steps": 4,
+      "eval_batch_size": 8,
+      "max_grad_norm": 1.0,
+      "seed": 42,
+      "num_workers": 0,
+      "fp16": true,
+      "deterministic": false,
+      "monitor_metric": "punctuation_macro_f1",
+      "early_stopping_patience": null,
+      "log_every_n_steps": 500
+    },
+    "paths": {
+      "checkpoint_dir": "outputs/checkpoints/E2",
+      "experiment_dir": "outputs/experiments/E2"
+    }
+  },
+  "model": {
+    "class": "PhoBERTTokenClassifier",
+    "total_parameters": 134410756,
+    "trainable_parameters": 134410756,
+    "total_parameters_millions": 134.411,
+    "model_config": {
+      "architecture": "RobertaForTokenClassification",
+      "model_name": "vinai/phobert-base-v2",
+      "revision": "fb76b7e1f77fa19bc4870e2ad956876f7c81c53f",
+      "num_labels": 4,
+      "max_length": 192,
+      "dropout_override": null
+    }
+  },
+  "loss": {
+    "type": "CrossEntropyLoss",
+    "weight_mode": "none",
+    "ignore_index": -100,
+    "class_weights": null,
+    "weights_source": "outputs/data/class_weights.json (train split only)"
+  },
+  "encoding": {
+    "train": {
+      "num_examples": 38066,
+      "num_windows": 38111,
+      "num_words": 4940478,
+      "num_subwords": 5207406,
+      "windows_per_example": 1.0012,
+      "subwords_per_word": 1.054,
+      "examples_split_into_multiple_windows": 45,
+      "max_window_length": 192
+    },
+    "validation": {
+      "num_examples": 15227,
+      "num_windows": 15243,
+      "num_words": 1977406,
+      "num_subwords": 2083427,
+      "windows_per_example": 1.0011,
+      "subwords_per_word": 1.0536,
+      "examples_split_into_multiple_windows": 16,
+      "max_window_length": 192
+    },
+    "max_length": 192,
+    "tokenizer_cache_size": 39113
+  },
+  "num_train_examples": 38066,
+  "num_validation_examples": 15227,
+  "optimizer_steps_per_epoch": 2382,
+  "total_optimizer_steps": 11910,
+  "effective_batch_size": 16,
+  "fp16_enabled": true,
+  "written_at_utc": "2026-08-09T14:49:34+00:00"
+}

@@ -1,0 +1,62 @@
+{
+  "experiment_id": "E3",
+  "best_epoch": 5,
+  "monitor_metric": "punctuation_macro_f1",
+  "evaluated_on": "validation.jsonl (official JointCapPunc dev split)",
+  "metrics": {
+    "num_evaluated_tokens": 1977406,
+    "accuracy": 0.9358331066053203,
+    "macro_f1": 0.76387838532413,
+    "weighted_f1": 0.9436551590082445,
+    "punctuation_macro_f1": 0.6953238496529216,
+    "punctuation_micro_f1": 0.6743818926141508,
+    "punctuation_micro_precision": 0.5541099080218884,
+    "punctuation_micro_recall": 0.8613393811541007,
+    "per_class": {
+      "O": {
+        "precision": 0.9974555932896265,
+        "recall": 0.9431481739626889,
+        "f1": 0.9695419923377553,
+        "support": 1800593.0,
+        "tp": 1698226.0,
+        "fp": 4332.0,
+        "fn": 102367.0
+      },
+      "COMMA": {
+        "precision": 0.48200619505021747,
+        "recall": 0.8389095819991723,
+        "f1": 0.6122413292902478,
+        "support": 91818.0,
+        "tp": 77027.0,
+        "fp": 82778.0,
+        "fn": 14791.0
+      },
+      "PERIOD": {
+        "precision": 0.6693083201766605,
+        "recall": 0.8764187655388607,
+        "f1": 0.7589882808614707,
+        "support": 74008.0,
+        "tp": 64862.0,
+        "fp": 32047.0,
+        "fn": 9146.0
+      },
+      "QUESTION": {
+        "precision": 0.573894342119775,
+        "recall": 0.9472103394921271,
+        "f1": 0.7147419388070464,
+        "support": 10987.0,
+        "tp": 10407.0,
+        "fp": 7727.0,
+        "fn": 580.0
+      }
+    },
+    "labels": [
+      "O",
+      "COMMA",
+      "PERIOD",
+      "QUESTION"
+    ],
+    "loss": 0.3022237757547267,
+    "num_supervised_positions": 1977406
+  }
+}

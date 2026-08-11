@@ -1,0 +1,1014 @@
+{
+  "num_examples_analyzed": 4000,
+  "num_examples_skipped": 0,
+  "total_positions": 520335,
+  "total_errors": 17592,
+  "error_rate": 0.03380898844013953,
+  "errors_by_gold_label": {
+    "O": 6652,
+    "COMMA": 7151,
+    "PERIOD": 3360,
+    "QUESTION": 429
+  },
+  "key_confusion_pairs": [
+    {
+      "gold_label": "COMMA",
+      "predicted_label": "O",
+      "count": 4844,
+      "share_of_all_errors": 0.27535243292405637,
+      "meaning": "bỏ sót dấu phẩy — hai mệnh đề bị dính vào nhau",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 109,
+          "word": "thận",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… sách báo thấy mình giống sỏi **thận**[gold=COMMA',' pred=O''] trong khi bs bảo bình thường. …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 82,
+          "word": "thận",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… đến viêm thận mãn hoặc suy **thận**[gold=COMMA',' pred=O''] gây nguy hiểm và điều trị …"
+        },
+        {
+          "example_id": "test_000003",
+          "word_index": 87,
+          "word": "này",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… gối lành lại. trong giai đoạn **này**[gold=COMMA',' pred=O''] bạn cần khám chuyên khoa để …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 68,
+          "word": "ngác",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… hỏi cũng không nói. mặt ngơ **ngác**[gold=COMMA',' pred=O''] khóc, đi qua đi lại. nhưng …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 69,
+          "word": "khóc",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… cũng không nói. mặt ngơ ngác, **khóc**[gold=COMMA',' pred=O''] đi qua đi lại. nhưng sau …"
+        }
+      ]
+    },
+    {
+      "gold_label": "O",
+      "predicted_label": "COMMA",
+      "count": 4342,
+      "share_of_all_errors": 0.24681673487949068,
+      "meaning": "thêm dấu phẩy thừa — chèn ranh giới mệnh đề không có thật",
+      "representative_examples": [
+        {
+          "example_id": "test_000002",
+          "word_index": 30,
+          "word": "niệu",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… nhưng nếu bị viêm đường tiết **niệu**[gold=O'' pred=COMMA','] bạn nên đi làm xét nghiệm …"
+        },
+        {
+          "example_id": "test_000005",
+          "word_index": 20,
+          "word": "ngày",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… ích mẫu thì xuống được 40 **ngày**[gold=O'' pred=COMMA','] nhưng dừng thuốc thì lại dài …"
+        },
+        {
+          "example_id": "test_000006",
+          "word_index": 127,
+          "word": "ứng",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… những người có cơ địa dị **ứng**[gold=O'' pred=COMMA','] điều trị hết là khó khăn."
+        },
+        {
+          "example_id": "test_000007",
+          "word_index": 52,
+          "word": "dường",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… em tăng cường chế độ dinh **dường**[gold=O'' pred=COMMA','] kết hợp chế độ thể dục …"
+        },
+        {
+          "example_id": "test_000008",
+          "word_index": 15,
+          "word": "hấp",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… bởi 2 cách qua đường hô **hấp**[gold=O'' pred=COMMA','] ngoài ra, bạch hầu có thể …"
+        }
+      ]
+    },
+    {
+      "gold_label": "COMMA",
+      "predicted_label": "PERIOD",
+      "count": 2134,
+      "share_of_all_errors": 0.12130513869940882,
+      "meaning": "cắt câu quá mạnh — đáng lẽ chỉ là dấu phẩy",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 84,
+          "word": "gạo",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… trắng đục đục như nước vo **gạo**[gold=COMMA',' pred=PERIOD'.'] sau mỗi lần đi là tôi …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 56,
+          "word": "xác",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… niệu để có chuẩn đoán chính **xác**[gold=COMMA',' pred=PERIOD'.'] lúc đó bạn phải điều trị …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 109,
+          "word": "mắt",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… trái và được kê thuốc nhỏ **mắt**[gold=COMMA',' pred=PERIOD'.'] sau khi nhỏ thuốc cho mắt …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 123,
+          "word": "lây",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… 3 ngày thì mắt phải bị **lây**[gold=COMMA',' pred=PERIOD'.'] vậy có dùng thuốc đó để …"
+        },
+        {
+          "example_id": "test_000003",
+          "word_index": 42,
+          "word": "sĩ",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… dẫn của bác sĩ. chào bác **sĩ**[gold=COMMA',' pred=PERIOD'.'] cho tôi hỏi sau khi phẫu …"
+        }
+      ]
+    },
+    {
+      "gold_label": "PERIOD",
+      "predicted_label": "COMMA",
+      "count": 1567,
+      "share_of_all_errors": 0.08907457935425193,
+      "meaning": "kết thúc câu quá yếu — hai câu bị nối thành câu ghép",
+      "representative_examples": [
+        {
+          "example_id": "test_000002",
+          "word_index": 65,
+          "word": "ngay",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… bạn phải điều trị tích cực **ngay**[gold=PERIOD'.' pred=COMMA','] nếu để tình trạng này kéo …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 21,
+          "word": "được",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… đi lại, sinh hoạt nhẹ nhàng **được**[gold=PERIOD'.' pred=COMMA','] với các hoạt động nặng hơn …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 65,
+          "word": "nói",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… mình là ai, hỏi cũng không **nói**[gold=PERIOD'.' pred=COMMA','] mặt ngơ ngác, khóc, đi qua …"
+        },
+        {
+          "example_id": "test_000012",
+          "word_index": 110,
+          "word": "độ",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… sát trùng lại bằng cồn 90 **độ**[gold=PERIOD'.' pred=COMMA','] nhẹ nhàng tháo băng rốn và …"
+        },
+        {
+          "example_id": "test_000012",
+          "word_index": 118,
+          "word": "rốn",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… nhàng tháo băng rốn và gạc **rốn**[gold=PERIOD'.' pred=COMMA','] quan sát mặt cắt rốn và …"
+        }
+      ]
+    },
+    {
+      "gold_label": "PERIOD",
+      "predicted_label": "O",
+      "count": 1466,
+      "share_of_all_errors": 0.08333333333333333,
+      "meaning": "bỏ sót dấu chấm — hai câu bị nhập làm một (run-on)",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 17,
+          "word": "rồi",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… đó chích 2 mũi vaccine covid **rồi**[gold=PERIOD'.' pred=O''] nhunge k có giấy tờ chứng …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 42,
+          "word": "ơi",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… bạn nhé. thân mến. bác sĩ **ơi**[gold=PERIOD'.' pred=O''] cháu nhà em thường có biểu …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 73,
+          "word": "lại",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… ngơ ngác, khóc, đi qua đi **lại**[gold=PERIOD'.' pred=O''] nhưng sau khi đi tiểu xong …"
+        },
+        {
+          "example_id": "test_000014",
+          "word_index": 38,
+          "word": "thừa",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… phẩm dễ tiêu sau mổ ruột **thừa**[gold=PERIOD'.' pred=O''] chào bạn, sau phẫu thuật ổ …"
+        },
+        {
+          "example_id": "test_000019",
+          "word_index": 119,
+          "word": "vinmec",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… viện thuộc hệ thống y tế **vinmec**[gold=PERIOD'.' pred=O''] để được các bác sĩ chuyên …"
+        }
+      ]
+    },
+    {
+      "gold_label": "O",
+      "predicted_label": "PERIOD",
+      "count": 1967,
+      "share_of_all_errors": 0.11181218735788995,
+      "meaning": "chấm câu quá sớm — một câu bị chẻ đôi",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 68,
+          "word": "việc",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… địa phương để chứng minh sự **việc**[gold=O'' pred=PERIOD'.'] tôi thỉnh thoảng hay đi tiểu …"
+        },
+        {
+          "example_id": "test_000003",
+          "word_index": 99,
+          "word": "hợp",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… để xác định thời điểm thích **hợp**[gold=O'' pred=PERIOD'.'] có thể tập vật lý trị …"
+        },
+        {
+          "example_id": "test_000006",
+          "word_index": 32,
+          "word": "hết",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… thuốc mát gan nhưng mãi ko **hết**[gold=O'' pred=PERIOD'.'] vậy xin hỏi bs là tôi …"
+        },
+        {
+          "example_id": "test_000011",
+          "word_index": 13,
+          "word": "năm",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… thuật và truyền hóa chất 6 **năm**[gold=O'' pred=PERIOD'.'] về nguyên tắc nếu trong quá …"
+        },
+        {
+          "example_id": "test_000013",
+          "word_index": 143,
+          "word": "ái",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… chậm rụng sau 3 tuần. thân **ái**[gold=O'' pred=PERIOD'.'] chào em."
+        }
+      ]
+    },
+    {
+      "gold_label": "QUESTION",
+      "predicted_label": "O",
+      "count": 233,
+      "share_of_all_errors": 0.013244656662119145,
+      "meaning": "mất hẳn câu hỏi — lỗi nghiêm trọng nhất về mặt ngữ nghĩa",
+      "representative_examples": [
+        {
+          "example_id": "test_000012",
+          "word_index": 15,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… bé sơ sinh như thế nào **ạ**[gold=QUESTION'?' pred=O''] với dùng cồn gì ạ? - …"
+        },
+        {
+          "example_id": "test_000017",
+          "word_index": 30,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… tiêu khi áp dụng lowcarb k **ạ**[gold=QUESTION'?' pred=O''] đúng là chế độ giảm cân …"
+        },
+        {
+          "example_id": "test_000047",
+          "word_index": 116,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… vậy thì làm sao phân biệt **ạ**[gold=QUESTION'?' pred=O''] chào bác hiện tại bác có …"
+        },
+        {
+          "example_id": "test_000048",
+          "word_index": 25,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… bây giờ tôi không tiêm được **ạ**[gold=QUESTION'?' pred=O''] do khu phố tôi có lịch …"
+        },
+        {
+          "example_id": "test_000048",
+          "word_index": 87,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… có phải tái phát bệnh không **ạ**[gold=QUESTION'?' pred=O''] dạ, để hiểu rõ hơn tình …"
+        }
+      ]
+    },
+    {
+      "gold_label": "O",
+      "predicted_label": "QUESTION",
+      "count": 343,
+      "share_of_all_errors": 0.0194974988631196,
+      "meaning": "thêm dấu hỏi thừa — biến câu trần thuật thành câu hỏi",
+      "representative_examples": [
+        {
+          "example_id": "test_000010",
+          "word_index": 131,
+          "word": "ạ",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… liệu có bị di căn không **ạ**[gold=O'' pred=QUESTION'?'] chưa sinh thiết."
+        },
+        {
+          "example_id": "test_000016",
+          "word_index": 27,
+          "word": "sao",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… hỏi bs là con bị làm **sao**[gold=O'' pred=QUESTION'?'] xin cảm ơn bs chào bạn, …"
+        },
+        {
+          "example_id": "test_000031",
+          "word_index": 107,
+          "word": "ạ",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… vậy cháu có bị sao không **ạ**[gold=O'' pred=QUESTION'?'] và chứng són đái và són …"
+        },
+        {
+          "example_id": "test_000032",
+          "word_index": 22,
+          "word": "không",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… thói quen nhịn tiểu thường xuyên **không**[gold=O'' pred=QUESTION'?'] cái này có thể gặp ở …"
+        },
+        {
+          "example_id": "test_000032",
+          "word_index": 86,
+          "word": "không",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… hộ của bé có đỏ, ngứa **không**[gold=O'' pred=QUESTION'?'] với bé gái. nếu có bạn …"
+        }
+      ]
+    }
+  ],
+  "all_pairs": [
+    {
+      "gold_label": "COMMA",
+      "predicted_label": "O",
+      "count": 4844,
+      "share_of_all_errors": 0.27535243292405637,
+      "is_error": true,
+      "meaning": "bỏ sót dấu phẩy — hai mệnh đề bị dính vào nhau",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 109,
+          "word": "thận",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… sách báo thấy mình giống sỏi **thận**[gold=COMMA',' pred=O''] trong khi bs bảo bình thường. …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 82,
+          "word": "thận",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… đến viêm thận mãn hoặc suy **thận**[gold=COMMA',' pred=O''] gây nguy hiểm và điều trị …"
+        },
+        {
+          "example_id": "test_000003",
+          "word_index": 87,
+          "word": "này",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… gối lành lại. trong giai đoạn **này**[gold=COMMA',' pred=O''] bạn cần khám chuyên khoa để …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 68,
+          "word": "ngác",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… hỏi cũng không nói. mặt ngơ **ngác**[gold=COMMA',' pred=O''] khóc, đi qua đi lại. nhưng …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 69,
+          "word": "khóc",
+          "gold_label": "COMMA",
+          "predicted_label": "O",
+          "context": "… cũng không nói. mặt ngơ ngác, **khóc**[gold=COMMA',' pred=O''] đi qua đi lại. nhưng sau …"
+        }
+      ]
+    },
+    {
+      "gold_label": "O",
+      "predicted_label": "COMMA",
+      "count": 4342,
+      "share_of_all_errors": 0.24681673487949068,
+      "is_error": true,
+      "meaning": "thêm dấu phẩy thừa — chèn ranh giới mệnh đề không có thật",
+      "representative_examples": [
+        {
+          "example_id": "test_000002",
+          "word_index": 30,
+          "word": "niệu",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… nhưng nếu bị viêm đường tiết **niệu**[gold=O'' pred=COMMA','] bạn nên đi làm xét nghiệm …"
+        },
+        {
+          "example_id": "test_000005",
+          "word_index": 20,
+          "word": "ngày",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… ích mẫu thì xuống được 40 **ngày**[gold=O'' pred=COMMA','] nhưng dừng thuốc thì lại dài …"
+        },
+        {
+          "example_id": "test_000006",
+          "word_index": 127,
+          "word": "ứng",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… những người có cơ địa dị **ứng**[gold=O'' pred=COMMA','] điều trị hết là khó khăn."
+        },
+        {
+          "example_id": "test_000007",
+          "word_index": 52,
+          "word": "dường",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… em tăng cường chế độ dinh **dường**[gold=O'' pred=COMMA','] kết hợp chế độ thể dục …"
+        },
+        {
+          "example_id": "test_000008",
+          "word_index": 15,
+          "word": "hấp",
+          "gold_label": "O",
+          "predicted_label": "COMMA",
+          "context": "… bởi 2 cách qua đường hô **hấp**[gold=O'' pred=COMMA','] ngoài ra, bạch hầu có thể …"
+        }
+      ]
+    },
+    {
+      "gold_label": "COMMA",
+      "predicted_label": "PERIOD",
+      "count": 2134,
+      "share_of_all_errors": 0.12130513869940882,
+      "is_error": true,
+      "meaning": "cắt câu quá mạnh — đáng lẽ chỉ là dấu phẩy",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 84,
+          "word": "gạo",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… trắng đục đục như nước vo **gạo**[gold=COMMA',' pred=PERIOD'.'] sau mỗi lần đi là tôi …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 56,
+          "word": "xác",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… niệu để có chuẩn đoán chính **xác**[gold=COMMA',' pred=PERIOD'.'] lúc đó bạn phải điều trị …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 109,
+          "word": "mắt",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… trái và được kê thuốc nhỏ **mắt**[gold=COMMA',' pred=PERIOD'.'] sau khi nhỏ thuốc cho mắt …"
+        },
+        {
+          "example_id": "test_000002",
+          "word_index": 123,
+          "word": "lây",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… 3 ngày thì mắt phải bị **lây**[gold=COMMA',' pred=PERIOD'.'] vậy có dùng thuốc đó để …"
+        },
+        {
+          "example_id": "test_000003",
+          "word_index": 42,
+          "word": "sĩ",
+          "gold_label": "COMMA",
+          "predicted_label": "PERIOD",
+          "context": "… dẫn của bác sĩ. chào bác **sĩ**[gold=COMMA',' pred=PERIOD'.'] cho tôi hỏi sau khi phẫu …"
+        }
+      ]
+    },
+    {
+      "gold_label": "O",
+      "predicted_label": "PERIOD",
+      "count": 1967,
+      "share_of_all_errors": 0.11181218735788995,
+      "is_error": true,
+      "meaning": "chấm câu quá sớm — một câu bị chẻ đôi",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 68,
+          "word": "việc",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… địa phương để chứng minh sự **việc**[gold=O'' pred=PERIOD'.'] tôi thỉnh thoảng hay đi tiểu …"
+        },
+        {
+          "example_id": "test_000003",
+          "word_index": 99,
+          "word": "hợp",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… để xác định thời điểm thích **hợp**[gold=O'' pred=PERIOD'.'] có thể tập vật lý trị …"
+        },
+        {
+          "example_id": "test_000006",
+          "word_index": 32,
+          "word": "hết",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… thuốc mát gan nhưng mãi ko **hết**[gold=O'' pred=PERIOD'.'] vậy xin hỏi bs là tôi …"
+        },
+        {
+          "example_id": "test_000011",
+          "word_index": 13,
+          "word": "năm",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… thuật và truyền hóa chất 6 **năm**[gold=O'' pred=PERIOD'.'] về nguyên tắc nếu trong quá …"
+        },
+        {
+          "example_id": "test_000013",
+          "word_index": 143,
+          "word": "ái",
+          "gold_label": "O",
+          "predicted_label": "PERIOD",
+          "context": "… chậm rụng sau 3 tuần. thân **ái**[gold=O'' pred=PERIOD'.'] chào em."
+        }
+      ]
+    },
+    {
+      "gold_label": "PERIOD",
+      "predicted_label": "COMMA",
+      "count": 1567,
+      "share_of_all_errors": 0.08907457935425193,
+      "is_error": true,
+      "meaning": "kết thúc câu quá yếu — hai câu bị nối thành câu ghép",
+      "representative_examples": [
+        {
+          "example_id": "test_000002",
+          "word_index": 65,
+          "word": "ngay",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… bạn phải điều trị tích cực **ngay**[gold=PERIOD'.' pred=COMMA','] nếu để tình trạng này kéo …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 21,
+          "word": "được",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… đi lại, sinh hoạt nhẹ nhàng **được**[gold=PERIOD'.' pred=COMMA','] với các hoạt động nặng hơn …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 65,
+          "word": "nói",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… mình là ai, hỏi cũng không **nói**[gold=PERIOD'.' pred=COMMA','] mặt ngơ ngác, khóc, đi qua …"
+        },
+        {
+          "example_id": "test_000012",
+          "word_index": 110,
+          "word": "độ",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… sát trùng lại bằng cồn 90 **độ**[gold=PERIOD'.' pred=COMMA','] nhẹ nhàng tháo băng rốn và …"
+        },
+        {
+          "example_id": "test_000012",
+          "word_index": 118,
+          "word": "rốn",
+          "gold_label": "PERIOD",
+          "predicted_label": "COMMA",
+          "context": "… nhàng tháo băng rốn và gạc **rốn**[gold=PERIOD'.' pred=COMMA','] quan sát mặt cắt rốn và …"
+        }
+      ]
+    },
+    {
+      "gold_label": "PERIOD",
+      "predicted_label": "O",
+      "count": 1466,
+      "share_of_all_errors": 0.08333333333333333,
+      "is_error": true,
+      "meaning": "bỏ sót dấu chấm — hai câu bị nhập làm một (run-on)",
+      "representative_examples": [
+        {
+          "example_id": "test_000001",
+          "word_index": 17,
+          "word": "rồi",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… đó chích 2 mũi vaccine covid **rồi**[gold=PERIOD'.' pred=O''] nhunge k có giấy tờ chứng …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 42,
+          "word": "ơi",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… bạn nhé. thân mến. bác sĩ **ơi**[gold=PERIOD'.' pred=O''] cháu nhà em thường có biểu …"
+        },
+        {
+          "example_id": "test_000004",
+          "word_index": 73,
+          "word": "lại",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… ngơ ngác, khóc, đi qua đi **lại**[gold=PERIOD'.' pred=O''] nhưng sau khi đi tiểu xong …"
+        },
+        {
+          "example_id": "test_000014",
+          "word_index": 38,
+          "word": "thừa",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… phẩm dễ tiêu sau mổ ruột **thừa**[gold=PERIOD'.' pred=O''] chào bạn, sau phẫu thuật ổ …"
+        },
+        {
+          "example_id": "test_000019",
+          "word_index": 119,
+          "word": "vinmec",
+          "gold_label": "PERIOD",
+          "predicted_label": "O",
+          "context": "… viện thuộc hệ thống y tế **vinmec**[gold=PERIOD'.' pred=O''] để được các bác sĩ chuyên …"
+        }
+      ]
+    },
+    {
+      "gold_label": "O",
+      "predicted_label": "QUESTION",
+      "count": 343,
+      "share_of_all_errors": 0.0194974988631196,
+      "is_error": true,
+      "meaning": "thêm dấu hỏi thừa — biến câu trần thuật thành câu hỏi",
+      "representative_examples": [
+        {
+          "example_id": "test_000010",
+          "word_index": 131,
+          "word": "ạ",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… liệu có bị di căn không **ạ**[gold=O'' pred=QUESTION'?'] chưa sinh thiết."
+        },
+        {
+          "example_id": "test_000016",
+          "word_index": 27,
+          "word": "sao",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… hỏi bs là con bị làm **sao**[gold=O'' pred=QUESTION'?'] xin cảm ơn bs chào bạn, …"
+        },
+        {
+          "example_id": "test_000031",
+          "word_index": 107,
+          "word": "ạ",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… vậy cháu có bị sao không **ạ**[gold=O'' pred=QUESTION'?'] và chứng són đái và són …"
+        },
+        {
+          "example_id": "test_000032",
+          "word_index": 22,
+          "word": "không",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… thói quen nhịn tiểu thường xuyên **không**[gold=O'' pred=QUESTION'?'] cái này có thể gặp ở …"
+        },
+        {
+          "example_id": "test_000032",
+          "word_index": 86,
+          "word": "không",
+          "gold_label": "O",
+          "predicted_label": "QUESTION",
+          "context": "… hộ của bé có đỏ, ngứa **không**[gold=O'' pred=QUESTION'?'] với bé gái. nếu có bạn …"
+        }
+      ]
+    },
+    {
+      "gold_label": "PERIOD",
+      "predicted_label": "QUESTION",
+      "count": 327,
+      "share_of_all_errors": 0.01858799454297408,
+      "is_error": true,
+      "meaning": "PERIOD bị dự đoán thành QUESTION",
+      "representative_examples": [
+        {
+          "example_id": "test_000004",
+          "word_index": 90,
+          "word": "ạ",
+          "gold_label": "PERIOD",
+          "predicted_label": "QUESTION",
+          "context": "… cháu nhà em bị bệnh gì **ạ**[gold=PERIOD'.' pred=QUESTION'?'] mong bs tư vấn giúp ạ …"
+        },
+        {
+          "example_id": "test_000006",
+          "word_index": 118,
+          "word": "không",
+          "gold_label": "PERIOD",
+          "predicted_label": "QUESTION",
+          "context": "… các yếu tố tiếp xúc hay **không**[gold=PERIOD'.' pred=QUESTION'?'] đối với những người có cơ …"
+        },
+        {
+          "example_id": "test_000022",
+          "word_index": 148,
+          "word": "nào",
+          "gold_label": "PERIOD",
+          "predicted_label": "QUESTION",
+          "context": "… thì phải xử lý như thế **nào**[gold=PERIOD'.' pred=QUESTION'?']"
+        },
+        {
+          "example_id": "test_000058",
+          "word_index": 71,
+          "word": "nhiêu",
+          "gold_label": "PERIOD",
+          "predicted_label": "QUESTION",
+          "context": "… không và chi phí khoảng bao **nhiêu**[gold=PERIOD'.' pred=QUESTION'?'] vì em ở hà tĩnh khoảng …"
+        },
+        {
+          "example_id": "test_000064",
+          "word_index": 39,
+          "word": "bệnh",
+          "gold_label": "PERIOD",
+          "predicted_label": "QUESTION",
+          "context": "… chế độ ăn uống để chữa **bệnh**[gold=PERIOD'.' pred=QUESTION'?'] người bị bệnh này nên kiêng …"
+        }
+      ]
+    },
+    {
+      "gold_label": "QUESTION",
+      "predicted_label": "O",
+      "count": 233,
+      "share_of_all_errors": 0.013244656662119145,
+      "is_error": true,
+      "meaning": "mất hẳn câu hỏi — lỗi nghiêm trọng nhất về mặt ngữ nghĩa",
+      "representative_examples": [
+        {
+          "example_id": "test_000012",
+          "word_index": 15,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… bé sơ sinh như thế nào **ạ**[gold=QUESTION'?' pred=O''] với dùng cồn gì ạ? - …"
+        },
+        {
+          "example_id": "test_000017",
+          "word_index": 30,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… tiêu khi áp dụng lowcarb k **ạ**[gold=QUESTION'?' pred=O''] đúng là chế độ giảm cân …"
+        },
+        {
+          "example_id": "test_000047",
+          "word_index": 116,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… vậy thì làm sao phân biệt **ạ**[gold=QUESTION'?' pred=O''] chào bác hiện tại bác có …"
+        },
+        {
+          "example_id": "test_000048",
+          "word_index": 25,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… bây giờ tôi không tiêm được **ạ**[gold=QUESTION'?' pred=O''] do khu phố tôi có lịch …"
+        },
+        {
+          "example_id": "test_000048",
+          "word_index": 87,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "O",
+          "context": "… có phải tái phát bệnh không **ạ**[gold=QUESTION'?' pred=O''] dạ, để hiểu rõ hơn tình …"
+        }
+      ]
+    },
+    {
+      "gold_label": "COMMA",
+      "predicted_label": "QUESTION",
+      "count": 173,
+      "share_of_all_errors": 0.009834015461573442,
+      "is_error": true,
+      "meaning": "COMMA bị dự đoán thành QUESTION",
+      "representative_examples": [
+        {
+          "example_id": "test_000006",
+          "word_index": 41,
+          "word": "gì",
+          "gold_label": "COMMA",
+          "predicted_label": "QUESTION",
+          "context": "… hỏi bs là tôi bị bệnh **gì**[gold=COMMA',' pred=QUESTION'?'] triệu chứng của bệnh là ngứa …"
+        },
+        {
+          "example_id": "test_000030",
+          "word_index": 10,
+          "word": "thanh",
+          "gold_label": "COMMA",
+          "predicted_label": "QUESTION",
+          "context": "… dậy người rất mệt thưa bs **thanh**[gold=COMMA',' pred=QUESTION'?'] trẻ có thể chịu đựng bao …"
+        },
+        {
+          "example_id": "test_000047",
+          "word_index": 84,
+          "word": "ạ",
+          "gold_label": "COMMA",
+          "predicted_label": "QUESTION",
+          "context": "… có thể tiêm vaccine covid không **ạ**[gold=COMMA',' pred=QUESTION'?'] do tôi đọc thấy các triệu …"
+        },
+        {
+          "example_id": "test_000199",
+          "word_index": 116,
+          "word": "nào",
+          "gold_label": "COMMA",
+          "predicted_label": "QUESTION",
+          "context": "… quát có ý nghĩa như thế **nào**[gold=COMMA',' pred=QUESTION'?'] thời gian bao nhiêu lâu nên …"
+        },
+        {
+          "example_id": "test_000220",
+          "word_index": 37,
+          "word": "nhiêu",
+          "gold_label": "COMMA",
+          "predicted_label": "QUESTION",
+          "context": "… lúc sinh của con là bao **nhiêu**[gold=COMMA',' pred=QUESTION'?'] con có đang uống vitamin d …"
+        }
+      ]
+    },
+    {
+      "gold_label": "QUESTION",
+      "predicted_label": "PERIOD",
+      "count": 142,
+      "share_of_all_errors": 0.008071850841291497,
+      "is_error": true,
+      "meaning": "QUESTION bị dự đoán thành PERIOD",
+      "representative_examples": [
+        {
+          "example_id": "test_000005",
+          "word_index": 47,
+          "word": "nào",
+          "gold_label": "QUESTION",
+          "predicted_label": "PERIOD",
+          "context": "… có con. tôi không biết thế **nào**[gold=QUESTION'?' pred=PERIOD'.'] bác sĩ có thể tư vấn …"
+        },
+        {
+          "example_id": "test_000033",
+          "word_index": 39,
+          "word": "không",
+          "gold_label": "QUESTION",
+          "predicted_label": "PERIOD",
+          "context": "… trẻ em có cần điều trị **không**[gold=QUESTION'?' pred=PERIOD'.'] chúc bé luôn có sức khỏe …"
+        },
+        {
+          "example_id": "test_000134",
+          "word_index": 140,
+          "word": "không",
+          "gold_label": "QUESTION",
+          "predicted_label": "PERIOD",
+          "context": "… là có gây sốt, đau hay **không**[gold=QUESTION'?' pred=PERIOD'.']"
+        },
+        {
+          "example_id": "test_000229",
+          "word_index": 57,
+          "word": "ạ",
+          "gold_label": "QUESTION",
+          "predicted_label": "PERIOD",
+          "context": "… 9 thì được uống canxi chưa **ạ**[gold=QUESTION'?' pred=PERIOD'.'] với lại e bị nghén nặng …"
+        },
+        {
+          "example_id": "test_000252",
+          "word_index": 144,
+          "word": "ơi",
+          "gold_label": "QUESTION",
+          "predicted_label": "PERIOD",
+          "context": "… thể. lệ phí thế nào bs **ơi**[gold=QUESTION'?' pred=PERIOD'.']"
+        }
+      ]
+    },
+    {
+      "gold_label": "QUESTION",
+      "predicted_label": "COMMA",
+      "count": 54,
+      "share_of_all_errors": 0.0030695770804911324,
+      "is_error": true,
+      "meaning": "QUESTION bị dự đoán thành COMMA",
+      "representative_examples": [
+        {
+          "example_id": "test_000008",
+          "word_index": 92,
+          "word": "không",
+          "gold_label": "QUESTION",
+          "predicted_label": "COMMA",
+          "context": "… như vậy có ảnh hưởng gì **không**[gold=QUESTION'?' pred=COMMA','] thời gian sống được bao lâu …"
+        },
+        {
+          "example_id": "test_000013",
+          "word_index": 7,
+          "word": "không",
+          "gold_label": "QUESTION",
+          "predicted_label": "COMMA",
+          "context": "… ý xem rốn có mùi hôi **không**[gold=QUESTION'?' pred=COMMA','] lau rốn sạch bằng gòn và …"
+        },
+        {
+          "example_id": "test_000205",
+          "word_index": 100,
+          "word": "rồi",
+          "gold_label": "QUESTION",
+          "predicted_label": "COMMA",
+          "context": "… em dùng được bao nhiêu ngày **rồi**[gold=QUESTION'?' pred=COMMA','] tiến triển ra sao?"
+        },
+        {
+          "example_id": "test_000226",
+          "word_index": 95,
+          "word": "đen",
+          "gold_label": "QUESTION",
+          "predicted_label": "COMMA",
+          "context": "… hôm sau ngủ dậy thấy lưỡi **đen**[gold=QUESTION'?' pred=COMMA','] nếu uống ít thì không xuất …"
+        },
+        {
+          "example_id": "test_000321",
+          "word_index": 21,
+          "word": "không",
+          "gold_label": "QUESTION",
+          "predicted_label": "COMMA",
+          "context": "… nguy cơ mắc tiểu đường hay **không**[gold=QUESTION'?' pred=COMMA','] em có thể đến tại các …"
+        }
+      ]
+    }
+  ],
+  "punctuation_labels": [
+    "COMMA",
+    "PERIOD",
+    "QUESTION"
+  ]
+}

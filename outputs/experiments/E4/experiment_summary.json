@@ -1,0 +1,23 @@
+{
+  "status": "COMPLETED",
+  "experiment_id": "E4",
+  "model": "vinai/phobert-base-v2",
+  "weight_mode": "sqrt_inverse",
+  "best_epoch": 5,
+  "best_validation_punctuation_macro_f1": 0.7456762077784248,
+  "checkpoint_path": "outputs/checkpoints/E4",
+  "monitor_metric": "punctuation_macro_f1",
+  "num_epochs_completed": 5,
+  "completed_at_utc": "2026-08-09T22:37:53+00:00",
+  "best_validation_accuracy": 0.957236399606353,
+  "best_validation_macro_f1_all_classes": 0.8046445059543296,
+  "best_validation_f1_per_class": {
+    "O": 0.9815494004820436,
+    "COMMA": 0.7003085080512496,
+    "PERIOD": 0.7910631320032795,
+    "QUESTION": 0.7456569832807457
+  },
+  "total_training_seconds": 20624.5,
+  "evaluated_on": "validation.jsonl (official JointCapPunc dev split)",
+  "test_split_used": false
+}

@@ -1,0 +1,67 @@
+dataset:
+  name: JointCapPunc
+  repo_url: https://github.com/ductho9799/JointCapPunc.git
+
+  commit: ee258cae0e95e64245428d59ebbb030280fcebec
+  license: Apache-2.0
+  license_file: JOINTCAPPUNC_LICENSE.txt
+
+paths:
+  raw_dir: data/raw
+  repo_dir: data/raw/JointCapPunc
+  raw_data_dir: data/raw/JointCapPunc/data
+  processed_dir: data/processed
+  outputs_data_dir: outputs/data
+
+splits:
+  train: train.txt
+  validation: dev.txt
+  test: test.txt
+
+parsing:
+
+  columns: 3
+  encoding: utf-8
+
+  strict: true
+
+  keep_capitalization: false
+
+normalization:
+  unicode_form: NFC
+  lowercase: true
+
+  strip_diacritics: false
+  label_map:
+    O: O
+    COMMA: COMMA
+    PERIOD: PERIOD
+    QMARK: QUESTION
+
+chunking:
+  max_words_per_example: 150
+
+  boundary_labels: [PERIOD, QUESTION]
+
+deduplication:
+  enabled: true
+
+  key_mode: text_and_labels
+
+validation:
+  max_words: 150
+  max_schema_errors_reported: 20
+
+  fail_on_cross_split_text_overlap: false
+
+statistics:
+  human_review_samples: 100
+  seed: 42
+
+class_weights:
+
+  source_split: train
+  num_classes: 4
+  formulas:
+    inverse: total_train_tokens / (num_classes * count_c)
+    sqrt_inverse: sqrt(inverse_c)

@@ -1,0 +1,38 @@
+{
+  "train": {
+    "path": "data/processed/train.jsonl",
+    "exists": true,
+    "bytes": 74190856,
+    "num_examples": 38066,
+    "num_tokens": 4940478,
+    "file_sha256": "b9889b7fa66605b7348852af1bcf4ab8254a7237745476bcb9080afb5fe0bc9e",
+    "content_sha256": "138983bc2761546f13c9520d5339b2ea10e588b756055fe85e895f5b6ce81e8e"
+  },
+  "validation": {
+    "path": "data/processed/validation.jsonl",
+    "exists": true,
+    "bytes": 29928212,
+    "num_examples": 15227,
+    "num_tokens": 1977406,
+    "file_sha256": "7c177fb79e274d84931e364e150d7fedb6d6bbd71447f13d8a024eeeea200b7f",
+    "content_sha256": "874133954b31fbfd73ccea2f84c69b15d106d4e8bc94f6f26ffcd4d2bdcc1fad"
+  },
+  "test": {
+    "path": "data/processed/test.jsonl",
+    "exists": true,
+    "bytes": 44516527,
+    "num_examples": 22832,
+    "num_tokens": 2968815,
+    "file_sha256": "e40ab5a9f2c420b056aa4209ea473ec58d3c55be15bf7c24a8beff068b5574c5",
+    "content_sha256": "960cf879be7ac275ce16da846c9d37fd70838ada2c5b56ea2ab7428ccd15f3e1"
+  },
+  "all_labeled": {
+    "path": "data/processed/all_labeled.jsonl",
+    "exists": true,
+    "bytes": 148635595,
+    "num_examples": 76125,
+    "num_tokens": 9886699,
+    "file_sha256": "b5750618bc0798fc5ef2e091461c91fbbb0f51ec024a1c920e9dbbf093c5d7a4",
+    "content_sha256": "e077f98640acbe7f25a962b330612d9206e47022334171fdb3aea275950bf372"
+  }
+}

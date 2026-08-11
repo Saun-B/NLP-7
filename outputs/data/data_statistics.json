@@ -1,0 +1,136 @@
+{
+  "labels": [
+    "O",
+    "COMMA",
+    "PERIOD",
+    "QUESTION"
+  ],
+  "splits": {
+    "train": {
+      "split": "train",
+      "num_examples": 38066,
+      "num_tokens": 4940478,
+      "min_length": 1,
+      "max_length": 150,
+      "mean_length": 129.7872,
+      "median_length": 136.0,
+      "p95_length": 150,
+      "label_counts": {
+        "O": 4500812,
+        "COMMA": 228032,
+        "PERIOD": 184186,
+        "QUESTION": 27448
+      },
+      "label_ratios": {
+        "O": 0.9110074,
+        "COMMA": 0.04615586,
+        "PERIOD": 0.03728101,
+        "QUESTION": 0.00555574
+      },
+      "num_sentences": 211634,
+      "vocabulary_size": 31613,
+      "num_source_segments": 37627,
+      "num_hard_cut_examples": 439
+    },
+    "validation": {
+      "split": "validation",
+      "num_examples": 15227,
+      "num_tokens": 1977406,
+      "min_length": 1,
+      "max_length": 150,
+      "mean_length": 129.8618,
+      "median_length": 137.0,
+      "p95_length": 150,
+      "label_counts": {
+        "O": 1800593,
+        "COMMA": 91818,
+        "PERIOD": 74008,
+        "QUESTION": 10987
+      },
+      "label_ratios": {
+        "O": 0.91058336,
+        "COMMA": 0.04643356,
+        "PERIOD": 0.03742681,
+        "QUESTION": 0.00555627
+      },
+      "num_sentences": 84995,
+      "vocabulary_size": 17979,
+      "num_source_segments": 15066,
+      "num_hard_cut_examples": 161
+    },
+    "test": {
+      "split": "test",
+      "num_examples": 22832,
+      "num_tokens": 2968815,
+      "min_length": 1,
+      "max_length": 150,
+      "mean_length": 130.0287,
+      "median_length": 136.0,
+      "p95_length": 150,
+      "label_counts": {
+        "O": 2702879,
+        "COMMA": 137612,
+        "PERIOD": 111606,
+        "QUESTION": 16718
+      },
+      "label_ratios": {
+        "O": 0.91042352,
+        "COMMA": 0.0463525,
+        "PERIOD": 0.03759278,
+        "QUESTION": 0.0056312
+      },
+      "num_sentences": 128324,
+      "vocabulary_size": 22884,
+      "num_source_segments": 22582,
+      "num_hard_cut_examples": 250
+    }
+  },
+  "total": {
+    "num_examples": 76125,
+    "num_tokens": 9886699,
+    "label_counts": {
+      "O": 9004284,
+      "COMMA": 457462,
+      "PERIOD": 369800,
+      "QUESTION": 55153
+    },
+    "label_ratios": {
+      "O": 0.91074726,
+      "COMMA": 0.04627045,
+      "PERIOD": 0.03740379,
+      "QUESTION": 0.00557851
+    }
+  },
+  "split_example_share": {
+    "train": 0.500046,
+    "validation": 0.200026,
+    "test": 0.299928
+  },
+  "all_labeled": {
+    "split": "all_labeled",
+    "num_examples": 76125,
+    "num_tokens": 9886699,
+    "min_length": 1,
+    "max_length": 150,
+    "mean_length": 129.8745,
+    "median_length": 136.0,
+    "p95_length": 150,
+    "label_counts": {
+      "O": 9004284,
+      "COMMA": 457462,
+      "PERIOD": 369800,
+      "QUESTION": 55153
+    },
+    "label_ratios": {
+      "O": 0.91074726,
+      "COMMA": 0.04627045,
+      "PERIOD": 0.03740379,
+      "QUESTION": 0.00557851
+    },
+    "num_sentences": 424953,
+    "vocabulary_size": 49103,
+    "num_source_segments": 75275,
+    "num_hard_cut_examples": 850,
+    "note": "audit/statistics only — never used for training"
+  }
+}

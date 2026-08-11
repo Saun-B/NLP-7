@@ -1,0 +1,40 @@
+{
+  "dataset_name": "JointCapPunc",
+  "repository_url": "https://github.com/ductho9799/JointCapPunc.git",
+  "pinned_commit": "ee258cae0e95e64245428d59ebbb030280fcebec",
+  "verified_commit": "ee258cae0e95e64245428d59ebbb030280fcebec",
+  "commit_verified": true,
+  "license": "Apache-2.0",
+  "license_file": "JOINTCAPPUNC_LICENSE.txt",
+  "official_split_mapping": {
+    "train": "train.txt -> train",
+    "validation": "dev.txt -> validation",
+    "test": "test.txt -> test"
+  },
+  "split_policy": "The official JointCapPunc split is preserved exactly: no merging, no re-randomisation, no movement of examples between splits.",
+  "raw_files": {
+    "train": {
+      "split": "train",
+      "upstream_filename": "train.txt",
+      "path": "data/raw/JointCapPunc/data/train.txt",
+      "bytes": 54688057,
+      "sha256": "3c622b78ad8e9d9ab06eb9125a604d4d9bf892f8d55a282e61757c2f87856e33"
+    },
+    "validation": {
+      "split": "validation",
+      "upstream_filename": "dev.txt",
+      "path": "data/raw/JointCapPunc/data/dev.txt",
+      "bytes": 21898736,
+      "sha256": "3657affb353765e25ddbafc4dfa555caa7d23fbf3a0155afc7ad218a2c29da08"
+    },
+    "test": {
+      "split": "test",
+      "upstream_filename": "test.txt",
+      "path": "data/raw/JointCapPunc/data/test.txt",
+      "bytes": 32865021,
+      "sha256": "530b641d65f9650ad03ee02d6e6513dc66240e48414ae244d0ee10fbfc8718d9"
+    }
+  },
+  "local_repo_path": "data/raw/JointCapPunc",
+  "downloaded_at_utc": "2026-08-09T12:43:51+00:00"
+}
